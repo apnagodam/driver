@@ -8,7 +8,7 @@ part 'DioProvider.g.dart';
 @riverpod
 Dio dio(DioRef ref) {
   return Dio(BaseOptions(baseUrl: ApiClient.baseUrl, headers: {
-    "Authorization": "Bearer ${ref.watch(sharedUtilityProvider).getToken()}",
+    "Authorization": "${ref.watch(sharedUtilityProvider).getToken()}",
   }))
     ..interceptors.add(LogInterceptor(
       requestBody: true,
@@ -19,7 +19,7 @@ Dio dio(DioRef ref) {
 }
 
 class ApiClient {
-  static const baseUrl = "https://apnagodamfinance.com/finance/api/";
+  static const baseUrl = "https://apnagodam.com/test/driver_api/";
 
 /*
 state and district api
@@ -38,18 +38,15 @@ Authentication api
 *
 */
   static const registerUser = 'register';
-  static const verifyOtp = 'otp_verify';
+  static const verifyOtp = 'driver_verify_otp';
   static const login = 'login';
-  static const loginInfo = 'login-info';
-
+  static const sendOtp = 'driver_send_otp';
 
   /*
-Loan api
+trip api
 *
 *
 *
 */
-  static const getSchemes = 'scheme-list';
-  static const applyForLoan = 'sanction_limit_store';
-  static const appliedList = 'sanction_limit';
+  static const getTrips = 'driver_trip_request';
 }

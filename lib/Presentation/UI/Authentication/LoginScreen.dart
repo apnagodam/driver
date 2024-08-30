@@ -1,5 +1,6 @@
+import 'package:apnagodam_driver/Domain/Authentication/AuthenticationService.dart';
 import 'package:apnagodam_driver/Presentation/Utils/Widgets/Widgets.dart';
-import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
+import 'package:apnagodam_driver/Presentation/Utils/color_constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,12 +27,17 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
       body: SafeArea(
           child: defaultPadding(Form(
               key: loginForm,
-              child: ColumnSuper(
+              child: ListView(
                 children: [
+                  Image.asset(
+                    'assets/logo.png',
+                    height: Adaptive.sh(25),
+                    width: Adaptive.sw(35),
+                  ),
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Login',
+                      'Driver Login',
                       style: largeTitleTextStyle,
                     ),
                   ),
@@ -73,8 +79,28 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (loginForm.currentState!.validate()) {
+                                ref
+                                    .watch(sendOtpProvider(
+                                            number: mobileNumberController.text
+                                                .toString())
+                                        .future)
+                                    .then((value) {
+                                  if (value['status'].toString() == "1") {
+                                    context.goNamed(RoutesStrings.verifyOtp,
+                                        extra: {
+                                          'mobile': mobileNumberController.text
+                                              .toString()
+                                        });
+                                    successToast(
+                                        context, value['message'].toString());
+                                  } else {
+                                    errorToast(
+                                        context, value['message'].toString());
+                                  }
+                                }).onError((e, s) {
+                                  errorToast(context, e.toString());
+                                });
                               } else {}
-                              // VerifyOtpScreen().launch(context);
                             },
                             child: Text(
                               "Login",
@@ -108,8 +134,9 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
                                 ..onTap = () =>
                                     context.goNamed(RoutesStrings.register),
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorConstants.primaryColorDriver,
+                                  decoration: TextDecoration.underline),
                             ),
                           ]),
                     ),

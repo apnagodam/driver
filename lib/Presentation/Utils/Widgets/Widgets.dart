@@ -1,7 +1,9 @@
+import 'package:apnagodam_driver/Presentation/Utils/color_constants.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:toastification/toastification.dart';
 
 
 defaultPadding(Widget child) => Padding(
@@ -32,5 +34,22 @@ var smallTitleTextStyle = TextStyle(
 );
 
 var defaultButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: Colors.primaries.first,
+    backgroundColor: ColorConstants.primaryColorDriver,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
+errorToast(BuildContext context, String text) => toastification.show(
+  context: context, // optional if you use ToastificationWrapper
+  title: Text(text),
+  backgroundColor: Colors.red,
+  primaryColor: Colors.red,
+  style: ToastificationStyle.fillColored,
+  autoCloseDuration: const Duration(seconds: 5),
+);
+
+successToast(BuildContext context, String text) => toastification.show(
+  context: context, // optional if you use ToastificationWrapper
+  title: Text(text),
+  backgroundColor: Colors.green,
+  primaryColor: Colors.green,
+  style: ToastificationStyle.fillColored,
+  autoCloseDuration: const Duration(seconds: 5),
+);
