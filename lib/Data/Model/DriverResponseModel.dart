@@ -33,7 +33,7 @@ class DriverResponseModel {
 }
 
 class Datum {
-  int? id;
+  dynamic id;
   DateTime? date;
   String? tripId;
   String? transporterName;
@@ -42,18 +42,18 @@ class Datum {
   String? userPhone;
   String? fromAddress;
   String? toAddress;
-  int? rate;
+  dynamic rate;
   String? commodity;
   String? weight;
-  int? noOfBags;
+  dynamic noOfBags;
   String? recevingWeight;
-  int? recevingBags;
+  dynamic recevingBags;
   String? biltyImage;
   String? kantaImage;
   dynamic goodsInvoiceImage;
   String? recevingInvoiceImage;
   String? inOutTypes;
-  int? status;
+  dynamic status;
   DateTime? tripStart;
   DateTime? tripEnd;
 

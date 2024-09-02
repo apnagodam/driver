@@ -6,7 +6,7 @@ part of 'BiltyPdf.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$createBiltyPdfHash() => r'cdd956b2c4854dd346ddd33083e994218e8c149a';
+String _$createBiltyPdfHash() => r'b7d8afad75123d28e02fbea13548da734790b360';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -41,9 +41,11 @@ class CreateBiltyPdfFamily extends Family<AsyncValue<File?>> {
   /// See also [createBiltyPdf].
   CreateBiltyPdfProvider call({
     required BuildContext context,
+    required BiltyResponseData model,
   }) {
     return CreateBiltyPdfProvider(
       context: context,
+      model: model,
     );
   }
 
@@ -53,6 +55,7 @@ class CreateBiltyPdfFamily extends Family<AsyncValue<File?>> {
   ) {
     return call(
       context: provider.context,
+      model: provider.model,
     );
   }
 
@@ -76,10 +79,12 @@ class CreateBiltyPdfProvider extends AutoDisposeFutureProvider<File?> {
   /// See also [createBiltyPdf].
   CreateBiltyPdfProvider({
     required BuildContext context,
+    required BiltyResponseData model,
   }) : this._internal(
           (ref) => createBiltyPdf(
             ref as CreateBiltyPdfRef,
             context: context,
+            model: model,
           ),
           from: createBiltyPdfProvider,
           name: r'createBiltyPdfProvider',
@@ -91,6 +96,7 @@ class CreateBiltyPdfProvider extends AutoDisposeFutureProvider<File?> {
           allTransitiveDependencies:
               CreateBiltyPdfFamily._allTransitiveDependencies,
           context: context,
+          model: model,
         );
 
   CreateBiltyPdfProvider._internal(
@@ -101,9 +107,11 @@ class CreateBiltyPdfProvider extends AutoDisposeFutureProvider<File?> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.context,
+    required this.model,
   }) : super.internal();
 
   final BuildContext context;
+  final BiltyResponseData model;
 
   @override
   Override overrideWith(
@@ -119,6 +127,7 @@ class CreateBiltyPdfProvider extends AutoDisposeFutureProvider<File?> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         context: context,
+        model: model,
       ),
     );
   }
@@ -130,13 +139,16 @@ class CreateBiltyPdfProvider extends AutoDisposeFutureProvider<File?> {
 
   @override
   bool operator ==(Object other) {
-    return other is CreateBiltyPdfProvider && other.context == context;
+    return other is CreateBiltyPdfProvider &&
+        other.context == context &&
+        other.model == model;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, context.hashCode);
+    hash = _SystemHash.combine(hash, model.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -145,6 +157,9 @@ class CreateBiltyPdfProvider extends AutoDisposeFutureProvider<File?> {
 mixin CreateBiltyPdfRef on AutoDisposeFutureProviderRef<File?> {
   /// The parameter `context` of this provider.
   BuildContext get context;
+
+  /// The parameter `model` of this provider.
+  BiltyResponseData get model;
 }
 
 class _CreateBiltyPdfProviderElement
@@ -153,6 +168,8 @@ class _CreateBiltyPdfProviderElement
 
   @override
   BuildContext get context => (origin as CreateBiltyPdfProvider).context;
+  @override
+  BiltyResponseData get model => (origin as CreateBiltyPdfProvider).model;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

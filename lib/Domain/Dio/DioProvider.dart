@@ -17,7 +17,19 @@ Dio dio(DioRef ref) {
       responseBody: true,
     ));
 }
+class ImageClient {
+  static const employeeImageUrl =
+      "https://apnagodam.com/resources/assets/upload/employees/";
+  static const frontEndAssetsUrl =
+      "https://apnagodam.com/resources/frontend_asse-ts/uploads/";
+  static const assetsImageUrl =
+      "https://apnagodam.com/resources/assets/upload/";
+  static const displegedImageUrl =
+      "https://apnagodam.com/resources/assets/upload/displedge/";
 
+  static const conveyanceImageUrl =
+      'https://apnagodam.com/test/resources/assets/upload/conveyance/';
+}
 class ApiClient {
   static const baseUrl = "https://apnagodam.com/test/driver_api/";
 
@@ -49,4 +61,5 @@ trip api
 *
 */
   static const getTrips = 'driver_trip_request';
+  static const biltyPdfData = 'bilty_data';
 }

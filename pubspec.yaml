@@ -67,6 +67,7 @@ dependencies:
   path_provider: ^2.1.4
   pdf: ^3.11.1
   easy_pdf_viewer: ^1.0.8
+  button_animations: ^2.0.0+3
 dev_dependencies:
   flutter_test:
     sdk: flutter
