@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toastification/toastification.dart';
 
 import 'Presentation/Routes/routes.dart';
 import 'Presentation/Utils/Preferences/SharedPrefs/SharedUtility.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 void main() async {
-  await WidgetsFlutterBinding.ensureInitialized();
+   WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
 
   runApp(ProviderScope(

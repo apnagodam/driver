@@ -14,6 +14,7 @@ import 'package:go_router/go_router.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:mysql_client/mysql_client.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../Domain/Dio/DioProvider.dart';
@@ -29,6 +30,13 @@ class Dashboard extends ConsumerStatefulWidget {
 }
 
 class _DashboardState extends ConsumerState<Dashboard> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    connectDB();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -243,7 +251,8 @@ class _DashboardState extends ConsumerState<Dashboard> {
                           Padding(
                             padding: Pad(all: 10),
                             child: Text.rich(TextSpan(
-                                text: 'From:  ${data.data?[index]?.fromAddress},   To:  ${data.data?[index]?.toAddress}',
+                                text:
+                                    'From:  ${data.data?[index]?.fromAddress},   To:  ${data.data?[index]?.toAddress}',
                                 style: TextStyle(
                                     color: ColorConstants.primaryColorDriver,
                                     fontSize: Adaptive.sp(15),
@@ -697,6 +706,27 @@ class _DashboardState extends ConsumerState<Dashboard> {
         ],
       )),
     );
+  }
+
+  Future<void> connectDB() async {
+    final conn = await MySQLConnection.createConnection(
+      host: '127.0.0.1',
+      port: 3306,
+      userName: "apna_demo",
+      password: "Apnagodam!@12345",
+      databaseName: "apna_demo", // optional
+    );
+
+// actually connect to database
+    await conn.connect().then((value) {
+      print('connected');
+    });
+
+    var result =
+        await conn.execute("SELECT * FROM book WHERE id = :id", {"id": 1});
+    for (final row in result.rows) {
+      print(row.assoc());
+    }
   }
 }
 
