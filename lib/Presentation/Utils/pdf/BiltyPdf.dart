@@ -19,7 +19,7 @@ Future<File?> createBiltyPdf(CreateBiltyPdfRef ref,
   final pdf = pw.Document();
   final img = await rootBundle.load('assets/logo.png');
   final imageBytes = img.buffer.asUint8List();
-  var hindiFont = await rootBundle.load('assets/fonts/Hind-Bold.ttf');
+  var hindiFont = await rootBundle.load('assets/fonts/Hind-Regular.ttf');
   pdf.addPage(pw.Page(
       pageFormat: PdfPageFormat.a3,
       build: (pw.Context buildContext) {
@@ -290,7 +290,7 @@ Future<File?> createBiltyPdf(CreateBiltyPdfRef ref,
                                       alignment: pw.Alignment.center,
                                       decoration: pw.BoxDecoration(
                                           border: pw.Border.all()),
-                                      padding: pw.EdgeInsets.all(20),
+                                      padding: pw.EdgeInsets.all(30),
                                       child: pw.Text("कुल बैग",
                                           style: pw.TextStyle(
                                               font: pw.Font.ttf(hindiFont),
@@ -314,7 +314,7 @@ Future<File?> createBiltyPdf(CreateBiltyPdfRef ref,
                                       alignment: pw.Alignment.center,
                                       decoration: pw.BoxDecoration(
                                           border: pw.Border.all()),
-                                      padding: pw.EdgeInsets.all(20),
+                                      padding: pw.EdgeInsets.all(30),
                                       child: pw.Text("िकराया",
                                           style: pw.TextStyle(
                                               font: pw.Font.ttf(hindiFont),
@@ -326,7 +326,7 @@ Future<File?> createBiltyPdf(CreateBiltyPdfRef ref,
                                       alignment: pw.Alignment.center,
                                       decoration: pw.BoxDecoration(
                                           border: pw.Border.all()),
-                                      padding: pw.EdgeInsets.all(20),
+                                      padding: pw.EdgeInsets.all(30),
                                       child: pw.Text("एडवांस",
                                           style: pw.TextStyle(
                                               font: pw.Font.ttf(hindiFont),
@@ -338,7 +338,7 @@ Future<File?> createBiltyPdf(CreateBiltyPdfRef ref,
                                       alignment: pw.Alignment.center,
                                       decoration: pw.BoxDecoration(
                                           border: pw.Border.all()),
-                                      padding: pw.EdgeInsets.all(20),
+                                      padding: pw.EdgeInsets.all(30),
                                       child: pw.Text("बकाया",
                                           style: pw.TextStyle(
                                               font: pw.Font.ttf(hindiFont),
@@ -348,7 +348,7 @@ Future<File?> createBiltyPdf(CreateBiltyPdfRef ref,
                             ],
                           ),
                           pw.Container(
-                            height: MediaQuery.of(context).size.height / 1.1,
+                            height: MediaQuery.of(context).size.height / 2,
                             child: pw.Row(
                               children: [
                                 pw.Expanded(

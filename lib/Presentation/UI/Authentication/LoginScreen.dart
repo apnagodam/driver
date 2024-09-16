@@ -29,11 +29,7 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
               key: loginForm,
               child: ListView(
                 children: [
-                  Image.asset(
-                    'assets/logo.png',
-                    height: Adaptive.sh(25),
-                    width: Adaptive.sw(35),
-                  ),
+                 
                   Align(
                     alignment: Alignment.center,
                     child: Text(
@@ -79,12 +75,15 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (loginForm.currentState!.validate()) {
+                                ref.watch(isLoading.notifier).state = true;
                                 ref
                                     .watch(sendOtpProvider(
                                             number: mobileNumberController.text
                                                 .toString())
                                         .future)
                                     .then((value) {
+                                                                      ref.watch(isLoading.notifier).state = false;
+
                                   if (value['status'].toString() == "1") {
                                     context.goNamed(RoutesStrings.verifyOtp,
                                         extra: {
@@ -98,6 +97,8 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
                                         context, value['message'].toString());
                                   }
                                 }).onError((e, s) {
+                                                                                                        ref.watch(isLoading.notifier).state = false;
+
                                   errorToast(context, e.toString());
                                 });
                               } else {}
@@ -119,28 +120,28 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text.rich(
-                      TextSpan(
-                          text: 'Do not have an Account?',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: " Register",
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () =>
-                                    context.goNamed(RoutesStrings.register),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: ColorConstants.primaryColorDriver,
-                                  decoration: TextDecoration.underline),
-                            ),
-                          ]),
-                    ),
-                  )
+                  // Align(
+                  //   alignment: Alignment.bottomCenter,
+                  //   child: Text.rich(
+                  //     TextSpan(
+                  //         text: 'Do not have an Account?',
+                  //         style: TextStyle(
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //         children: [
+                  //           TextSpan(
+                  //             text: " Register",
+                  //             recognizer: TapGestureRecognizer()
+                  //               ..onTap = () =>
+                  //                   context.goNamed(RoutesStrings.register),
+                  //             style: TextStyle(
+                  //                 fontWeight: FontWeight.bold,
+                  //                 color: ColorConstants.primaryColorDriver,
+                  //                 decoration: TextDecoration.underline),
+                  //           ),
+                  //         ]),
+                  //   ),
+                  // )
                 ],
               )))),
     );

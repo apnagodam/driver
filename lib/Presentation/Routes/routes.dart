@@ -3,6 +3,7 @@ import 'package:apnagodam_driver/Presentation/UI/Authentication/LoginScreen.dart
 import 'package:apnagodam_driver/Presentation/UI/Authentication/RegistrationScreen.dart';
 import 'package:apnagodam_driver/Presentation/UI/Authentication/VerifyOtp.dart';
 import 'package:apnagodam_driver/Presentation/UI/Home/Dashboard.dart';
+import 'package:apnagodam_driver/Presentation/UI/Profile/ProfileScreen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -27,6 +28,12 @@ GoRouter goRouter(GoRouterRef ref) {
           path: RoutesStrings.dashboard,
           name: RoutesStrings.dashboard,
           builder: (context, state) => const Dashboard(),
+          routes: [
+             GoRoute(
+                  path: RoutesStrings.profile,
+                  name: RoutesStrings.profile,
+                  builder: (context, state) =>const Profilescreen()),
+          ]
         ),
         GoRoute(
             path: RoutesStrings.login,

@@ -1,16 +1,21 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:apnagodam_driver/Domain/Trip/TripService.dart';
+import 'package:apnagodam_driver/Presentation/Routes/routes.dart';
+import 'package:apnagodam_driver/Presentation/UI/Authentication/LoginScreen.dart';
 import 'package:apnagodam_driver/Presentation/Utils/Preferences/SharedPrefs/SharedUtility.dart';
+import 'package:apnagodam_driver/Presentation/Utils/Widgets/Widgets.dart';
 import 'package:apnagodam_driver/Presentation/Utils/color_constants.dart';
-import 'package:apnagodam_driver/Presentation/Utils/pdf/FreightPdf.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:button_animations/button_animations.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -20,7 +25,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../Domain/Dio/DioProvider.dart';
 import '../../Routes/routes_strings.dart';
 import '../../Utils/pdf/BiltyPdf.dart';
-import '../../Utils/pdf/GoodsPdf.dart';
 
 class Dashboard extends ConsumerStatefulWidget {
   const Dashboard({super.key});
@@ -36,9 +40,16 @@ class _DashboardState extends ConsumerState<Dashboard> {
     super.initState();
     connectDB();
   }
-
+  final form = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+
+  final bagsController = TextEditingController();
+  final weightController = TextEditingController();
+  final imagePicker = ImagePicker();
+  var kantaImage = StateProvider<File?>((ref)=>null);
+    var qualityImage = StateProvider<File?>((ref)=>null);
+
     return Scaffold(
       appBar: AppBar(),
       drawer: Drawer(
@@ -77,139 +88,143 @@ class _DashboardState extends ConsumerState<Dashboard> {
                     )),
               ],
             ),
-            CupertinoActionSheet(
-              actions: [
-                // CupertinoActionSheetAction(
-                //     onPressed: () async {
-                //       ref
-                //           .watch(createGoodsTaxInvoiceProvider(context: context)
-                //               .future)
-                //           .then((value) async {
-                //         if (value != null) {
-                //           await value
-                //               .copy('/storage/emulated/0/Download/bilty.pdf');
-                //           PDFDocument doc =
-                //               await PDFDocument.fromFile(value ?? File(''));
-                //           showBarModalBottomSheet(
-                //               context: context,
-                //               builder: (context) => PDFViewer(document: doc));
-                //         }
-                //       });
-                //       //context.goNamed(RoutesStrings.profile);
-                //     },
-                //     child: Text('Goods Invoice',
-                //         textAlign: TextAlign.start,
-                //         style: TextStyle(
-                //             fontSize: Adaptive.sp(16),
-                //             color: Colors.black,
-                //             fontWeight: FontWeight.w500))),
-                // CupertinoActionSheetAction(
-                //     onPressed: () async {
-                //       ref
-                //           .watch(
-                //               createFreightPdfProvider(context: context).future)
-                //           .then((value) async {
-                //         if (value != null) {
-                //           await value
-                //               .copy('/storage/emulated/0/Download/bilty.pdf');
-                //           PDFDocument doc =
-                //               await PDFDocument.fromFile(value ?? File(''));
-                //           showBarModalBottomSheet(
-                //               context: context,
-                //               builder: (context) => PDFViewer(document: doc));
-                //         }
-                //       });
-                //       //context.goNamed(RoutesStrings.profile);
-                //     },
-                //     child: Text('Freight Invoice',
-                //         textAlign: TextAlign.start,
-                //         style: TextStyle(
-                //             fontSize: Adaptive.sp(16),
-                //             color: Colors.black,
-                //             fontWeight: FontWeight.w500))),
-                // CupertinoActionSheetAction(
-                //     onPressed: () async {
-                //       // ref
-                //       //     .watch(
-                //       //         createBiltyPdfProvider(context: context).future)
-                //       //     .then((value) async {
-                //       //   if (value != null) {
-                //       //     await value
-                //       //         .copy('/storage/emulated/0/Download/bilty.pdf');
-                //       //     PDFDocument doc =
-                //       //         await PDFDocument.fromFile(value ?? File(''));
-                //       //     showBarModalBottomSheet(
-                //       //         context: context,
-                //       //         builder: (context) => PDFViewer(document: doc));
-                //       //   }
-                //       // });
-                //       //context.goNamed(RoutesStrings.profile);
-                //     },
-                //     child: Text('Bilty',
-                //         textAlign: TextAlign.start,
-                //         style: TextStyle(
-                //             fontSize: Adaptive.sp(16),
-                //             color: Colors.black,
-                //             fontWeight: FontWeight.w500))),
-                CupertinoActionSheetAction(
-                    onPressed: () {
-                      context.goNamed(RoutesStrings.moneyRequests);
-                      // if (ref
-                      //         .watch(sharedUtilityProvider)
-                      //         .getUser()
-                      //         ?.tryPartyStatus !=
-                      //     2) {
-                      //   tripartyDialog(context, ref);
-                      // } else {
-                      //   context.goNamed(RoutesStrings.sanctionedAmount);
-                      // }
-                    },
-                    child: Text('Add Money Requests',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: Adaptive.sp(16),
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500))),
-                CupertinoActionSheetAction(
-                    onPressed: () {
-                      context.goNamed(RoutesStrings.withdrawMoney);
-                      // if (ref
-                      //         .watch(sharedUtilityProvider)
-                      //         .getUser()
-                      //         ?.tryPartyStatus !=
-                      //     2) {
-                      //   tripartyDialog(context, ref);
-                      // } else {
-                      //   context.goNamed(RoutesStrings.sanctionedAmount);
-                      // }
-                    },
-                    child: Text('Withdraw Money',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: Adaptive.sp(16),
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500))),
-                CupertinoActionSheetAction(
-                    onPressed: () {
-                      context.goNamed(RoutesStrings.withdrawRequests);
-                      // if (ref
-                      //         .watch(sharedUtilityProvider)
-                      //         .getUser()
-                      //         ?.tryPartyStatus !=
-                      //     2) {
-                      //   tripartyDialog(context, ref);
-                      // } else {
-                      //   context.goNamed(RoutesStrings.sanctionedAmount);
-                      // }
-                    },
-                    child: Text('Withdraw Requests',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: Adaptive.sp(16),
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500))),
-              ],
-            ),
+            // CupertinoActionSheet(
+            //   actions: [
+            //     // CupertinoActionSheetAction(
+            //     //     onPressed: () async {
+            //     //       ref
+            //     //           .watch(createGoodsTaxInvoiceProvider(context: context)
+            //     //               .future)
+            //     //           .then((value) async {
+            //     //         if (value != null) {
+            //     //           await value
+            //     //               .copy('/storage/emulated/0/Download/bilty.pdf');
+            //     //           PDFDocument doc =
+            //     //               await PDFDocument.fromFile(value ?? File(''));
+            //     //           showBarModalBottomSheet(
+            //     //               context: context,
+            //     //               builder: (context) => PDFViewer(document: doc));
+            //     //         }
+            //     //       });
+            //     //       //context.goNamed(RoutesStrings.profile);
+            //     //     },
+            //     //     child: Text('Goods Invoice',
+            //     //         textAlign: TextAlign.start,
+            //     //         style: TextStyle(
+            //     //             fontSize: Adaptive.sp(16),
+            //     //             color: Colors.black,
+            //     //             fontWeight: FontWeight.w500))),
+            //     // CupertinoActionSheetAction(
+            //     //     onPressed: () async {
+            //     //       ref
+            //     //           .watch(
+            //     //               createFreightPdfProvider(context: context).future)
+            //     //           .then((value) async {
+            //     //         if (value != null) {
+            //     //           await value
+            //     //               .copy('/storage/emulated/0/Download/bilty.pdf');
+            //     //           PDFDocument doc =
+            //     //               await PDFDocument.fromFile(value ?? File(''));
+            //     //           showBarModalBottomSheet(
+            //     //               context: context,
+            //     //               builder: (context) => PDFViewer(document: doc));
+            //     //         }
+            //     //       });
+            //     //       //context.goNamed(RoutesStrings.profile);
+            //     //     },
+            //     //     child: Text('Freight Invoice',
+            //     //         textAlign: TextAlign.start,
+            //     //         style: TextStyle(
+            //     //             fontSize: Adaptive.sp(16),
+            //     //             color: Colors.black,
+            //     //             fontWeight: FontWeight.w500))),
+            //     // CupertinoActionSheetAction(
+            //     //     onPressed: () async {
+            //     //       // ref
+            //     //       //     .watch(
+            //     //       //         createBiltyPdfProvider(context: context).future)
+            //     //       //     .then((value) async {
+            //     //       //   if (value != null) {
+            //     //       //     await value
+            //     //       //         .copy('/storage/emulated/0/Download/bilty.pdf');
+            //     //       //     PDFDocument doc =
+            //     //       //         await PDFDocument.fromFile(value ?? File(''));
+            //     //       //     showBarModalBottomSheet(
+            //     //       //         context: context,
+            //     //       //         builder: (context) => PDFViewer(document: doc));
+            //     //       //   }
+            //     //       // });
+            //     //       //context.goNamed(RoutesStrings.profile);
+            //     //     },
+            //     //     child: Text('Bilty',
+            //     //         textAlign: TextAlign.start,
+            //     //         style: TextStyle(
+            //     //             fontSize: Adaptive.sp(16),
+            //     //             color: Colors.black,
+            //     //             fontWeight: FontWeight.w500))),
+            //     CupertinoActionSheetAction(
+            //         onPressed: () {
+            //           context.goNamed(RoutesStrings.moneyRequests);
+            //           // if (ref
+            //           //         .watch(sharedUtilityProvider)
+            //           //         .getUser()
+            //           //         ?.tryPartyStatus !=
+            //           //     2) {
+            //           //   tripartyDialog(context, ref);
+            //           // } else {
+            //           //   context.goNamed(RoutesStrings.sanctionedAmount);
+            //           // }
+            //         },
+            //         child: Text('Add Money Requests',
+            //             textAlign: TextAlign.start,
+            //             style: TextStyle(
+            //                 fontSize: Adaptive.sp(16),
+            //                 color: Colors.black,
+            //                 fontWeight: FontWeight.w500))),
+            //     CupertinoActionSheetAction(
+            //         onPressed: () {
+            //           context.goNamed(RoutesStrings.withdrawMoney);
+            //           // if (ref
+            //           //         .watch(sharedUtilityProvider)
+            //           //         .getUser()
+            //           //         ?.tryPartyStatus !=
+            //           //     2) {
+            //           //   tripartyDialog(context, ref);
+            //           // } else {
+            //           //   context.goNamed(RoutesStrings.sanctionedAmount);
+            //           // }
+            //         },
+            //         child: Text('Withdraw Money',
+            //             textAlign: TextAlign.start,
+            //             style: TextStyle(
+            //                 fontSize: Adaptive.sp(16),
+            //                 color: Colors.black,
+            //                 fontWeight: FontWeight.w500))),
+            //     CupertinoActionSheetAction(
+            //         onPressed: () {
+            //           context.goNamed(RoutesStrings.withdrawRequests);
+            //           // if (ref
+            //           //         .watch(sharedUtilityProvider)
+            //           //         .getUser()
+            //           //         ?.tryPartyStatus !=
+            //           //     2) {
+            //           //   tripartyDialog(context, ref);
+            //           // } else {
+            //           //   context.goNamed(RoutesStrings.sanctionedAmount);
+            //           // }
+            //         },
+            //         child: Text('Withdraw Requests',
+            //             textAlign: TextAlign.start,
+            //             style: TextStyle(
+            //                 fontSize: Adaptive.sp(16),
+            //                 color: Colors.black,
+            //                 fontWeight: FontWeight.w500))),
+            
+            
+            //   ],
+            // ),
+          
+          
             CupertinoActionSheet(
               actions: [
                 CupertinoActionSheetAction(
@@ -230,7 +245,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
         ),
       ),
       body: SafeArea(
-          child: ListView(
+          child: RefreshIndicator.adaptive(child: ListView(
         children: [
           ref.watch(tripsProvider).when(
               data: (data) => ListView.builder(
@@ -248,30 +263,14 @@ class _DashboardState extends ConsumerState<Dashboard> {
                         padding: const Pad(all: 10),
                         child:
                             ColumnSuper(alignment: Alignment.center, children: [
-                          Padding(
-                            padding: Pad(all: 10),
-                            child: Text.rich(TextSpan(
-                                text:
-                                    'From:  ${data.data?[index]?.fromAddress},   To:  ${data.data?[index]?.toAddress}',
-                                style: TextStyle(
-                                    color: ColorConstants.primaryColorDriver,
-                                    fontSize: Adaptive.sp(15),
-                                    fontWeight: FontWeight.bold))),
-                          ),
-                          Divider(
-                            height: 2,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          RowSuper(
+RowSuper(
                               fill: true,
                               alignment: Alignment.center,
                               children: [
                                 Padding(
                                   padding: Pad(all: 10),
                                   child: Text(
-                                    'Trip Id : ${data.data?[index].tripId}',
+                                    'Trip Id : ${data.data?[index].tripId??"--"}',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: Adaptive.sp(16),
@@ -280,9 +279,59 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                   ),
                                 ),
                               ]),
+
+                        
+                          Divider(
+                            height: 2,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                           RowSuper(fill: true, children: [
+                            Text(
+                              'From',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  color: ColorConstants.primaryColorDriver,
+                                  fontSize: Adaptive.sp(14),
+                                  fontWeight: FontWeight.w800),
+                            ),
+                            Text(
+                              '${data.data?[index].fromAddress}',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                  color: ColorConstants.primaryColorDriver,
+                                  fontSize: Adaptive.sp(14),
+                                  fontWeight: FontWeight.w800),
+                            ),
+                          ]),
                           const SizedBox(
                             height: 10,
                           ),
+                          
+                         
+                          RowSuper(fill: true, children: [
+                            Text(
+                              'To',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  color: ColorConstants.primaryColorDriver,
+                                  fontSize: Adaptive.sp(14),
+                                  fontWeight: FontWeight.w800),
+                            ),
+                            Text(
+                              '${data.data?[index].toAddress}',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                  color: ColorConstants.primaryColorDriver,
+                                  fontSize: Adaptive.sp(14),
+                                  fontWeight: FontWeight.w800),
+                            ),
+                          ]),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          
                           RowSuper(fill: true, children: [
                             Text(
                               'Transporter name',
@@ -421,12 +470,12 @@ class _DashboardState extends ConsumerState<Dashboard> {
                           const SizedBox(
                             height: 10,
                           ),
-                          RowSuper(
+                            RowSuper(
                               fill: true,
                               alignment: Alignment.center,
                               children: [
                                 Text(
-                                  'Weight',
+                                  'Final Weight(Qtl.)',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       color: ColorConstants.primaryColorDriver,
@@ -450,7 +499,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                               alignment: Alignment.center,
                               children: [
                                 Text(
-                                  'No of Bags',
+                                  'Final No of Bags',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       color: ColorConstants.primaryColorDriver,
@@ -469,12 +518,36 @@ class _DashboardState extends ConsumerState<Dashboard> {
                           const SizedBox(
                             height: 10,
                           ),
-                          RowSuper(
+                             RowSuper(
                               fill: true,
                               alignment: Alignment.center,
                               children: [
                                 Text(
                                   'Receiving Weight(Qtl.)',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      color: ColorConstants.primaryColorDriver,
+                                      fontSize: Adaptive.sp(14),
+                                      fontWeight: FontWeight.w800),
+                                ),
+                                Text(
+                                  '${data.data?[index].recevingBags ?? "Pending"}',
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                      color: ColorConstants.primaryColorDriver,
+                                      fontSize: Adaptive.sp(14),
+                                      fontWeight: FontWeight.w800),
+                                ),
+                              ]),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          RowSuper(
+                              fill: true,
+                              alignment: Alignment.center,
+                              children: [
+                                Text(
+                                  'Receiving Bags',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       color: ColorConstants.primaryColorDriver,
@@ -505,16 +578,16 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                       fontSize: Adaptive.sp(14),
                                       fontWeight: FontWeight.w800),
                                 ),
-                                Align(
+                              ref.watch(isLoading)? CupertinoActivityIndicator():  Align(
                                   alignment: Alignment.centerRight,
                                   child: InkWell(
                                     onTap: () async {
+                                      ref.watch(isLoading.notifier).state = true;
                                       ref
                                           .watch(tripDataProvider(
                                                   tripRequestid:
                                                       data.data?[index].id ??
-                                                          "")
-                                              .future)
+                                                          "").future)
                                           .then((value) {
                                         ref
                                             .watch(createBiltyPdfProvider(
@@ -522,6 +595,8 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                                     model: value)
                                                 .future)
                                             .then((value) async {
+                                                                                    ref.watch(isLoading.notifier).state = false;
+
                                           if (value != null) {
                                             PDFDocument doc =
                                                 await PDFDocument.fromFile(
@@ -531,7 +606,13 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                                 builder: (context) =>
                                                     PDFViewer(document: doc));
                                           }
+                                        }).onError((e,s){
+                                                                                ref.watch(isLoading.notifier).state = false;
+
                                         });
+                                      }).onError((e,s){
+                                                                              ref.watch(isLoading.notifier).state = false;
+
                                       });
                                     },
                                     child: Icon(
@@ -575,66 +656,66 @@ class _DashboardState extends ConsumerState<Dashboard> {
                           // const SizedBox(
                           //   height: 10,
                           // ),
-                          RowSuper(
-                              fill: true,
-                              alignment: Alignment.center,
-                              children: [
-                                Text(
-                                  'Kanta Image',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      color: ColorConstants.primaryColorDriver,
-                                      fontSize: Adaptive.sp(14),
-                                      fontWeight: FontWeight.w800),
-                                ),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: InstaImageViewer(
-                                      imageUrl:
-                                          "${ImageClient.frontEndAssetsUrl}${data.data![index].kantaImage}",
-                                      child: Icon(
-                                        CupertinoIcons.eye,
-                                        color:
-                                            ColorConstants.primaryColorDriver,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          RowSuper(
-                              fill: true,
-                              alignment: Alignment.center,
-                              children: [
-                                Text(
-                                  'Receiving Kanta Parchi',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      color: ColorConstants.primaryColorDriver,
-                                      fontSize: Adaptive.sp(14),
-                                      fontWeight: FontWeight.w800),
-                                ),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: InstaImageViewer(
-                                      imageUrl:
-                                          "${ImageClient.assetsImageUrl}${data.data?[index].goodsInvoiceImage}",
-                                      child: Icon(
-                                        CupertinoIcons.eye,
-                                        color:
-                                            ColorConstants.primaryColorDriver,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]),
-                          const SizedBox(
+                          // RowSuper(
+                          //     fill: true,
+                          //     alignment: Alignment.center,
+                          //     children: [
+                          //       Text(
+                          //         'Kanta Image',
+                          //         textAlign: TextAlign.start,
+                          //         style: TextStyle(
+                          //             color: ColorConstants.primaryColorDriver,
+                          //             fontSize: Adaptive.sp(14),
+                          //             fontWeight: FontWeight.w800),
+                          //       ),
+                          //       Align(
+                          //         alignment: Alignment.centerRight,
+                          //         child: InkWell(
+                          //           onTap: () {},
+                          //           child: InstaImageViewer(
+                          //             imageUrl:
+                          //                 "${ImageClient.frontEndAssetsUrl}${data.data![index].kantaImage}",
+                          //             child: Icon(
+                          //               CupertinoIcons.eye,
+                          //               color:
+                          //                   ColorConstants.primaryColorDriver,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ]),
+                          // const SizedBox(
+                          //   height: 10,
+                          // ),
+                          // RowSuper(
+                          //     fill: true,
+                          //     alignment: Alignment.center,
+                          //     children: [
+                          //       Text(
+                          //         'Receiving Kanta Parchi',
+                          //         textAlign: TextAlign.start,
+                          //         style: TextStyle(
+                          //             color: ColorConstants.primaryColorDriver,
+                          //             fontSize: Adaptive.sp(14),
+                          //             fontWeight: FontWeight.w800),
+                          //       ),
+                          //       Align(
+                          //         alignment: Alignment.centerRight,
+                          //         child: InkWell(
+                          //           onTap: () {},
+                          //           child: InstaImageViewer(
+                          //             imageUrl:
+                          //                 "${ImageClient.assetsImageUrl}${data.data?[index].goodsInvoiceImage}",
+                          //             child: Icon(
+                          //               CupertinoIcons.eye,
+                          //               color:
+                          //                   ColorConstants.primaryColorDriver,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ]),
+                           const SizedBox(
                             height: 10,
                           ),
                           Divider(
@@ -643,10 +724,11 @@ class _DashboardState extends ConsumerState<Dashboard> {
                           const SizedBox(
                             height: 10,
                           ),
-                          data.data?[index].tripEnd != null ||
+
+                          data.data?[index].tripEnd != null &&
                                   data.data?[index].tripStart != null
                               ? Text(
-                                  'Trip Ended',
+                                  'Trip Complete',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: data.data?[index]?.status
@@ -657,10 +739,9 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                       fontSize: Adaptive.sp(14),
                                       fontWeight: FontWeight.w800),
                                 )
-                              : data.data?[index].weight == null ||
-                                      data.data?[index].tripStart == null
+                              : data.data?[index].weight == null 
                                   ? Text(
-                                      'Trip Start Pending',
+                                      'Trip Start Pending from user side',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: data.data?[index]?.status
@@ -672,7 +753,23 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                           fontSize: Adaptive.sp(14),
                                           fontWeight: FontWeight.w800),
                                     )
-                                  : AnimatedButton(
+                                  : data.data?[index].weight != null &&
+                              data.data?[index].tripStart != null
+                              ?(data.data?[index].inOutTypes??"").toLowerCase()=="in"?Text(
+                            'Trip End Pending',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: data.data?[index]?.status
+                                    ?.toInt() ==
+                                    0
+                                    ? Colors.red
+                                    : ColorConstants
+                                    .primaryColorDriver,
+                                fontSize: Adaptive.sp(14),
+                                fontWeight: FontWeight.w800),
+                          ):
+                              
+                              AnimatedButton(
                                       height: 35,
                                       color: ColorConstants.primaryColorDriver,
                                       width: MediaQuery.of(context).size.width /
@@ -684,7 +781,235 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                         ColorConstants.primaryColorDriver,
                                       ],
                                       borderWidth: 1,
-                                      onTap: () async {},
+                                      onTap: () async {
+
+                                        showBarModalBottomSheet(context: context, builder:(context)=>Consumer(builder: (context,ref,child)=>SafeArea(child: Padding(padding: Pad(all: 10),child: Form(
+                                          key: form,
+                                          child: ListView(
+                                          children: [
+                                            TextFormField(
+                controller: bagsController,
+                keyboardType: TextInputType.text,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please input bags';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    label: const Text('Enter bags'),
+                    contentPadding: const Pad(top: 0, bottom: 0, left: 10),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))),
+              ),
+              SizedBox(height: 10,),
+               TextFormField(
+                controller: weightController,
+                keyboardType: TextInputType.text,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please input receieving weight';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    label: const Text('Enter Receiving weight'),
+                    contentPadding: const Pad(top: 0, bottom: 0, left: 10),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))),
+              ),
+              SizedBox(height: 10,),
+              DottedBorder(
+                      borderType: BorderType.RRect,
+                      dashPattern: const [5, 5, 5, 5],
+                      color: ColorConstants.primaryColorDriver,
+                      child: Padding(
+                        padding: const Pad(all: 20),
+                        child: Center(
+                          child: ref.watch(kantaImage) != null
+                              ? Stack(
+                                  children: [
+                                    Image.file(ref.watch(kantaImage)??File('')),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.6),
+                                          shape: BoxShape.circle),
+                                      child: IconButton(
+                                          onPressed: () {
+                                            ref.invalidate(kantaImage);
+                                          },
+                                          icon: const Icon(
+                                            Icons.close,
+                                            color: Colors.white,
+                                          )),
+                                    )
+                                  ],
+                                )
+                              : InkWell(child: ColumnSuper(children: [
+                                  Icon(
+                                    Icons.cloud_upload,
+                                    color: ColorConstants.primaryColorDriver,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Select kanta ",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: ColorConstants.primaryColorDriver,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: Adaptive.sp(16)),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Upload Document Image,\n  Supports JPG, JPEG, PNG",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: ColorConstants.primaryColorDriver,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: Adaptive.sp(13)),
+                                  )
+                                ]),onTap: ()async{
+                                  imagePicker.pickImage(source: ImageSource.camera).then((file){
+                                        if(file!=null){
+                                          ref.watch(kantaImage.notifier).state = File(file.path);
+                                        }
+                                  });
+                                },),
+                        ),
+                      )),SizedBox(height: 10,),
+                       DottedBorder(
+                      borderType: BorderType.RRect,
+                      dashPattern: const [5, 5, 5, 5],
+                      color: ColorConstants.primaryColorDriver,
+                      child: Padding(
+                        padding: const Pad(all: 20),
+                        child: Center(
+                          child: ref.watch(qualityImage) != null
+                              ? Stack(
+                                  children: [
+                                    Image.file(ref.watch(qualityImage)??File('')),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.6),
+                                          shape: BoxShape.circle),
+                                      child: IconButton(
+                                          onPressed: () {
+                                            ref.invalidate(qualityImage);
+                                          },
+                                          icon: const Icon(
+                                            Icons.close,
+                                            color: Colors.white,
+                                          )),
+                                    )
+                                  ],
+                                )
+                              : InkWell(child: 
+                              ColumnSuper(children: [
+                                  Icon(
+                                    Icons.cloud_upload,
+                                    color: ColorConstants.primaryColorDriver,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Select Quality Image",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: ColorConstants.primaryColorDriver,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: Adaptive.sp(16)),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Upload Document Image,\n  Supports JPG, JPEG, PNG",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: ColorConstants.primaryColorDriver,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: Adaptive.sp(13)),
+                                  )
+                                ]),onTap: ()async{
+                                  imagePicker.pickImage(source: ImageSource.camera).then((file){
+                                    if(file!=null){
+                                      ref.watch(qualityImage.notifier).state = File(file.path);
+                                    }
+                                  });
+                                },),
+                        ),
+                      )),
+                      AnimatedButton( height: 35,
+                                      color: ColorConstants.primaryColorDriver,
+                                      width: MediaQuery.of(context).size.width /
+                                          1.2,
+                                      isOutline: true,
+                                      isMultiColor: true,
+                                      colors: [
+                                        ColorConstants.primaryColorDriver,
+                                        ColorConstants.primaryColorDriver,
+                                      ],
+                                      borderWidth: 1,child: Text("Submit",),onTap: ()async{
+if(form.currentState!.validate()){
+                                                      if(ref.watch(kantaImage)==null){
+                                                        errorToast(context, "please select kanta image");
+                                                      }
+                                                      if(ref.watch(qualityImage)==null){
+                                                        errorToast(context, 'Please select quality image');
+                                                      }
+                                                      else {
+
+                                                       final bytes = File(ref.watch(kantaImage)?.path??"").readAsBytesSync();
+                                                      String img64 = base64Encode(bytes);
+
+
+                                                      final bytes2 = File(ref.watch(qualityImage)?.path??"").readAsBytesSync();
+                                                      String img642 = base64Encode(bytes);
+                                                         ref
+                                            .watch(endTripProvider(
+                                                    tripRequestId:
+                                                        '${data.data?[index]?.id ?? 0}',
+                                                    kantaWeight:
+                                                        '${weightController.text.toString()}',
+                                                    bags:
+                                                        "${bagsController.text.toString()}",
+                                                    kantaImage:
+                                                        img64,
+                                                    qualityImage: img642)
+                                                .future)
+                                            .then((value) {
+                                          if (value['status'].toString() ==
+                                              "1") {
+                                            successToast(
+                                                context, value['message']);
+                                            ref.invalidate(tripsProvider);
+                                              ref.invalidate(kantaImage);
+                                            ref.invalidate(qualityImage);
+                                            bagsController.clear();
+                                            weightController.clear();
+                                            ref.watch(goRouterProvider).pop(context);
+                                          } else {
+                                            errorToast(
+                                                context, value['message']);
+                                          }
+                                        });
+                                                      }
+                                 
+                                            }
+                                      },)
+                                          ],
+                                        )),))));
+                                            
+                                            },
                                       child: Text(
                                         "Trip End",
                                         textAlign: TextAlign.center,
@@ -693,7 +1018,23 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                             fontSize: Adaptive.sp(14),
                                             fontWeight: FontWeight.w800),
                                       ),
-                                    ),
+                                    ):
+                             data.data?[index].weight != null && 
+                                      data.data?[index].tripStart == null
+                                  ? Text(
+                            'Trip Start Pending From Transporter',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: data.data?[index]?.status
+                                    ?.toInt() ==
+                                    0
+                                    ? Colors.red
+                                    : ColorConstants
+                                    .primaryColorDriver,
+                                fontSize: Adaptive.sp(14),
+                                fontWeight: FontWeight.w800),
+                          ):SizedBox()
+                                 ,
                           const SizedBox(
                             height: 10,
                           ),
@@ -704,7 +1045,12 @@ class _DashboardState extends ConsumerState<Dashboard> {
               error: (e, s) => Container(),
               loading: () => CupertinoActivityIndicator())
         ],
-      )),
+      ), onRefresh: (){
+
+          return Future((){
+            ref.invalidate(tripsProvider);
+          });
+      })),
     );
   }
 

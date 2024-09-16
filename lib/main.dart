@@ -38,12 +38,13 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: ref.watch(goRouterProvider),
-      title: 'SFPL',
+      title: 'Driver',
       theme: ThemeData(
           fontFamily: GoogleFonts.hind().fontFamily,
           colorScheme: ColorScheme.fromSeed(
               seedColor: ColorConstants.primaryColorDriver),
           useMaterial3: true,
+          scaffoldBackgroundColor: Colors.white,
           appBarTheme: AppBarTheme(
               color: Colors.white,
               titleTextStyle: TextStyle(

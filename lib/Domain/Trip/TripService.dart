@@ -21,3 +21,21 @@ Future<BiltyResponseData> tripData(TripDataRef ref,
 
   return biltyResponseDataFromMap(jsonEncode(response.data));
 }
+
+@riverpod
+Future<Map<String, dynamic>> endTrip(EndTripRef ref,
+    {String? tripRequestId,
+    String? kantaWeight,
+    String? bags,
+    String? kantaImage,
+    String? qualityImage}) async {
+  var response =
+      await ref.watch(dioProvider).post(ApiClient.tripEnd, data:{
+    'trip_request_id': tripRequestId,
+    'kanta_weight': kantaWeight,
+    'bags': bags,
+    'kanta_img': kantaImage,
+    'quality_img': qualityImage
+  } );
+  return response.data;
+}
