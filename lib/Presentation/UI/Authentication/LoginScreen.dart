@@ -1,7 +1,5 @@
 import 'package:apnagodam_driver/Domain/Authentication/AuthenticationService.dart';
 import 'package:apnagodam_driver/Presentation/Utils/Widgets/Widgets.dart';
-import 'package:apnagodam_driver/Presentation/Utils/color_constants.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -27,9 +25,8 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
       body: SafeArea(
           child: defaultPadding(Form(
               key: loginForm,
-              child: ListView(
+              child: Center(child: ListView(
                 children: [
-                 
                   Align(
                     alignment: Alignment.center,
                     child: Text(
@@ -71,52 +68,52 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
                   ref.watch(isLoading)
                       ? showLoader(context)
                       : SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (loginForm.currentState!.validate()) {
-                                ref.watch(isLoading.notifier).state = true;
-                                ref
-                                    .watch(sendOtpProvider(
-                                            number: mobileNumberController.text
-                                                .toString())
-                                        .future)
-                                    .then((value) {
-                                                                      ref.watch(isLoading.notifier).state = false;
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (loginForm.currentState!.validate()) {
+                          showLoader(context);
+                          ref
+                              .watch(sendOtpProvider(
+                              number: mobileNumberController.text
+                                  .toString())
+                              .future)
+                              .then((value) {
+                            hideLoader(context);
+                            if (value['status'].toString() == "1") {
+                              context.goNamed(RoutesStrings.verifyOtp,
+                                  extra: {
+                                    'mobile': mobileNumberController.text
+                                        .toString()
+                                  });
+                              successToast(
+                                  context, value['message'].toString());
+                            } else {
 
-                                  if (value['status'].toString() == "1") {
-                                    context.goNamed(RoutesStrings.verifyOtp,
-                                        extra: {
-                                          'mobile': mobileNumberController.text
-                                              .toString()
-                                        });
-                                    successToast(
-                                        context, value['message'].toString());
-                                  } else {
-                                    errorToast(
-                                        context, value['message'].toString());
-                                  }
-                                }).onError((e, s) {
-                                                                                                        ref.watch(isLoading.notifier).state = false;
+                              errorToast(
+                                  context, value['message'].toString());
+                            }
+                          }).onError((e, s) {
+                            hideLoader(context);
 
-                                  errorToast(context, e.toString());
-                                });
-                              } else {}
-                            },
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  shadows: [
-                                    const Shadow(
-                                        color: Colors.white, blurRadius: 0.3)
-                                  ],
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: Adaptive.sp(16)),
-                            ),
-                            style: defaultButtonStyle,
-                          ),
-                        ),
+                            errorToast(context, e.toString());
+                          });
+                        } else {}
+                      },
+                      child: Text(
+                        "Login",
+                        style: TextStyle(
+                            color: Colors.white,
+                            shadows: [
+                              const Shadow(
+                                  color: Colors.white, blurRadius: 0.3)
+                            ],
+                            fontWeight: FontWeight.w700,
+                            fontSize: Adaptive.sp(16)),
+                      ),
+                      style: defaultButtonStyle,
+                    ),
+                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -143,7 +140,7 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
                   //   ),
                   // )
                 ],
-              )))),
+              ),)))),
     );
   }
 }

@@ -98,12 +98,14 @@ class _VerifyotpState extends ConsumerState<Verifyotp> {
                               color: ColorConstants.primaryColorDriver))),
                   onCompleted: (pin) {
                     if (pin.length == 6) {
+                      showLoader(context);
                       ref
                           .watch(verifyOtpProvider(
                                   number: widget.mobileNumber,
                                   otp: pin.toString())
                               .future)
                           .then((value) {
+                        hideLoader(context);
                         if (value.status.toString() == "1") {
                           ref
                               .watch(sharedUtilityProvider)
@@ -121,6 +123,7 @@ class _VerifyotpState extends ConsumerState<Verifyotp> {
                           errorToast(context, value.message.toString());
                         }
                       }).onError((e, s) {
+                        hideLoader(context);
                         errorToast(context, e.toString());
                       });
 
