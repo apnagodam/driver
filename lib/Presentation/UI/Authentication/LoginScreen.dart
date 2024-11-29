@@ -1,11 +1,13 @@
 import 'package:apnagodam_driver/Domain/Authentication/AuthenticationService.dart';
 import 'package:apnagodam_driver/Presentation/Utils/Widgets/Widgets.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../Routes/routes_strings.dart';
+import '../../Utils/color_constants.dart';
 
 class Loginscreen extends ConsumerStatefulWidget {
   const Loginscreen({super.key});
@@ -117,28 +119,28 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  // Align(
-                  //   alignment: Alignment.bottomCenter,
-                  //   child: Text.rich(
-                  //     TextSpan(
-                  //         text: 'Do not have an Account?',
-                  //         style: TextStyle(
-                  //           fontWeight: FontWeight.bold,
-                  //         ),
-                  //         children: [
-                  //           TextSpan(
-                  //             text: " Register",
-                  //             recognizer: TapGestureRecognizer()
-                  //               ..onTap = () =>
-                  //                   context.goNamed(RoutesStrings.register),
-                  //             style: TextStyle(
-                  //                 fontWeight: FontWeight.bold,
-                  //                 color: ColorConstants.primaryColorDriver,
-                  //                 decoration: TextDecoration.underline),
-                  //           ),
-                  //         ]),
-                  //   ),
-                  // )
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text.rich(
+                      TextSpan(
+                          text: 'Do not have an Account?',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: " Register",
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () =>
+                                    context.goNamed(RoutesStrings.register),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorConstants.primaryColorDriver,
+                                  decoration: TextDecoration.underline),
+                            ),
+                          ]),
+                    ),
+                  )
                 ],
               ),)))),
     );
