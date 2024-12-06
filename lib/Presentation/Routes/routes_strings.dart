@@ -4,7 +4,7 @@ class RoutesStrings {
   static const verifyOtp = 'verifyOtp';
   static const onBoarding = '/onBoarding';
   static const register = 'register';
-
+  static const tripsHistory = 'tripsHistory';
   static const applyForLoan = 'applyForLoan';
 
   static const profile = 'profile';

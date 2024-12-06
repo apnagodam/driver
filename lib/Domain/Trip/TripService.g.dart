@@ -20,6 +20,21 @@ final tripsProvider = AutoDisposeFutureProvider<DriverResponseModel>.internal(
 );
 
 typedef TripsRef = AutoDisposeFutureProviderRef<DriverResponseModel>;
+String _$tripsHistoryHash() => r'ed401bea2ec151f49efe97774e2bb15f1c9315da';
+
+/// See also [tripsHistory].
+@ProviderFor(tripsHistory)
+final tripsHistoryProvider =
+    AutoDisposeStreamProvider<DriverTripHistoryModel>.internal(
+  tripsHistory,
+  name: r'tripsHistoryProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$tripsHistoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef TripsHistoryRef = AutoDisposeStreamProviderRef<DriverTripHistoryModel>;
 String _$tripDataHash() => r'770a451fbfb02629062c177bca28d408cce61782';
 
 /// Copied from Dart SDK

@@ -5,6 +5,8 @@ import 'package:apnagodam_driver/Data/Model/DriverResponseModel.dart';
 import 'package:apnagodam_driver/Domain/Dio/DioProvider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../Data/Model/DriverTripHistoryModel.dart';
+
 part 'TripService.g.dart';
 
 @riverpod
@@ -12,7 +14,11 @@ Future<DriverResponseModel> trips(TripsRef ref) async {
   var response = await ref.watch(dioProvider).get(ApiClient.getTrips);
   return driverResponseModelFromMap(jsonEncode(response.data));
 }
-
+@riverpod
+Stream<DriverTripHistoryModel> tripsHistory(TripsHistoryRef ref) async* {
+  var response = await ref.watch(dioProvider).post(ApiClient.getTripsHistory);
+  yield driverTripHistoryModelFromMap(jsonEncode(response.data));
+}
 @riverpod
 Future<BiltyResponseData> tripData(TripDataRef ref,
     {required String? tripRequestid}) async {

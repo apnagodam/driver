@@ -4,6 +4,8 @@ import 'package:apnagodam_driver/Presentation/Routes/routes_strings.dart';
 import 'package:apnagodam_driver/Presentation/Utils/Preferences/SharedPrefs/SharedUtility.dart';
 import 'package:apnagodam_driver/Presentation/Utils/Widgets/Widgets.dart';
 import 'package:apnagodam_driver/Presentation/Utils/color_constants.dart';
+import 'package:apnagodam_driver/main.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -38,7 +40,7 @@ class _VerifyotpState extends ConsumerState<Verifyotp> {
             )),
             Center(
               child: Text(
-                "Verification",
+                "verification".tr(),
                 style: TextStyle(
                     color: ColorConstants.primaryColorDriver,
                     fontWeight: FontWeight.bold,
@@ -50,7 +52,7 @@ class _VerifyotpState extends ConsumerState<Verifyotp> {
             ),
             Center(
               child: Text(
-                "Enter the code sent to the number",
+                "enterTheCodeSend".tr(),
                 style: TextStyle(
                     color: ColorConstants.primaryColorDriver,
                     fontWeight: FontWeight.w500,
@@ -172,7 +174,7 @@ class _VerifyotpState extends ConsumerState<Verifyotp> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Didn't Received the Otp?",
+                  "otpNotReceived".tr(),
                   style: TextStyle(
                       color: ColorConstants.primaryColorDriver,
                       fontWeight: FontWeight.bold,
@@ -186,7 +188,7 @@ class _VerifyotpState extends ConsumerState<Verifyotp> {
                     //     .onError((e, s) {});
                   },
                   child: Text(
-                    "Resend OTP",
+                    "resendOtp".tr(),
                     style: TextStyle(
                         decoration: TextDecoration.underline,
                         decorationColor: ColorConstants.primaryColorDriver,

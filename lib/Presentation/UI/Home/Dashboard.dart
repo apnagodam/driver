@@ -7,9 +7,11 @@ import 'package:apnagodam_driver/Presentation/UI/Authentication/LoginScreen.dart
 import 'package:apnagodam_driver/Presentation/Utils/Preferences/SharedPrefs/SharedUtility.dart';
 import 'package:apnagodam_driver/Presentation/Utils/Widgets/Widgets.dart';
 import 'package:apnagodam_driver/Presentation/Utils/color_constants.dart';
+import 'package:apnagodam_driver/main.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:button_animations/button_animations.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +84,9 @@ class _DashboardState extends ConsumerState<Dashboard> {
                         )
                       ],
                     )),
+
+
+
               ],
             ),
             // CupertinoActionSheet(
@@ -218,7 +223,28 @@ class _DashboardState extends ConsumerState<Dashboard> {
 
             //   ],
             // ),
+            ExpansionTile(
+              backgroundColor: Colors.white,
+              collapsedBackgroundColor: Colors.white,
+              title: Text(
+                'trips'.tr(),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
+              ),
+              children: [
+                ListTile(
+                  title: Text(
+                    'tripsHistory'.tr(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, fontSize: Adaptive.sp(16)),
 
+                  ),
+                  onTap: (){
+                    ref.watch(goRouterProvider).goNamed(RoutesStrings.tripsHistory);
+                  },
+                )
+              ],
+            ),
             CupertinoActionSheet(
               actions: [
                 CupertinoActionSheetAction(
@@ -227,7 +253,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                       context.go(RoutesStrings.login);
                     },
                     child: Text(
-                      'Logout',
+                      'logout'.tr(),
                       style: TextStyle(
                           fontSize: Adaptive.sp(16),
                           color: Colors.red,
@@ -266,7 +292,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                             Padding(
                                               padding: const Pad(all: 10),
                                               child: Text(
-                                                'Trip Id : ${data.data?[index].tripId ?? "--"}',
+                                              'tripId'.tr()+  ': ${data.data?[index].tripId ?? "--"}',
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: Adaptive.sp(16),
@@ -285,7 +311,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                       ),
                                       RowSuper(fill: true, children: [
                                         Text(
-                                          'From',
+                                          'from'.tr(),
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                               color: ColorConstants
@@ -309,7 +335,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
 
                                       RowSuper(fill: true, children: [
                                         Text(
-                                          'To',
+                                          'to'.tr(),
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                               color: ColorConstants
@@ -333,7 +359,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
 
                                       RowSuper(fill: true, children: [
                                         Text(
-                                          'Transporter name',
+                                          'transporterName'.tr(),
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                               color: ColorConstants
@@ -356,7 +382,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                       ),
                                       RowSuper(fill: true, children: [
                                         Text(
-                                          'Transporter phone',
+                                          'transporterPhone'.tr(),
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                               color: ColorConstants
@@ -382,7 +408,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                           alignment: Alignment.center,
                                           children: [
                                             Text(
-                                              'Customer',
+                                              'customer'.tr(),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -408,7 +434,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                           alignment: Alignment.center,
                                           children: [
                                             Text(
-                                              'Customer Phone',
+                                              'customerPhone'.tr(),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -434,7 +460,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                           alignment: Alignment.center,
                                           children: [
                                             Text(
-                                              'Rate per Qtl.',
+                                              'ratePerQtl'.tr(),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -443,7 +469,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                                   fontWeight: FontWeight.w800),
                                             ),
                                             Text(
-                                              '${currencyFormat.format(int.parse("${data.data?[index].rate ?? 0}"))} / per Qtl.',
+                                              '${currencyFormat.format(int.parse("${data.data?[index].rate ?? 0}"))} /'+"perQtl".tr(),
                                               textAlign: TextAlign.end,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -460,7 +486,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                           alignment: Alignment.center,
                                           children: [
                                             Text(
-                                              'Commodity',
+                                              'commodity'.tr(),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -486,7 +512,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                           alignment: Alignment.center,
                                           children: [
                                             Text(
-                                              'Final Weight(Qtl.)',
+                                              'finalWeight'.tr(),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -495,7 +521,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                                   fontWeight: FontWeight.w800),
                                             ),
                                             Text(
-                                              '${data.data?[index].weight ?? "Pending"}',
+                                              '${data.data?[index].weight ?? "pending".tr()}',
                                               textAlign: TextAlign.end,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -512,7 +538,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                           alignment: Alignment.center,
                                           children: [
                                             Text(
-                                              'Final No of Bags',
+                                              'finalNoOfBags'.tr(),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -521,7 +547,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                                   fontWeight: FontWeight.w800),
                                             ),
                                             Text(
-                                              '${data.data?[index].noOfBags ?? "Pending"}',
+                                              '${data.data?[index].noOfBags ??"pending".tr()}',
                                               textAlign: TextAlign.end,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -538,7 +564,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                           alignment: Alignment.center,
                                           children: [
                                             Text(
-                                              'Receiving Weight(Qtl.)',
+                                              'receivingWeight'.tr(),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -547,7 +573,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                                   fontWeight: FontWeight.w800),
                                             ),
                                             Text(
-                                              '${data.data?[index].recevingBags ?? "Pending"}',
+                                              '${data.data?[index].recevingBags ?? "pending".tr()}',
                                               textAlign: TextAlign.end,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -564,7 +590,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                           alignment: Alignment.center,
                                           children: [
                                             Text(
-                                              'Receiving Bags',
+                                              'receivingBags'.tr(),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -573,7 +599,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                                   fontWeight: FontWeight.w800),
                                             ),
                                             Text(
-                                              '${data.data?[index].recevingBags ?? "Pending"}',
+                                              '${data.data?[index].recevingBags ??"pending".tr()}',
                                               textAlign: TextAlign.end,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -590,7 +616,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                           alignment: Alignment.center,
                                           children: [
                                             Text(
-                                              'Bilty Image',
+                                              'biltyImage'.tr(),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: ColorConstants
@@ -760,7 +786,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                               data.data?[index].tripStart !=
                                                   null
                                           ? Text(
-                                              'Trip Complete',
+                                              'tripComplete'.tr(),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: data.data?[index]
@@ -775,7 +801,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                             )
                                           : data.data?[index].weight == null
                                               ? Text(
-                                                  'Trip Start Pending from user side',
+                                                  'tripStartPending'.tr(),
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       color: data.data?[index]
@@ -799,7 +825,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                                               .toLowerCase() ==
                                                           "in"
                                                       ? Text(
-                                                          'Trip End Pending',
+                                                          'tripEndPending'.tr(),
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
@@ -838,223 +864,227 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                                           ],
                                                           borderWidth: 1,
                                                           onTap: () async {
-                                                            showBarModalBottomSheet(
-                                                                context:
-                                                                    context,
-                                                                builder: (context) =>
-                                                                    Consumer(
-                                                                        builder: (context,
-                                                                                ref,
-                                                                                child) =>
-                                                                            SafeArea(
-                                                                                child: Padding(
-                                                                              padding: const Pad(all: 10),
-                                                                              child: Form(
-                                                                                  key: form,
-                                                                                  child: ListView(
-                                                                                    children: [
-                                                                                      TextFormField(
-                                                                                        controller: bagsController,
-                                                                                        keyboardType: TextInputType.text,
-                                                                                        validator: (value) {
-                                                                                          if (value == null || value.isEmpty) {
-                                                                                            return 'Please input bags';
-                                                                                          }
-                                                                                          return null;
-                                                                                        },
-                                                                                        decoration: InputDecoration(label: const Text('Enter bags'), contentPadding: const Pad(top: 0, bottom: 0, left: 10), border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
-                                                                                      ),
-                                                                                      const SizedBox(
-                                                                                        height: 10,
-                                                                                      ),
-                                                                                      TextFormField(
-                                                                                        controller: weightController,
-                                                                                        keyboardType: TextInputType.text,
-                                                                                        validator: (value) {
-                                                                                          if (value == null || value.isEmpty) {
-                                                                                            return 'Please input receieving weight';
-                                                                                          }
-                                                                                          return null;
-                                                                                        },
-                                                                                        decoration: InputDecoration(label: const Text('Enter Receiving weight'), contentPadding: const Pad(top: 0, bottom: 0, left: 10), border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
-                                                                                      ),
-                                                                                      const SizedBox(
-                                                                                        height: 10,
-                                                                                      ),
-                                                                                      DottedBorder(
-                                                                                          borderType: BorderType.RRect,
-                                                                                          dashPattern: const [5, 5, 5, 5],
-                                                                                          color: ColorConstants.primaryColorDriver,
-                                                                                          child: Padding(
-                                                                                            padding: const Pad(all: 20),
-                                                                                            child: Center(
-                                                                                              child: ref.watch(kantaImage) != null
-                                                                                                  ? Stack(
-                                                                                                      children: [
-                                                                                                        Image.file(ref.watch(kantaImage) ?? File('')),
-                                                                                                        Container(
-                                                                                                          decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
-                                                                                                          child: IconButton(
-                                                                                                              onPressed: () {
-                                                                                                                ref.invalidate(kantaImage);
-                                                                                                              },
-                                                                                                              icon: const Icon(
-                                                                                                                Icons.close,
-                                                                                                                color: Colors.white,
-                                                                                                              )),
-                                                                                                        )
-                                                                                                      ],
-                                                                                                    )
-                                                                                                  : InkWell(
-                                                                                                      child: ColumnSuper(children: [
-                                                                                                        const Icon(
-                                                                                                          Icons.cloud_upload,
-                                                                                                          color: ColorConstants.primaryColorDriver,
-                                                                                                        ),
-                                                                                                        const SizedBox(
-                                                                                                          height: 5,
-                                                                                                        ),
-                                                                                                        Text(
-                                                                                                          "Select kanta ",
-                                                                                                          textAlign: TextAlign.center,
-                                                                                                          style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
-                                                                                                        ),
-                                                                                                        const SizedBox(
-                                                                                                          height: 5,
-                                                                                                        ),
-                                                                                                        Text(
-                                                                                                          "Upload Document Image,\n  Supports JPG, JPEG, PNG",
-                                                                                                          textAlign: TextAlign.center,
-                                                                                                          style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
-                                                                                                        )
-                                                                                                      ]),
-                                                                                                      onTap: () async {
-                                                                                                        imagePicker.pickImage(source: ImageSource.camera).then((file) {
-                                                                                                          if (file != null) {
-                                                                                                            ref.watch(kantaImage.notifier).state = File(file.path);
-                                                                                                          }
-                                                                                                        });
-                                                                                                      },
-                                                                                                    ),
-                                                                                            ),
-                                                                                          )),
-                                                                                      const SizedBox(
-                                                                                        height: 10,
-                                                                                      ),
-                                                                                      DottedBorder(
-                                                                                          borderType: BorderType.RRect,
-                                                                                          dashPattern: const [5, 5, 5, 5],
-                                                                                          color: ColorConstants.primaryColorDriver,
-                                                                                          child: Padding(
-                                                                                            padding: const Pad(all: 20),
-                                                                                            child: Center(
-                                                                                              child: ref.watch(qualityImage) != null
-                                                                                                  ? Stack(
-                                                                                                      children: [
-                                                                                                        Image.file(ref.watch(qualityImage) ?? File('')),
-                                                                                                        Container(
-                                                                                                          decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
-                                                                                                          child: IconButton(
-                                                                                                              onPressed: () {
-                                                                                                                ref.invalidate(qualityImage);
-                                                                                                              },
-                                                                                                              icon: const Icon(
-                                                                                                                Icons.close,
-                                                                                                                color: Colors.white,
-                                                                                                              )),
-                                                                                                        )
-                                                                                                      ],
-                                                                                                    )
-                                                                                                  : InkWell(
-                                                                                                      child: ColumnSuper(children: [
-                                                                                                        const Icon(
-                                                                                                          Icons.cloud_upload,
-                                                                                                          color: ColorConstants.primaryColorDriver,
-                                                                                                        ),
-                                                                                                        const SizedBox(
-                                                                                                          height: 5,
-                                                                                                        ),
-                                                                                                        Text(
-                                                                                                          "Select Quality Image",
-                                                                                                          textAlign: TextAlign.center,
-                                                                                                          style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
-                                                                                                        ),
-                                                                                                        const SizedBox(
-                                                                                                          height: 5,
-                                                                                                        ),
-                                                                                                        Text(
-                                                                                                          "Upload Document Image,\n  Supports JPG, JPEG, PNG",
-                                                                                                          textAlign: TextAlign.center,
-                                                                                                          style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
-                                                                                                        )
-                                                                                                      ]),
-                                                                                                      onTap: () async {
-                                                                                                        imagePicker.pickImage(source: ImageSource.camera).then((file) {
-                                                                                                          if (file != null) {
-                                                                                                            ref.watch(qualityImage.notifier).state = File(file.path);
-                                                                                                          }
-                                                                                                        });
-                                                                                                      },
-                                                                                                    ),
-                                                                                            ),
-                                                                                          )),
-                                                                                      AnimatedButton(
-                                                                                        height: 35,
-                                                                                        color: ColorConstants.primaryColorDriver,
-                                                                                        width: MediaQuery.of(context).size.width / 1.2,
-                                                                                        isOutline: true,
-                                                                                        isMultiColor: true,
-                                                                                        colors: [
-                                                                                          ColorConstants.primaryColorDriver,
-                                                                                          ColorConstants.primaryColorDriver,
-                                                                                        ],
-                                                                                        borderWidth: 1,
-                                                                                        child: const Text(
-                                                                                          "Submit",
+                                                            try {
+                                                              showBarModalBottomSheet(
+                                                                  context:
+                                                                      context,
+                                                                  builder: (context) =>
+                                                                      Consumer(
+                                                                          builder: (context,
+                                                                                  ref,
+                                                                                  child) =>
+                                                                              SafeArea(
+                                                                                  child: Padding(
+                                                                                padding: const Pad(all: 10),
+                                                                                child: Form(
+                                                                                    key: form,
+                                                                                    child: ListView(
+                                                                                      children: [
+                                                                                        TextFormField(
+                                                                                          controller: bagsController,
+                                                                                          keyboardType: TextInputType.text,
+                                                                                          validator: (value) {
+                                                                                            if (value == null || value.isEmpty) {
+                                                                                              return 'inputBags'.tr();
+                                                                                            }
+                                                                                            return null;
+                                                                                          },
+                                                                                          decoration: InputDecoration(label:  Text('inputBags'.tr()), contentPadding: const Pad(top: 0, bottom: 0, left: 10), border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                                                                                         ),
-                                                                                        onTap: () async {
-                                                                                          if (form.currentState!.validate()) {
-                                                                                            if (ref.watch(kantaImage) == null) {
-                                                                                              errorToast(context, "please select kanta image");
+                                                                                        const SizedBox(
+                                                                                          height: 10,
+                                                                                        ),
+                                                                                        TextFormField(
+                                                                                          controller: weightController,
+                                                                                          keyboardType: TextInputType.text,
+                                                                                          validator: (value) {
+                                                                                            if (value == null || value.isEmpty) {
+                                                                                              return 'enterRecevingBags'.tr();
                                                                                             }
-                                                                                            if (ref.watch(qualityImage) == null) {
-                                                                                              errorToast(context, 'Please select quality image');
-                                                                                            } else {
-                                                                                              hideLoader(context);
-
-                                                                                              final bytes = File(ref.watch(kantaImage)?.path ?? "").readAsBytesSync();
-                                                                                              String img64 = base64Encode(bytes);
-
-                                                                                              final bytes2 = File(ref.watch(qualityImage)?.path ?? "").readAsBytesSync();
-                                                                                              String img642 = base64Encode(bytes);
-                                                                                              ref.watch(endTripProvider(tripRequestId: '${data.data?[index]?.id ?? 0}', kantaWeight: '${weightController.text.toString()}', bags: "${bagsController.text.toString()}", kantaImage: img64, qualityImage: img642).future).then((value) {
+                                                                                            return null;
+                                                                                          },
+                                                                                          decoration: InputDecoration(label:  Text('enterRecevingBags'.tr()), contentPadding: const Pad(top: 0, bottom: 0, left: 10), border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                                                                                        ),
+                                                                                        const SizedBox(
+                                                                                          height: 10,
+                                                                                        ),
+                                                                                        DottedBorder(
+                                                                                            borderType: BorderType.RRect,
+                                                                                            dashPattern: const [5, 5, 5, 5],
+                                                                                            color: ColorConstants.primaryColorDriver,
+                                                                                            child: Padding(
+                                                                                              padding: const Pad(all: 20),
+                                                                                              child: Center(
+                                                                                                child: ref.watch(kantaImage) != null
+                                                                                                    ? Stack(
+                                                                                                        children: [
+                                                                                                          Image.file(ref.watch(kantaImage) ?? File('')),
+                                                                                                          Container(
+                                                                                                            decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
+                                                                                                            child: IconButton(
+                                                                                                                onPressed: () {
+                                                                                                                  ref.invalidate(kantaImage);
+                                                                                                                },
+                                                                                                                icon: const Icon(
+                                                                                                                  Icons.close,
+                                                                                                                  color: Colors.white,
+                                                                                                                )),
+                                                                                                          )
+                                                                                                        ],
+                                                                                                      )
+                                                                                                    : InkWell(
+                                                                                                        child: ColumnSuper(children: [
+                                                                                                          const Icon(
+                                                                                                            Icons.cloud_upload,
+                                                                                                            color: ColorConstants.primaryColorDriver,
+                                                                                                          ),
+                                                                                                          const SizedBox(
+                                                                                                            height: 5,
+                                                                                                          ),
+                                                                                                          Text(
+                                                                                                            "selectKanta".tr(),
+                                                                                                            textAlign: TextAlign.center,
+                                                                                                            style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
+                                                                                                          ),
+                                                                                                          const SizedBox(
+                                                                                                            height: 5,
+                                                                                                          ),
+                                                                                                          Text(
+                                                                                                            "uploadDocumentImage".tr(),
+                                                                                                            textAlign: TextAlign.center,
+                                                                                                            style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
+                                                                                                          )
+                                                                                                        ]),
+                                                                                                        onTap: () async {
+                                                                                                          imagePicker.pickImage(source: ImageSource.camera).then((file) {
+                                                                                                            if (file != null) {
+                                                                                                              ref.watch(kantaImage.notifier).state = File(file.path);
+                                                                                                            }
+                                                                                                          });
+                                                                                                        },
+                                                                                                      ),
+                                                                                              ),
+                                                                                            )),
+                                                                                        const SizedBox(
+                                                                                          height: 10,
+                                                                                        ),
+                                                                                        DottedBorder(
+                                                                                            borderType: BorderType.RRect,
+                                                                                            dashPattern: const [5, 5, 5, 5],
+                                                                                            color: ColorConstants.primaryColorDriver,
+                                                                                            child: Padding(
+                                                                                              padding: const Pad(all: 20),
+                                                                                              child: Center(
+                                                                                                child: ref.watch(qualityImage) != null
+                                                                                                    ? Stack(
+                                                                                                        children: [
+                                                                                                          Image.file(ref.watch(qualityImage) ?? File('')),
+                                                                                                          Container(
+                                                                                                            decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
+                                                                                                            child: IconButton(
+                                                                                                                onPressed: () {
+                                                                                                                  ref.invalidate(qualityImage);
+                                                                                                                },
+                                                                                                                icon: const Icon(
+                                                                                                                  Icons.close,
+                                                                                                                  color: Colors.white,
+                                                                                                                )),
+                                                                                                          )
+                                                                                                        ],
+                                                                                                      )
+                                                                                                    : InkWell(
+                                                                                                        child: ColumnSuper(children: [
+                                                                                                          const Icon(
+                                                                                                            Icons.cloud_upload,
+                                                                                                            color: ColorConstants.primaryColorDriver,
+                                                                                                          ),
+                                                                                                          const SizedBox(
+                                                                                                            height: 5,
+                                                                                                          ),
+                                                                                                          Text(
+                                                                                                            "selectQualityImage".tr(),
+                                                                                                            textAlign: TextAlign.center,
+                                                                                                            style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
+                                                                                                          ),
+                                                                                                          const SizedBox(
+                                                                                                            height: 5,
+                                                                                                          ),
+                                                                                                          Text(
+                                                                                                            "uploadDocumentImage".tr(),
+                                                                                                            textAlign: TextAlign.center,
+                                                                                                            style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
+                                                                                                          )
+                                                                                                        ]),
+                                                                                                        onTap: () async {
+                                                                                                          imagePicker.pickImage(source: ImageSource.camera).then((file) {
+                                                                                                            if (file != null) {
+                                                                                                              ref.watch(qualityImage.notifier).state = File(file.path);
+                                                                                                            }
+                                                                                                          });
+                                                                                                        },
+                                                                                                      ),
+                                                                                              ),
+                                                                                            )),
+                                                                                        AnimatedButton(
+                                                                                          height: 35,
+                                                                                          color: ColorConstants.primaryColorDriver,
+                                                                                          width: MediaQuery.of(context).size.width / 1.2,
+                                                                                          isOutline: true,
+                                                                                          isMultiColor: true,
+                                                                                          colors: [
+                                                                                            ColorConstants.primaryColorDriver,
+                                                                                            ColorConstants.primaryColorDriver,
+                                                                                          ],
+                                                                                          borderWidth: 1,
+                                                                                          child:  Text(
+                                                                                            "submit".tr(),
+                                                                                          ),
+                                                                                          onTap: () async {
+                                                                                            if (form.currentState!.validate()) {
+                                                                                              if (ref.watch(kantaImage) == null) {
+                                                                                                errorToast(context, "selectKanta".tr());
+                                                                                              }
+                                                                                              if (ref.watch(qualityImage) == null) {
+                                                                                                errorToast(context, 'selectQualityImage'.tr());
+                                                                                              } else {
                                                                                                 hideLoader(context);
-                                                                                                if (value['status'].toString() == "1") {
-                                                                                                  successToast(context, value['message']);
-                                                                                                  ref.invalidate(tripsProvider);
-                                                                                                  ref.invalidate(kantaImage);
-                                                                                                  ref.invalidate(qualityImage);
-                                                                                                  bagsController.clear();
-                                                                                                  weightController.clear();
-                                                                                                  ref.watch(goRouterProvider).pop(context);
-                                                                                                } else {
-                                                                                                  errorToast(context, value['message']);
-                                                                                                }
-                                                                                              }).onError((e, s) {
-                                                                                                hideLoader(context);
 
-                                                                                                errorToast(context, e.toString());
-                                                                                              });
+                                                                                                final bytes = File(ref.watch(kantaImage)?.path ?? "").readAsBytesSync();
+                                                                                                String img64 = base64Encode(bytes);
+
+                                                                                                final bytes2 = File(ref.watch(qualityImage)?.path ?? "").readAsBytesSync();
+                                                                                                String img642 = base64Encode(bytes);
+                                                                                                ref.watch(endTripProvider(tripRequestId: '${data.data?[index]?.id ?? 0}', kantaWeight: '${weightController.text.toString()}', bags: "${bagsController.text.toString()}", kantaImage: img64, qualityImage: img642).future).then((value) {
+                                                                                                  hideLoader(context);
+                                                                                                  if (value['status'].toString() == "1") {
+                                                                                                    successToast(context, value['message']);
+                                                                                                    ref.invalidate(tripsProvider);
+                                                                                                    ref.invalidate(kantaImage);
+                                                                                                    ref.invalidate(qualityImage);
+                                                                                                    bagsController.clear();
+                                                                                                    weightController.clear();
+                                                                                                    ref.watch(goRouterProvider).pop(context);
+                                                                                                  } else {
+                                                                                                    errorToast(context, value['message']);
+                                                                                                  }
+                                                                                                }).onError((e, s) {
+                                                                                                  hideLoader(context);
+
+                                                                                                  errorToast(context, e.toString());
+                                                                                                });
+                                                                                              }
                                                                                             }
-                                                                                          }
-                                                                                        },
-                                                                                      )
-                                                                                    ],
-                                                                                  )),
-                                                                            ))));
+                                                                                          },
+                                                                                        )
+                                                                                      ],
+                                                                                    )),
+                                                                              ))));
+                                                            } catch (e, s) {
+                                                              print(s);
+                                                            }
                                                           },
                                                           child: Text(
-                                                            "Trip End",
+                                                            "tripEnd".tr(),
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: TextStyle(
@@ -1074,7 +1104,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                                                   .tripStart ==
                                                               null
                                                       ? Text(
-                                                          'Trip Start Pending From Transporter',
+                                                          'tripStartPendingTrans'.tr(),
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(

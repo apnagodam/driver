@@ -7,15 +7,25 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'AuthenticationService.g.dart';
 
 @riverpod
+Future<Map<String, dynamic>> registerDriver(
+    RegisterDriverRef ref, Map<String, dynamic> data) async {
+  var response = await ref
+      .watch(dioProvider)
+      .post(ApiClient.registerUser, data: data);
+
+  return response.data;
+}
+
+@riverpod
 Future<Map<String, dynamic>> sendOtp(SendOtpRef ref, {String? number}) async {
   var response = await ref.watch(dioProvider).post(ApiClient.sendOtp,
       queryParameters: {
         'number': number,
         'app_type': "Driver",
         "otp_type": '',
-        "fcm_token": ""
+        "token": "asdasdas"
       });
-  return jsonDecode(response.data);
+  return response.data;
 }
 
 @riverpod

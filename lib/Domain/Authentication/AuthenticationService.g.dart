@@ -6,7 +6,7 @@ part of 'AuthenticationService.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sendOtpHash() => r'635fa88323f45f9bf9423d6ce854eb4e8758559b';
+String _$registerDriverHash() => r'bbdfaf012e79965e5b5bdebb2d9975efc84d8ba4';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -28,6 +28,136 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [registerDriver].
+@ProviderFor(registerDriver)
+const registerDriverProvider = RegisterDriverFamily();
+
+/// See also [registerDriver].
+class RegisterDriverFamily extends Family<AsyncValue<Map<String, dynamic>>> {
+  /// See also [registerDriver].
+  const RegisterDriverFamily();
+
+  /// See also [registerDriver].
+  RegisterDriverProvider call(
+    Map<String, dynamic> data,
+  ) {
+    return RegisterDriverProvider(
+      data,
+    );
+  }
+
+  @override
+  RegisterDriverProvider getProviderOverride(
+    covariant RegisterDriverProvider provider,
+  ) {
+    return call(
+      provider.data,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'registerDriverProvider';
+}
+
+/// See also [registerDriver].
+class RegisterDriverProvider
+    extends AutoDisposeFutureProvider<Map<String, dynamic>> {
+  /// See also [registerDriver].
+  RegisterDriverProvider(
+    Map<String, dynamic> data,
+  ) : this._internal(
+          (ref) => registerDriver(
+            ref as RegisterDriverRef,
+            data,
+          ),
+          from: registerDriverProvider,
+          name: r'registerDriverProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$registerDriverHash,
+          dependencies: RegisterDriverFamily._dependencies,
+          allTransitiveDependencies:
+              RegisterDriverFamily._allTransitiveDependencies,
+          data: data,
+        );
+
+  RegisterDriverProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.data,
+  }) : super.internal();
+
+  final Map<String, dynamic> data;
+
+  @override
+  Override overrideWith(
+    FutureOr<Map<String, dynamic>> Function(RegisterDriverRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: RegisterDriverProvider._internal(
+        (ref) => create(ref as RegisterDriverRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        data: data,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Map<String, dynamic>> createElement() {
+    return _RegisterDriverProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is RegisterDriverProvider && other.data == data;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, data.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin RegisterDriverRef on AutoDisposeFutureProviderRef<Map<String, dynamic>> {
+  /// The parameter `data` of this provider.
+  Map<String, dynamic> get data;
+}
+
+class _RegisterDriverProviderElement
+    extends AutoDisposeFutureProviderElement<Map<String, dynamic>>
+    with RegisterDriverRef {
+  _RegisterDriverProviderElement(super.provider);
+
+  @override
+  Map<String, dynamic> get data => (origin as RegisterDriverProvider).data;
+}
+
+String _$sendOtpHash() => r'1eeaecaff651431acb1c1bdd3d875ab155e369a2';
 
 /// See also [sendOtp].
 @ProviderFor(sendOtp)

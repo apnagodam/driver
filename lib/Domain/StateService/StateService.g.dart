@@ -6,7 +6,7 @@ part of 'StateService.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$stateListHash() => r'e1508647c421d3fb1a7261f753a717f8d17b99e4';
+String _$stateListHash() => r'a9b4f8e9f003c3d833a6c7f0bfbceb1cd522f80d';
 
 /// See also [stateList].
 @ProviderFor(stateList)
@@ -21,7 +21,7 @@ final stateListProvider =
 );
 
 typedef StateListRef = AutoDisposeFutureProviderRef<StatesResponseModel>;
-String _$districtListHash() => r'ae3fa5bccc6789c33733ac61b09ee593b81e4bc8';
+String _$districtListHash() => r'ca86758c59eae81229348a2a83090d0c0ede0e47';
 
 /// Copied from Dart SDK
 class _SystemHash {

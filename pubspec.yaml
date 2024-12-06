@@ -69,6 +69,8 @@ dependencies:
   easy_pdf_viewer: ^1.0.8
   button_animations: ^2.0.0+3
   mysql_client: ^0.0.27
+  one_context: ^4.0.0
+  easy_localization: ^3.0.7
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -95,6 +97,7 @@ flutter:
   assets:
     - assets/
     - assets/fonts/
+    - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -1,18 +1,20 @@
 import 'package:apnagodam_driver/Presentation/Utils/color_constants.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:one_context/one_context.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toastification/toastification.dart';
 
 import 'Presentation/Routes/routes.dart';
 import 'Presentation/Utils/Preferences/SharedPrefs/SharedUtility.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 
 void main() async {
-   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
+  await EasyLocalization.ensureInitialized();
 
   runApp(ProviderScope(
     overrides: [
@@ -21,9 +23,16 @@ void main() async {
     child: ResponsiveSizer(
       builder: (context, orientation, screenType) {
         return ToastificationWrapper(
-            child: MaterialApp(
-          home: const MyApp(),
-        ));
+            child: EasyLocalization(
+                fallbackLocale: Locale('hi', 'IN'),
+                startLocale: Locale('hi', 'IN'),
+                supportedLocales: [Locale('hi', 'IN'), Locale('en', 'US')],
+                path: 'assets/translations',
+                child: MaterialApp(
+                  builder: OneContext().builder,
+                  navigatorKey: OneContext().key,
+                  home: const MyApp(),
+                )));
       },
     ),
   ));
@@ -35,10 +44,15 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print(context.supportedLocales); // output: [en_US, ar_DZ, de_DE, ru_RU]
+
     return MaterialApp.router(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
       routerConfig: ref.watch(goRouterProvider),
-      title: 'Driver',
+      title: 'driver'.tr(),
       theme: ThemeData(
           fontFamily: GoogleFonts.hind().fontFamily,
           colorScheme: ColorScheme.fromSeed(

@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../UI/Home/Tripshistory.dart';
 import '../Utils/Preferences/SharedPrefs/SharedUtility.dart';
 
 part 'routes.g.dart';
@@ -25,16 +26,19 @@ GoRouter goRouter(GoRouterRef ref) {
       },
       routes: [
         GoRoute(
-          path: RoutesStrings.dashboard,
-          name: RoutesStrings.dashboard,
-          builder: (context, state) => const Dashboard(),
-          routes: [
-             GoRoute(
+            path: RoutesStrings.dashboard,
+            name: RoutesStrings.dashboard,
+            builder: (context, state) => const Dashboard(),
+            routes: [
+              GoRoute(
                   path: RoutesStrings.profile,
                   name: RoutesStrings.profile,
-                  builder: (context, state) =>const Profilescreen()),
-          ]
-        ),
+                  builder: (context, state) => const Profilescreen()),
+              GoRoute(
+                  path: RoutesStrings.tripsHistory,
+                  name: RoutesStrings.tripsHistory,
+                  builder: (context, state) => const Tripshistory()),
+            ]),
         GoRoute(
             path: RoutesStrings.login,
             name: RoutesStrings.login,
