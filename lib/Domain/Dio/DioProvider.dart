@@ -16,8 +16,8 @@ Dio dio(DioRef ref) {
       connectTimeout: const Duration(minutes: 45),
       receiveTimeout: const Duration(minutes: 45),
       sendTimeout: const Duration(minutes: 45)))
-    ..interceptors.add(DioInterceptor(ref))
-    ..interceptors.add(LogInterceptor(
+      ..interceptors.add(DioInterceptor(ref))
+      ..interceptors.add(LogInterceptor(
       requestBody: true,
       requestHeader: true,
       responseHeader: true,
@@ -92,5 +92,4 @@ trip api
   static const getTripsHistory = 'trip_history';
   static const biltyPdfData = 'bilty_data';
   static const tripEnd = 'driver_trip_request_update';
-
 }
