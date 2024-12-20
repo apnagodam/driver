@@ -1012,6 +1012,8 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
                     }).future)
                         .then((value) {
                       if (value['status'].toString() == "1") {
+                        successToast(context,
+                            "${value['message'] ?? value['Message']}");
                         ref.watch(goRouterProvider).go(RoutesStrings.login);
                       }
                     });

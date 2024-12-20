@@ -14,11 +14,13 @@ Future<DriverResponseModel> trips(TripsRef ref) async {
   var response = await ref.watch(dioProvider).get(ApiClient.getTrips);
   return driverResponseModelFromMap(jsonEncode(response.data));
 }
+
 @riverpod
 Stream<DriverTripHistoryModel> tripsHistory(TripsHistoryRef ref) async* {
   var response = await ref.watch(dioProvider).post(ApiClient.getTripsHistory);
   yield driverTripHistoryModelFromMap(jsonEncode(response.data));
 }
+
 @riverpod
 Future<BiltyResponseData> tripData(TripDataRef ref,
     {required String? tripRequestid}) async {
@@ -34,14 +36,17 @@ Future<Map<String, dynamic>> endTrip(EndTripRef ref,
     String? kantaWeight,
     String? bags,
     String? kantaImage,
-    String? qualityImage}) async {
-  var response =
-      await ref.watch(dioProvider).post(ApiClient.tripEnd, data:{
+    String? qualityImage,
+    String? paotiImage,
+    String? paotiNumber}) async {
+  var response = await ref.watch(dioProvider).post(ApiClient.tripEnd, data: {
     'trip_request_id': tripRequestId,
     'kanta_weight': kantaWeight,
     'bags': bags,
     'kanta_img': kantaImage,
-    'quality_img': qualityImage
-  } );
+    'quality_img': qualityImage,
+    'paoti_image': paotiImage,
+    'paoti_number': paotiNumber
+  });
   return response.data;
 }

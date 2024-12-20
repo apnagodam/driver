@@ -71,6 +71,7 @@ dependencies:
   mysql_client: ^0.0.27
   one_context: ^4.0.0
   easy_localization: ^3.0.7
+  data_table_2: 2.5.15
 dev_dependencies:
   flutter_test:
     sdk: flutter

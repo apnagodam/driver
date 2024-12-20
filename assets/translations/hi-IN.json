@@ -25,7 +25,8 @@
   "otpNotReceived": "ओटीपी प्राप्त नहीं हुआ?",
   "resendOtp": "ओटीपी दोबारा भेजें",
   "trips": "ट्रिप्स",
-  "tripsHistory": "ट्रिप्स इतिहास",
+  "tripsHistory": "ट्रिप्स हिस्ट्री",
+  "tripsInProcess": "ट्रिप्स इन प्रोसेस",
   "logout": "लॉग आउट",
   "tripId": "यात्रा आईडी",
   "from": "कहां से",
@@ -36,7 +37,7 @@
   "customerPhone": "ग्राहक का फ़ोन",
   "ratePerQtl": "प्रति क्विंटल दर.",
   "commodity": "माल",
-  "finalWeight":"अंतिम वजन (क्विंटल)",
+  "finalWeight": "अंतिम वजन (क्विंटल)",
   "finalNoOfBags": "बैगों की अंतिम संख्या",
   "receivingWeight": "प्राप्त वजन (क्यूटीएल)",
   "receivingBags": "रिसीविंग बैग",
@@ -50,11 +51,9 @@
   "enterRecevingBags": "कृपया प्राप्त वजन दर्ज करें",
   "selectKanta": "कांटा चुनें",
   "selectQualityImage": "गुणवत्ता छवि का चयन करें",
+  "selectPaotiImage": "पाओटी छवि का चयन करें",
+  "enterPaotiNumber": "पाओटी नंबर दर्ज करें",
   "tripEnd": "यात्रा समाप्त",
   "pending": "लंबित",
   "perQtl": "प्रति क्विंटल."
-
-
-
-
 }

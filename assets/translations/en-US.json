@@ -26,6 +26,7 @@
   "resendOtp": "Resend OTP",
   "trips": "Trips",
   "tripsHistory": "Trips History",
+  "tripsInProcess": "Trips in Process",
   "logout": "Logout",
   "tripId": "Trip Id",
   "from": "From",
@@ -42,17 +43,16 @@
   "receivingBags": "Receiving Bags",
   "biltyImage": "Bilty Image",
   "tripComplete": "Trip Complete",
-
   "tripStartPending": "Trip Start Pending from user side",
   "tripStartPendingTrans": "Trip Start Pending From Transporter",
   "tripEndPending": "Trip End Pending",
   "tripEndPendingTrans": "Trip End Pending",
-
   "inputBags": "Please input bags",
   "enterRecevingBags": "Please input receieving weight",
   "selectKanta": "Select Kanta",
   "selectQualityImage": "Select Quality Image",
-
+  "selectPaotiImage": "Select Paoti Image",
+  "enterPaotiNumber": "Enter Paoti Number",
   "tripEnd": "Trip End",
   "pending": "Pending",
   "perQtl": "Per Qtl."

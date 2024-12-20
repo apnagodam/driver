@@ -19,7 +19,7 @@ Future<File?> createBiltyPdf(CreateBiltyPdfRef ref,
   final pdf = pw.Document();
   final img = await rootBundle.load('assets/logo.png');
   final imageBytes = img.buffer.asUint8List();
-  var hindiFont = await rootBundle.load('assets/fonts/Hind-Regular.ttf');
+  var hindiFont = await rootBundle.load('assets/fonts/Hind-Bold.ttf');
   pdf.addPage(pw.Page(
       pageFormat: PdfPageFormat.a3,
       build: (pw.Context buildContext) {
@@ -209,7 +209,7 @@ Future<File?> createBiltyPdf(CreateBiltyPdfRef ref,
                                                         pw.Font.ttf(hindiFont),
                                                     fontSize: Adaptive.sp(16),
                                                     fontWeight:
-                                                        pw.FontWeight.normal)),
+                                                        pw.FontWeight.bold)),
                                           ]))),
                               // pw.SizedBox(width: 10),
                               // pw.Expanded(
@@ -255,7 +255,7 @@ Future<File?> createBiltyPdf(CreateBiltyPdfRef ref,
                                                         pw.Font.ttf(hindiFont),
                                                     fontSize: Adaptive.sp(16),
                                                     fontWeight:
-                                                        pw.FontWeight.normal)),
+                                                        pw.FontWeight.bold)),
                                           ])))
                             ],
                           ),

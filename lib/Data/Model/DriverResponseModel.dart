@@ -9,8 +9,8 @@ DriverResponseModel driverResponseModelFromMap(String str) => DriverResponseMode
 String driverResponseModelToMap(DriverResponseModel data) => json.encode(data.toMap());
 
 class DriverResponseModel {
-  String? status;
-  String? message;
+  dynamic status;
+  dynamic message;
   List<Datum>? data;
 
   DriverResponseModel({
@@ -34,28 +34,31 @@ class DriverResponseModel {
 
 class Datum {
   dynamic id;
-  DateTime? date;
-  String? tripId;
-  String? transporterName;
-  String? transporterPhone;
-  String? userName;
-  String? userPhone;
-  String? fromAddress;
-  String? toAddress;
+  dynamic date;
+  dynamic tripId;
+  dynamic transporterName;
+  dynamic transporterPhone;
+  dynamic userName;
+  dynamic userPhone;
+  dynamic fromAddress;
+  dynamic toAddress;
   dynamic rate;
-  String? commodity;
-  String? weight;
+  dynamic commodity;
+  dynamic weight;
   dynamic noOfBags;
-  String? recevingWeight;
+  dynamic recevingWeight;
   dynamic recevingBags;
-  String? biltyImage;
-  String? kantaImage;
+  dynamic biltyImage;
+  dynamic kantaImage;
   dynamic goodsInvoiceImage;
-  String? recevingInvoiceImage;
-  String? inOutTypes;
+  dynamic recevingInvoiceImage;
+  dynamic inOutTypes;
   dynamic status;
-  DateTime? tripStart;
-  DateTime? tripEnd;
+  dynamic tripStart;
+  dynamic tripEnd;
+  dynamic poId;
+  dynamic paymentTo;
+  dynamic paymentToStatus;
 
   Datum({
     this.id,
@@ -81,11 +84,14 @@ class Datum {
     this.status,
     this.tripStart,
     this.tripEnd,
+    this.poId,
+    this.paymentTo,
+    this.paymentToStatus,
   });
 
   factory Datum.fromMap(Map<String, dynamic> json) => Datum(
     id: json["id"],
-    date: json["date"] == null ? null : DateTime.parse(json["date"]),
+    date: json["date"],
     tripId: json["trip_id"],
     transporterName: json["transporter_name"],
     transporterPhone: json["transporter_phone"],
@@ -105,13 +111,16 @@ class Datum {
     recevingInvoiceImage: json["receving_invoice_image"],
     inOutTypes: json["in_out_types"],
     status: json["status"],
-    tripStart: json["trip_start"] == null ? null : DateTime.parse(json["trip_start"]),
-    tripEnd: json["trip_end"] == null ? null : DateTime.parse(json["trip_end"]),
+    tripStart: json["trip_start"],
+    tripEnd: json["trip_end"],
+    poId: json["po_id"],
+    paymentTo: json["payment_to"],
+    paymentToStatus: json["payment_to_status"],
   );
 
   Map<String, dynamic> toMap() => {
     "id": id,
-    "date": date?.toIso8601String(),
+    "date": date,
     "trip_id": tripId,
     "transporter_name": transporterName,
     "transporter_phone": transporterPhone,
@@ -131,7 +140,10 @@ class Datum {
     "receving_invoice_image": recevingInvoiceImage,
     "in_out_types": inOutTypes,
     "status": status,
-    "trip_start": tripStart?.toIso8601String(),
-    "trip_end": tripEnd?.toIso8601String(),
+    "trip_start": tripStart,
+    "trip_end": tripEnd,
+    "po_id": poId,
+    "payment_to": paymentTo,
+    "payment_to_status": paymentToStatus,
   };
 }

@@ -5,7 +5,9 @@ class RoutesStrings {
   static const onBoarding = '/onBoarding';
   static const register = 'register';
   static const tripsHistory = 'tripsHistory';
+  static const tripsInProcess = 'tripsInProcess';
   static const applyForLoan = 'applyForLoan';
+  static  const paotiEndTrip  = 'paotiEndTrip';
 
   static const profile = 'profile';
   static const sanctionedAmount = 'sanctionedAmount';

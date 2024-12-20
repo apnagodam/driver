@@ -53,18 +53,29 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       routerConfig: ref.watch(goRouterProvider),
       title: 'driver'.tr(),
-      theme: ThemeData(
-          fontFamily: GoogleFonts.hind().fontFamily,
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: ColorConstants.primaryColorDriver),
-          useMaterial3: true,
-          scaffoldBackgroundColor: Colors.white,
-          appBarTheme: AppBarTheme(
-              color: Colors.white,
-              titleTextStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: Adaptive.sp(18),
-                  color: Colors.black))),
+      theme:ThemeData(
+        fontFamily: GoogleFonts.roboto().fontFamily,
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: ColorConstants.primaryColorDriver),
+        useMaterial3: true,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(color: ColorConstants.primaryColorDriver,
+            centerTitle: true,
+            iconTheme: IconThemeData(color: Colors.white),
+            titleTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: Adaptive.sp(18),
+                color: Colors.white)),
+
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: <TargetPlatform, PageTransitionsBuilder>{
+            TargetPlatform.android:CupertinoPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.linux: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+          },
+        ),
+      ),
     );
   }
 }

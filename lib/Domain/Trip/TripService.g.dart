@@ -184,7 +184,7 @@ class _TripDataProviderElement
   String? get tripRequestid => (origin as TripDataProvider).tripRequestid;
 }
 
-String _$endTripHash() => r'727924de373ccd1cf74ddabf8a4c0ddd294d9724';
+String _$endTripHash() => r'1a2cbf237ead0f3f0d760725adc7d2162ddbdd46';
 
 /// See also [endTrip].
 @ProviderFor(endTrip)
@@ -202,6 +202,8 @@ class EndTripFamily extends Family<AsyncValue<Map<String, dynamic>>> {
     String? bags,
     String? kantaImage,
     String? qualityImage,
+    String? paotiImage,
+    String? paotiNumber,
   }) {
     return EndTripProvider(
       tripRequestId: tripRequestId,
@@ -209,6 +211,8 @@ class EndTripFamily extends Family<AsyncValue<Map<String, dynamic>>> {
       bags: bags,
       kantaImage: kantaImage,
       qualityImage: qualityImage,
+      paotiImage: paotiImage,
+      paotiNumber: paotiNumber,
     );
   }
 
@@ -222,6 +226,8 @@ class EndTripFamily extends Family<AsyncValue<Map<String, dynamic>>> {
       bags: provider.bags,
       kantaImage: provider.kantaImage,
       qualityImage: provider.qualityImage,
+      paotiImage: provider.paotiImage,
+      paotiNumber: provider.paotiNumber,
     );
   }
 
@@ -249,6 +255,8 @@ class EndTripProvider extends AutoDisposeFutureProvider<Map<String, dynamic>> {
     String? bags,
     String? kantaImage,
     String? qualityImage,
+    String? paotiImage,
+    String? paotiNumber,
   }) : this._internal(
           (ref) => endTrip(
             ref as EndTripRef,
@@ -257,6 +265,8 @@ class EndTripProvider extends AutoDisposeFutureProvider<Map<String, dynamic>> {
             bags: bags,
             kantaImage: kantaImage,
             qualityImage: qualityImage,
+            paotiImage: paotiImage,
+            paotiNumber: paotiNumber,
           ),
           from: endTripProvider,
           name: r'endTripProvider',
@@ -271,6 +281,8 @@ class EndTripProvider extends AutoDisposeFutureProvider<Map<String, dynamic>> {
           bags: bags,
           kantaImage: kantaImage,
           qualityImage: qualityImage,
+          paotiImage: paotiImage,
+          paotiNumber: paotiNumber,
         );
 
   EndTripProvider._internal(
@@ -285,6 +297,8 @@ class EndTripProvider extends AutoDisposeFutureProvider<Map<String, dynamic>> {
     required this.bags,
     required this.kantaImage,
     required this.qualityImage,
+    required this.paotiImage,
+    required this.paotiNumber,
   }) : super.internal();
 
   final String? tripRequestId;
@@ -292,6 +306,8 @@ class EndTripProvider extends AutoDisposeFutureProvider<Map<String, dynamic>> {
   final String? bags;
   final String? kantaImage;
   final String? qualityImage;
+  final String? paotiImage;
+  final String? paotiNumber;
 
   @override
   Override overrideWith(
@@ -311,6 +327,8 @@ class EndTripProvider extends AutoDisposeFutureProvider<Map<String, dynamic>> {
         bags: bags,
         kantaImage: kantaImage,
         qualityImage: qualityImage,
+        paotiImage: paotiImage,
+        paotiNumber: paotiNumber,
       ),
     );
   }
@@ -327,7 +345,9 @@ class EndTripProvider extends AutoDisposeFutureProvider<Map<String, dynamic>> {
         other.kantaWeight == kantaWeight &&
         other.bags == bags &&
         other.kantaImage == kantaImage &&
-        other.qualityImage == qualityImage;
+        other.qualityImage == qualityImage &&
+        other.paotiImage == paotiImage &&
+        other.paotiNumber == paotiNumber;
   }
 
   @override
@@ -338,6 +358,8 @@ class EndTripProvider extends AutoDisposeFutureProvider<Map<String, dynamic>> {
     hash = _SystemHash.combine(hash, bags.hashCode);
     hash = _SystemHash.combine(hash, kantaImage.hashCode);
     hash = _SystemHash.combine(hash, qualityImage.hashCode);
+    hash = _SystemHash.combine(hash, paotiImage.hashCode);
+    hash = _SystemHash.combine(hash, paotiNumber.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -358,6 +380,12 @@ mixin EndTripRef on AutoDisposeFutureProviderRef<Map<String, dynamic>> {
 
   /// The parameter `qualityImage` of this provider.
   String? get qualityImage;
+
+  /// The parameter `paotiImage` of this provider.
+  String? get paotiImage;
+
+  /// The parameter `paotiNumber` of this provider.
+  String? get paotiNumber;
 }
 
 class _EndTripProviderElement
@@ -375,6 +403,10 @@ class _EndTripProviderElement
   String? get kantaImage => (origin as EndTripProvider).kantaImage;
   @override
   String? get qualityImage => (origin as EndTripProvider).qualityImage;
+  @override
+  String? get paotiImage => (origin as EndTripProvider).paotiImage;
+  @override
+  String? get paotiNumber => (origin as EndTripProvider).paotiNumber;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
