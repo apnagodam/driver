@@ -1,112 +1,55 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:apnagodam_driver/Presentation/Routes/routes_strings.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:button_animations/button_animations.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:searchable_listview/searchable_listview.dart';
 
-import '../../../Data/Model/DriverResponseModel.dart';
-import '../../../Domain/Trip/TripService.dart';
-import '../../Routes/routes.dart';
-import '../../Utils/Widgets/Widgets.dart';
-import '../../Utils/color_constants.dart';
-import '../../Utils/pdf/BiltyPdf.dart';
-import '../Authentication/LoginScreen.dart';
-import 'Dashboard.dart';
+import '../../../../Data/Model/DriverResponseModel.dart';
+import '../../../../Domain/Trip/TripService.dart';
+import '../../../Routes/routes.dart';
+import '../../../Routes/routes_strings.dart';
+import '../../../Utils/color_constants.dart';
+import '../../../Utils/pdf/BiltyPdf.dart';
+import '../Dashboard.dart';
 
-class Tripshistory extends ConsumerStatefulWidget {
-  const Tripshistory({super.key});
+class Starttrips extends ConsumerStatefulWidget {
+  const Starttrips({super.key});
 
   @override
-  ConsumerState<Tripshistory> createState() => _TripshistoryState();
+  ConsumerState<Starttrips> createState() => _StarttripsState();
 }
 
-class _TripshistoryState extends ConsumerState<Tripshistory> {
-  final bagsController = TextEditingController();
-  final weightController = TextEditingController();
-  final paotiController = TextEditingController();
-  final imagePicker = ImagePicker();
-  var kantaImage = StateProvider<File?>((ref) => null);
-  var qualityImage = StateProvider<File?>((ref) => null);
-  var paotiImage = StateProvider<File?>((ref) => null);
-  final form = GlobalKey<FormState>();
-
+class _StarttripsState extends ConsumerState<Starttrips> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('tripsHistory'.tr()),
+        title: Text('Start Trips'.tr()),
+        centerTitle: false,
       ),
       body: SafeArea(
           child: RefreshIndicator.adaptive(
               child: ref.watch(tripsProvider).when(
                   data: (data) {
                     var dataList = data.data
-                        ?.where((datum) => datum.tripEnd != null)
+                        ?.where((element) =>element.weight != null && element.tripStart == null)
                         .toList();
-
-                    return Padding(
-                      padding: const Pad(all: 10),
-                      child: SearchableList<Datum>(
-                        // sortWidget: Icon(Icons.sort),
-                        // sortPredicate: (a, b) =>
-                        //     a.requestDate.compareTo(b.requestDate),
-                        initialList: dataList!,
-                        itemBuilder: (Datum user) => tripRequestLayout(user),
-                        filter: (value) => dataList!
-                            .where(
-                              (element) =>
-                                  element.transporterName
-                                      .toLowerCase()
-                                      .contains(value) ||
-                                  element.tripId
-                                      .toLowerCase()
-                                      .contains(value) ||
-                                  element.userName
-                                      .toLowerCase()
-                                      .contains(value) ||
-                                  element.userPhone
-                                      .toLowerCase()
-                                      .contains(value) ||
-                                  element.toAddress
-                                      .toLowerCase()
-                                      .contains(value) ||
-                                  element.fromAddress
-                                      .toLowerCase()
-                                      .contains(value) ||
-                                  element.date.toLowerCase().contains(value),
-                            )
-                            .toList(),
-                        emptyWidget: Container(),
-                        inputDecoration: InputDecoration(
-                          labelText: "Search Here...",
-                          fillColor: Colors.white,
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: ColorConstants.primaryColorDriver,
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: ColorConstants.primaryColorDriver,
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
+                    return ListView(
+                      children: [
+                        ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: dataList?.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return tripRequestLayout(dataList?[index]);
+                            })
+                      ],
                     );
                   },
                   error: (e, s) => Container(),
@@ -120,7 +63,7 @@ class _TripshistoryState extends ConsumerState<Tripshistory> {
   }
 
   tripRequestLayout(Datum? dataList) => Container(
-        margin: Pad(top: 10, bottom: 10),
+        margin: Pad(all: 10),
         decoration: BoxDecoration(
             border: Border.all(color: ColorConstants.primaryColorDriver),
             borderRadius: BorderRadius.circular(10)),
@@ -591,381 +534,6 @@ class _TripshistoryState extends ConsumerState<Tripshistory> {
             ),
           ]),
         ),
-      );
-
-  // imageLayout(Datum data) => data.inOutTypes.toString().toLowerCase() == "in"
-  //     ? Column(
-  //   children: [
-  //     data.poId == null
-  //         ? SizedBox()
-  //         : RowSuper(fill: true, alignment: Alignment.center, children: [
-  //       Text(
-  //         'goodsInvoiceImage'.tr(),
-  //         textAlign: TextAlign.start,
-  //         style: TextStyle(
-  //             color: ColorConstants.primaryColorDriver,
-  //             fontSize: Adaptive.sp(14),
-  //             fontWeight: FontWeight.w800),
-  //       ),
-  //       Align(
-  //         alignment: Alignment.centerRight,
-  //         child: InkWell(
-  //           onTap: () {},
-  //           child: InstaImageViewer(
-  //             imageUrl: "${data.goodsInvoiceImage}",
-  //             child: Icon(
-  //               CupertinoIcons.eye,
-  //               color: ColorConstants.primaryColorDriver,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ]),
-  //     const SizedBox(
-  //       height: 10,
-  //     ),
-  //     RowSuper(fill: true, alignment: Alignment.center, children: [
-  //       Text(
-  //         'Kanta Parchi Image'.tr(),
-  //         textAlign: TextAlign.start,
-  //         style: TextStyle(
-  //             color: ColorConstants.primaryColorDriver,
-  //             fontSize: Adaptive.sp(14),
-  //             fontWeight: FontWeight.w800),
-  //       ),
-  //       Align(
-  //         alignment: Alignment.centerRight,
-  //         child: InkWell(
-  //           onTap: () {},
-  //           child: InstaImageViewer(
-  //             imageUrl: "${data.kantaImage}",
-  //             child: Icon(
-  //               CupertinoIcons.eye,
-  //               color: ColorConstants.primaryColorDriver,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ]),
-  //     const SizedBox(
-  //       height: 10,
-  //     ),
-  //     RowSuper(fill: true, alignment: Alignment.center, children: [
-  //       Text(
-  //         'Quality Report Image'.tr(),
-  //         textAlign: TextAlign.start,
-  //         style: TextStyle(
-  //             color: ColorConstants.primaryColorDriver,
-  //             fontSize: Adaptive.sp(14),
-  //             fontWeight: FontWeight.w800),
-  //       ),
-  //       Align(
-  //         alignment: Alignment.centerRight,
-  //         child: InkWell(
-  //           onTap: () {},
-  //           child: InstaImageViewer(
-  //             imageUrl: "${data.qualityReport}",
-  //             child: Icon(
-  //               CupertinoIcons.eye,
-  //               color: ColorConstants.primaryColorDriver,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ]),
-  //     const SizedBox(
-  //       height: 10,
-  //     ),
-  //     RowSuper(fill: true, alignment: Alignment.center, children: [
-  //       Text(
-  //         'Invoice Image'.tr(),
-  //         textAlign: TextAlign.start,
-  //         style: TextStyle(
-  //             color: ColorConstants.primaryColorDriver,
-  //             fontSize: Adaptive.sp(14),
-  //             fontWeight: FontWeight.w800),
-  //       ),
-  //       Align(
-  //         alignment: Alignment.centerRight,
-  //         child: InkWell(
-  //           onTap: () {},
-  //           child: InstaImageViewer(
-  //             imageUrl: "${data.invoiceImg}",
-  //             child: Icon(
-  //               CupertinoIcons.eye,
-  //               color: ColorConstants.primaryColorDriver,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ]),
-  //     const SizedBox(
-  //       height: 10,
-  //     ),
-  //     RowSuper(fill: true, alignment: Alignment.center, children: [
-  //       Text(
-  //         'E-way bill  Image'.tr(),
-  //         textAlign: TextAlign.start,
-  //         style: TextStyle(
-  //             color: ColorConstants.primaryColorDriver,
-  //             fontSize: Adaptive.sp(14),
-  //             fontWeight: FontWeight.w800),
-  //       ),
-  //       Align(
-  //         alignment: Alignment.centerRight,
-  //         child: InkWell(
-  //           onTap: () {},
-  //           child: InstaImageViewer(
-  //             imageUrl: "${data.eWayBill}",
-  //             child: Icon(
-  //               CupertinoIcons.eye,
-  //               color: ColorConstants.primaryColorDriver,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ]),
-  //     const SizedBox(
-  //       height: 10,
-  //     ),
-  //     RowSuper(fill: true, alignment: Alignment.center, children: [
-  //       Text(
-  //         'Mandi Tax Image'.tr(),
-  //         textAlign: TextAlign.start,
-  //         style: TextStyle(
-  //             color: ColorConstants.primaryColorDriver,
-  //             fontSize: Adaptive.sp(14),
-  //             fontWeight: FontWeight.w800),
-  //       ),
-  //       Align(
-  //         alignment: Alignment.centerRight,
-  //         child: InkWell(
-  //           onTap: () {},
-  //           child: InstaImageViewer(
-  //             imageUrl: "${data.mandiTaxImg}",
-  //             child: Icon(
-  //               CupertinoIcons.eye,
-  //               color: ColorConstants.primaryColorDriver,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ]),
-  //     const SizedBox(
-  //       height: 10,
-  //     ),
-  //   ],
-  // )
-  //     : Column(
-  //   children: [
-  //     data.poId == null
-  //         ? SizedBox()
-  //         : RowSuper(fill: true, alignment: Alignment.center, children: [
-  //       Text(
-  //         'goodsInvoiceImage'.tr(),
-  //         textAlign: TextAlign.start,
-  //         style: TextStyle(
-  //             color: ColorConstants.primaryColorDriver,
-  //             fontSize: Adaptive.sp(14),
-  //             fontWeight: FontWeight.w800),
-  //       ),
-  //       Align(
-  //         alignment: Alignment.centerRight,
-  //         child: InkWell(
-  //           onTap: () {},
-  //           child: InstaImageViewer(
-  //             imageUrl: "${data.goodsInvoiceImage}",
-  //             child: Icon(
-  //               CupertinoIcons.eye,
-  //               color: ColorConstants.primaryColorDriver,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ]),
-  //     const SizedBox(
-  //       height: 10,
-  //     ),
-  //     RowSuper(fill: true, alignment: Alignment.center, children: [
-  //       Text(
-  //         'receivingKanta'.tr(),
-  //         textAlign: TextAlign.start,
-  //         style: TextStyle(
-  //             color: ColorConstants.primaryColorDriver,
-  //             fontSize: Adaptive.sp(14),
-  //             fontWeight: FontWeight.w800),
-  //       ),
-  //       Align(
-  //         alignment: Alignment.centerRight,
-  //         child: InkWell(
-  //           onTap: () {},
-  //           child: InstaImageViewer(
-  //             imageUrl: "${data.recevingKantaImage}",
-  //             child: Icon(
-  //               CupertinoIcons.eye,
-  //               color: ColorConstants.primaryColorDriver,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ]),
-  //     const SizedBox(
-  //       height: 10,
-  //     ),
-  //     RowSuper(fill: true, alignment: Alignment.center, children: [
-  //       Text(
-  //         'Paoti Image'.tr(),
-  //         textAlign: TextAlign.start,
-  //         style: TextStyle(
-  //             color: ColorConstants.primaryColorDriver,
-  //             fontSize: Adaptive.sp(14),
-  //             fontWeight: FontWeight.w800),
-  //       ),
-  //       Align(
-  //         alignment: Alignment.centerRight,
-  //         child: InkWell(
-  //           onTap: () {},
-  //           child: InstaImageViewer(
-  //             imageUrl: "${data.paotiImage}",
-  //             child: Icon(
-  //               CupertinoIcons.eye,
-  //               color: ColorConstants.primaryColorDriver,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ]),
-  //     const SizedBox(
-  //       height: 10,
-  //     ),
-  //     RowSuper(fill: true, alignment: Alignment.center, children: [
-  //       Text(
-  //         'Receiving Quality Image'.tr(),
-  //         textAlign: TextAlign.start,
-  //         style: TextStyle(
-  //             color: ColorConstants.primaryColorDriver,
-  //             fontSize: Adaptive.sp(14),
-  //             fontWeight: FontWeight.w800),
-  //       ),
-  //       Align(
-  //         alignment: Alignment.centerRight,
-  //         child: InkWell(
-  //           onTap: () {},
-  //           child: InstaImageViewer(
-  //             imageUrl: "${data.recevingQualityImg}",
-  //             child: Icon(
-  //               CupertinoIcons.eye,
-  //               color: ColorConstants.primaryColorDriver,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ]),
-  //     const SizedBox(
-  //       height: 10,
-  //     ),
-  //   ],
-  // );
-
-  tripsTypesLayout(List<Datum>? data) => Padding(
-        padding: Pad(all: 10),
-        child: Row(children: [
-          Expanded(
-              child: InkWell(
-            child: Card(
-              color: ColorConstants.primaryColorDriver,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  side: BorderSide(color: ColorConstants.primaryColorDriver)),
-              child: Padding(
-                padding: Pad(all: 15),
-                child: Row(
-                  children: [
-                    Card(
-                      child: Padding(
-                        padding: Pad(all: 5),
-                        child: Icon(Icons.fire_truck_outlined),
-                      ),
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextOneLine(
-                          "startTrips".tr(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: Adaptive.sp(16)),
-                        ),
-                        Text(
-                          "${data?.where((datum) => datum.weight != null && datum.tripStart == null).toList().length}",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: Adaptive.sp(18)),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-            onTap: () {
-              ref.watch(goRouterProvider).goNamed(RoutesStrings.startTrips);
-            },
-          )),
-          Expanded(
-              child: InkWell(
-            child: Card(
-              color: ColorConstants.primaryColorDriver,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  side: BorderSide(color: ColorConstants.primaryColorDriver)),
-              child: Padding(
-                  padding: Pad(all: 15),
-                  child: Row(
-                    children: [
-                      Card(
-                        child: Padding(
-                          padding: Pad(all: 5),
-                          child: Icon(Icons.history),
-                        ),
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextOneLine("endTrips".tr(),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: Adaptive.sp(16))),
-                          Text(
-                            "${data?.where((datum) => datum.weight != null && datum.tripStart != null && datum.tripEnd == null).toList().length}",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: Adaptive.sp(18)),
-                          )
-                        ],
-                      ),
-                    ],
-                  )),
-            ),
-            onTap: () {
-              ref.watch(goRouterProvider).goNamed(RoutesStrings.endTrips);
-            },
-          ))
-        ]),
       );
 
   actionLayout(Datum? dataList) {
@@ -1971,8 +1539,7 @@ class _TripshistoryState extends ConsumerState<Tripshistory> {
                       )
                 : dataList?.weight != null && dataList?.tripStart == null
                     ? (dataList?.paymentTo.toString() == "1" &&
-                            dataList?.tripStart != null &&
-                            dataList?.tripEnd == null)
+                            dataList?.tripStart != null)
                         ? AnimatedButton(
                             height: 35,
                             color: ColorConstants.primaryColorDriver,

@@ -50,10 +50,28 @@
   "inputBags": "कृपया बैग इनपुट करें",
   "enterRecevingBags": "कृपया प्राप्त वजन दर्ज करें",
   "selectKanta": "कांटा चुनें",
+  "selectKantaImage": "कांटा छवि का चयन करें",
+
   "selectQualityImage": "गुणवत्ता छवि का चयन करें",
   "selectPaotiImage": "पाओटी छवि का चयन करें",
   "enterPaotiNumber": "पाओटी नंबर दर्ज करें",
   "tripEnd": "यात्रा समाप्त",
   "pending": "लंबित",
-  "perQtl": "प्रति क्विंटल."
+  "perQtl": "प्रति क्विंटल.",
+  "Date": "तारीख",
+  "startTrips": "आरंभ यात्राएं",
+  "endTrips": "यात्रा समाप्त",
+  "viewDetails": "विवरण देखें",
+  "runningTripId": "रनिंग ट्रिप आईडी",
+  "provBilty": "अनंतिम बिल्टी",
+  "tripDetails": "यात्रा का विवरण",
+  "dashboard": "डैशबोर्ड",
+  "tripStatus": "यात्रा स्थिति",
+  "selectTripStatus": "यात्रा स्थिति चुनें",
+  "totalBags": "कुल बैग",
+  "receivingWeight": "प्राप्त वजन"
+
+
+
+
 }

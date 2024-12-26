@@ -3,6 +3,8 @@ import 'package:apnagodam_driver/Presentation/UI/Authentication/LoginScreen.dart
 import 'package:apnagodam_driver/Presentation/UI/Authentication/RegistrationScreen.dart';
 import 'package:apnagodam_driver/Presentation/UI/Authentication/VerifyOtp.dart';
 import 'package:apnagodam_driver/Presentation/UI/Home/Dashboard.dart';
+import 'package:apnagodam_driver/Presentation/UI/Home/TripTypes/EndTrips.dart';
+import 'package:apnagodam_driver/Presentation/UI/Home/TripTypes/StartTrips.dart';
 import 'package:apnagodam_driver/Presentation/UI/Home/TripsInProcess.dart';
 import 'package:apnagodam_driver/Presentation/UI/Profile/ProfileScreen.dart';
 import 'package:flutter/foundation.dart';
@@ -41,20 +43,27 @@ GoRouter goRouter(GoRouterRef ref) {
                   path: RoutesStrings.tripsHistory,
                   name: RoutesStrings.tripsHistory,
                   builder: (context, state) => const Tripshistory()),
-
               GoRoute(
                   path: RoutesStrings.tripsInProcess,
                   name: RoutesStrings.tripsInProcess,
                   builder: (context, state) => const Tripsinprocess()),
               GoRoute(
-                  path: RoutesStrings.paotiEndTrip,
-                  name: RoutesStrings.paotiEndTrip,
-                  builder: (context, state) {
-                    Datum? dataList =
-                    state.extra as Datum?; // 👈 casting is important
-                    return Paotiendtrip(dataList: dataList);
-                  },
-              )
+                path: RoutesStrings.paotiEndTrip,
+                name: RoutesStrings.paotiEndTrip,
+                builder: (context, state) {
+                  Datum? dataList =
+                      state.extra as Datum?; // 👈 casting is important
+                  return Paotiendtrip(dataList: dataList);
+                },
+              ),
+              GoRoute(
+                  path: RoutesStrings.startTrips,
+                  name: RoutesStrings.startTrips,
+                  builder: (context, state) => const Starttrips()),
+              GoRoute(
+                  path: RoutesStrings.endTrips,
+                  name: RoutesStrings.endTrips,
+                  builder: (context, state) => const Endtrips()),
             ]),
         GoRoute(
             path: RoutesStrings.login,

@@ -1,22 +1,18 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:apnagodam_driver/Data/Model/DriverResponseModel.dart';
 import 'package:apnagodam_driver/Domain/Trip/TripService.dart';
 import 'package:apnagodam_driver/Presentation/Routes/routes.dart';
 import 'package:apnagodam_driver/Presentation/Utils/Preferences/SharedPrefs/SharedUtility.dart';
-import 'package:apnagodam_driver/Presentation/Utils/Widgets/Widgets.dart';
 import 'package:apnagodam_driver/Presentation/Utils/color_constants.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:button_animations/button_animations.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -42,44 +38,120 @@ class _DashboardState extends ConsumerState<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Dashboard"),
+        title: Text("dashboard".tr()),
       ),
       drawer: Drawer(
         child: ListView(
           children: [
-            CupertinoActionSheet(
-              actions: [
-                CupertinoActionSheetAction(
-                    onPressed: () {
-                      context.goNamed(RoutesStrings.profile);
-                    },
-                    child: RowSuper(
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        const ClipOval(
-                          child: Icon(Icons.person_2),
-                        ),
-                        // CircleAvatar(
-                        //   foregroundImage: NetworkImage(ref
-                        //       .watch(sharedUtilityProvider)
-                        //       .getUser()
-                        //       ?.profileImage ??
-                        //       ""),
-                        // ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          '${ref.watch(sharedUtilityProvider).getUser()?.name ?? ""}',
-                          style: TextStyle(
-                              fontSize: Adaptive.sp(16),
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700),
-                        )
-                      ],
-                    )),
-              ],
+            InkWell(
+              child: Card(
+                color: Colors.white,
+                margin: Pad(all: 10),
+                elevation: 5,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    CircleAvatar(
+                      foregroundImage: NetworkImage(
+                          ref.watch(sharedUtilityProvider).getUser()?.image ??
+                              ""),
+                      radius: 50,
+                    ),
+                    CupertinoActionSheetAction(
+                        onPressed: () {
+                          context.goNamed(RoutesStrings.profile);
+                        },
+                        child: RowSuper(
+                          alignment: Alignment.centerLeft,
+                          children: [
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              '${ref.watch(sharedUtilityProvider).getUser()?.name ?? ""}',
+                              style: TextStyle(
+                                  fontSize: Adaptive.sp(16),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700),
+                            )
+                          ],
+                        )),
+                  ],
+                ),
+              ),
+              onTap: () {
+                ref.watch(goRouterProvider).goNamed(RoutesStrings.profile);
+              },
             ),
+            Card(
+              color: Colors.white,
+              margin: Pad(all: 10),
+              elevation: 5,
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text(
+                      'tripsHistory'.tr(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: Adaptive.sp(16)),
+                    ),
+                    leading: Image.network(
+                      'https://static-00.iconduck.com/assets.00/delivery-car-icon-512x423-t7gs5e74.png',
+                      width: 25,
+                      height: 25,
+                    ),
+                    onTap: () {
+                      ref
+                          .watch(goRouterProvider)
+                          .goNamed(RoutesStrings.tripsHistory);
+                    },
+                  ),
+                  Divider(),
+                  ListTile(
+                    leading: Image.network(
+                      'https://banner2.cleanpng.com/20181207/psa/kisspng-clip-art-vector-graphics-computer-icons-illustrati-kalyan-profi-shop-1713912417297.webp',
+                      width: 30,
+                      height: 30,
+                    ),
+                    title: Text(
+                      'tripsInProcess'.tr(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: Adaptive.sp(16)),
+                    ),
+                    onTap: () {
+                      ref
+                          .watch(goRouterProvider)
+                          .goNamed(RoutesStrings.tripsInProcess);
+                    },
+                  ),
+                  // Divider(),
+                  // ListTile(
+                  //   title: Text(
+                  //     'changeLanguage'.tr(),
+                  //     style: TextStyle(
+                  //         fontWeight: FontWeight.w600,
+                  //         fontSize: Adaptive.sp(16)),
+                  //   ),
+                  //   onTap: () {
+                  //     if (ref.watch(sharedUtilityProvider).getLocale() ==
+                  //         Locale('hi', 'IN')) {
+                  //       ref.watch(sharedUtilityProvider).setLocale("en");
+                  //     } else {
+                  //       ref.watch(sharedUtilityProvider).setLocale("hi");
+                  //     }
+                  //     Restart.restartApp().then((value) {
+                  //       setState(() {});
+                  //     });
+                  //   },
+                  // ),
+                ],
+              ),
+            ),
+
             // CupertinoActionSheet(
             //   actions: [
             //     // CupertinoActionSheetAction(
@@ -211,44 +283,9 @@ class _DashboardState extends ConsumerState<Dashboard> {
             //                 fontSize: Adaptive.sp(16),
             //                 color: Colors.black,
             //                 fontWeight: FontWeight.w500))),
-
             //   ],
             // ),
-            ExpansionTile(
-              backgroundColor: Colors.white,
-              collapsedBackgroundColor: Colors.white,
-              title: Text(
-                'trips'.tr(),
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
-              ),
-              children: [
-                ListTile(
-                  title: Text(
-                    'tripsHistory'.tr(),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600, fontSize: Adaptive.sp(16)),
-                  ),
-                  onTap: () {
-                    ref
-                        .watch(goRouterProvider)
-                        .goNamed(RoutesStrings.tripsHistory);
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'tripsInProcess'.tr(),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600, fontSize: Adaptive.sp(16)),
-                  ),
-                  onTap: () {
-                    ref
-                        .watch(goRouterProvider)
-                        .goNamed(RoutesStrings.tripsInProcess);
-                  },
-                )
-              ],
-            ),
+
             CupertinoActionSheet(
               actions: [
                 CupertinoActionSheetAction(
@@ -283,7 +320,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                         Padding(
                           padding: Pad(all: 10),
                           child: Text(
-                            "Running Trip Ids",
+                            "runningTripId".tr(),
                             style: TextStyle(
                                 fontSize: Adaptive.sp(18),
                                 fontWeight: FontWeight.bold),
@@ -617,7 +654,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      "Trip Details",
+                                      "tripDetails".tr(),
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: Adaptive.sp(18),
@@ -921,7 +958,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                             ));
                   },
                   child: Text(
-                    'View Details',
+                    'viewDetails'.tr(),
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
@@ -1359,7 +1396,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextOneLine(
-                          "Start Trips",
+                          "startTrips".tr(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -1380,7 +1417,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
               ),
             ),
             onTap: () {
-              ref.watch(goRouterProvider).goNamed(RoutesStrings.tripsInProcess);
+              ref.watch(goRouterProvider).goNamed(RoutesStrings.startTrips);
             },
           )),
           Expanded(
@@ -1407,7 +1444,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextOneLine("End Trips",
+                          TextOneLine("endTrips".tr(),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -1426,22 +1463,13 @@ class _DashboardState extends ConsumerState<Dashboard> {
                   )),
             ),
             onTap: () {
-              ref.watch(goRouterProvider).goNamed(RoutesStrings.tripsHistory);
+              ref.watch(goRouterProvider).goNamed(RoutesStrings.endTrips);
             },
           ))
         ]),
       );
 
   actionLayout(Datum? dataList) {
-    final form = GlobalKey<FormState>();
-
-    final bagsController = TextEditingController();
-    final weightController = TextEditingController();
-    final paotiController = TextEditingController();
-    final imagePicker = ImagePicker();
-    var kantaImage = StateProvider<File?>((ref) => null);
-    var qualityImage = StateProvider<File?>((ref) => null);
-    var paotiImage = StateProvider<File?>((ref) => null);
     return dataList?.tripEnd != null && dataList?.tripStart != null
         ? Text(
             'tripComplete'.tr(),
@@ -1480,388 +1508,391 @@ class _DashboardState extends ConsumerState<Dashboard> {
                             ],
                             borderWidth: 1,
                             onTap: () async {
-                              try {
-                                showBarModalBottomSheet(
-                                    context: context,
-                                    builder: (context) => Consumer(
-                                        builder:
-                                            (context, ref, child) => SafeArea(
-                                                    child: Padding(
-                                                  padding: const Pad(all: 10),
-                                                  child: Form(
-                                                      key: form,
-                                                      child: ListView(
-                                                        children: [
-                                                          TextFormField(
-                                                            controller:
-                                                                bagsController,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                            validator: (value) {
-                                                              if (value ==
-                                                                      null ||
-                                                                  value
-                                                                      .isEmpty) {
-                                                                return 'inputBags'
-                                                                    .tr();
-                                                              }
-                                                              return null;
-                                                            },
-                                                            decoration: InputDecoration(
-                                                                label: Text(
-                                                                    'inputBags'
-                                                                        .tr()),
-                                                                contentPadding:
-                                                                    const Pad(
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0,
-                                                                        left:
-                                                                            10),
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10)),
-                                                                enabledBorder:
-                                                                    OutlineInputBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10))),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          TextFormField(
-                                                            controller:
-                                                                weightController,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                            validator: (value) {
-                                                              if (value ==
-                                                                      null ||
-                                                                  value
-                                                                      .isEmpty) {
-                                                                return 'enterRecevingBags'
-                                                                    .tr();
-                                                              }
-                                                              return null;
-                                                            },
-                                                            decoration: InputDecoration(
-                                                                label: Text(
-                                                                    'enterRecevingBags'
-                                                                        .tr()),
-                                                                contentPadding:
-                                                                    const Pad(
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0,
-                                                                        left:
-                                                                            10),
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10)),
-                                                                enabledBorder: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10))),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          TextFormField(
-                                                            controller:
-                                                                paotiController,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                            decoration: InputDecoration(
-                                                                label: Text(
-                                                                    'enterPaotiNumber'
-                                                                        .tr()),
-                                                                contentPadding:
-                                                                    const Pad(
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0,
-                                                                        left:
-                                                                            10),
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10)),
-                                                                enabledBorder: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10))),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          DottedBorder(
-                                                              borderType:
-                                                                  BorderType
-                                                                      .RRect,
-                                                              dashPattern: const [
-                                                                5,
-                                                                5,
-                                                                5,
-                                                                5
-                                                              ],
-                                                              color: ColorConstants
-                                                                  .primaryColorDriver,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const Pad(
-                                                                        all:
-                                                                            20),
-                                                                child: Center(
-                                                                  child: ref.watch(
-                                                                              kantaImage) !=
-                                                                          null
-                                                                      ? Stack(
-                                                                          children: [
-                                                                            Image.file(ref.watch(kantaImage) ??
-                                                                                File('')),
-                                                                            Container(
-                                                                              decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
-                                                                              child: IconButton(
-                                                                                  onPressed: () {
-                                                                                    ref.invalidate(kantaImage);
-                                                                                  },
-                                                                                  icon: const Icon(
-                                                                                    Icons.close,
-                                                                                    color: Colors.white,
-                                                                                  )),
-                                                                            )
-                                                                          ],
-                                                                        )
-                                                                      : InkWell(
-                                                                          child:
-                                                                              ColumnSuper(children: [
-                                                                            const Icon(
-                                                                              Icons.cloud_upload,
-                                                                              color: ColorConstants.primaryColorDriver,
-                                                                            ),
-                                                                            const SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                            Text(
-                                                                              "selectKanta".tr(),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
-                                                                            ),
-                                                                            const SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                            Text(
-                                                                              "uploadDocumentImage".tr(),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
-                                                                            )
-                                                                          ]),
-                                                                          onTap:
-                                                                              () async {
-                                                                            imagePicker.pickImage(source: ImageSource.camera).then((file) {
-                                                                              if (file != null) {
-                                                                                ref.watch(kantaImage.notifier).state = File(file.path);
-                                                                              }
-                                                                            });
-                                                                          },
-                                                                        ),
-                                                                ),
-                                                              )),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          DottedBorder(
-                                                              borderType:
-                                                                  BorderType
-                                                                      .RRect,
-                                                              dashPattern: const [
-                                                                5,
-                                                                5,
-                                                                5,
-                                                                5
-                                                              ],
-                                                              color: ColorConstants
-                                                                  .primaryColorDriver,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const Pad(
-                                                                        all:
-                                                                            20),
-                                                                child: Center(
-                                                                  child: ref.watch(
-                                                                              qualityImage) !=
-                                                                          null
-                                                                      ? Stack(
-                                                                          children: [
-                                                                            Image.file(ref.watch(qualityImage) ??
-                                                                                File('')),
-                                                                            Container(
-                                                                              decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
-                                                                              child: IconButton(
-                                                                                  onPressed: () {
-                                                                                    ref.invalidate(qualityImage);
-                                                                                  },
-                                                                                  icon: const Icon(
-                                                                                    Icons.close,
-                                                                                    color: Colors.white,
-                                                                                  )),
-                                                                            )
-                                                                          ],
-                                                                        )
-                                                                      : InkWell(
-                                                                          child:
-                                                                              ColumnSuper(children: [
-                                                                            const Icon(
-                                                                              Icons.cloud_upload,
-                                                                              color: ColorConstants.primaryColorDriver,
-                                                                            ),
-                                                                            const SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                            Text(
-                                                                              "selectQualityImage".tr(),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
-                                                                            ),
-                                                                            const SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                            Text(
-                                                                              "uploadDocumentImage".tr(),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
-                                                                            )
-                                                                          ]),
-                                                                          onTap:
-                                                                              () async {
-                                                                            imagePicker.pickImage(source: ImageSource.camera).then((file) {
-                                                                              if (file != null) {
-                                                                                ref.watch(qualityImage.notifier).state = File(file.path);
-                                                                              }
-                                                                            });
-                                                                          },
-                                                                        ),
-                                                                ),
-                                                              )),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          DottedBorder(
-                                                              borderType:
-                                                                  BorderType
-                                                                      .RRect,
-                                                              dashPattern: const [
-                                                                5,
-                                                                5,
-                                                                5,
-                                                                5
-                                                              ],
-                                                              color: ColorConstants
-                                                                  .primaryColorDriver,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const Pad(
-                                                                        all:
-                                                                            20),
-                                                                child: Center(
-                                                                  child: ref.watch(
-                                                                              paotiImage) !=
-                                                                          null
-                                                                      ? Stack(
-                                                                          children: [
-                                                                            Image.file(ref.watch(paotiImage) ??
-                                                                                File('')),
-                                                                            Container(
-                                                                              decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
-                                                                              child: IconButton(
-                                                                                  onPressed: () {
-                                                                                    ref.invalidate(qualityImage);
-                                                                                  },
-                                                                                  icon: const Icon(
-                                                                                    Icons.close,
-                                                                                    color: Colors.white,
-                                                                                  )),
-                                                                            )
-                                                                          ],
-                                                                        )
-                                                                      : InkWell(
-                                                                          child:
-                                                                              ColumnSuper(children: [
-                                                                            const Icon(
-                                                                              Icons.cloud_upload,
-                                                                              color: ColorConstants.primaryColorDriver,
-                                                                            ),
-                                                                            const SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                            Text(
-                                                                              "selectPaotiImage".tr(),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
-                                                                            ),
-                                                                            const SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                            Text(
-                                                                              "uploadDocumentImage".tr(),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
-                                                                            )
-                                                                          ]),
-                                                                          onTap:
-                                                                              () async {
-                                                                            imagePicker.pickImage(source: ImageSource.camera).then((file) {
-                                                                              if (file != null) {
-                                                                                ref.watch(paotiImage.notifier).state = File(file.path);
-                                                                              }
-                                                                            });
-                                                                          },
-                                                                        ),
-                                                                ),
-                                                              )),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          AnimatedButton(
-                                                            height: 35,
-                                                            color: ColorConstants
-                                                                .primaryColorDriver,
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                1.2,
-                                                            isOutline: true,
-                                                            isMultiColor: true,
-                                                            colors: [
-                                                              ColorConstants
-                                                                  .primaryColorDriver,
-                                                              ColorConstants
-                                                                  .primaryColorDriver,
-                                                            ],
-                                                            borderWidth: 1,
-                                                            child: Text(
-                                                              "submit".tr(),
-                                                            ),
-                                                            onTap: () async {
-                                                              ref.watch(goRouterProvider).goNamed(
-                                                                  RoutesStrings
-                                                                      .paotiEndTrip,
-                                                                  extra:
-                                                                      dataList);
-                                                            },
-                                                          )
-                                                        ],
-                                                      )),
-                                                ))));
-                              } catch (e, s) {
-                                print(s);
-                              }
+                              // try {
+                              //   showBarModalBottomSheet(
+                              //       context: context,
+                              //       builder: (context) => Consumer(
+                              //           builder:
+                              //               (context, ref, child) => SafeArea(
+                              //                       child: Padding(
+                              //                     padding: const Pad(all: 10),
+                              //                     child: Form(
+                              //                         key: form,
+                              //                         child: ListView(
+                              //                           children: [
+                              //                             TextFormField(
+                              //                               controller:
+                              //                                   bagsController,
+                              //                               keyboardType:
+                              //                                   TextInputType
+                              //                                       .text,
+                              //                               validator: (value) {
+                              //                                 if (value ==
+                              //                                         null ||
+                              //                                     value
+                              //                                         .isEmpty) {
+                              //                                   return 'inputBags'
+                              //                                       .tr();
+                              //                                 }
+                              //                                 return null;
+                              //                               },
+                              //                               decoration: InputDecoration(
+                              //                                   label: Text(
+                              //                                       'inputBags'
+                              //                                           .tr()),
+                              //                                   contentPadding:
+                              //                                       const Pad(
+                              //                                           top: 0,
+                              //                                           bottom:
+                              //                                               0,
+                              //                                           left:
+                              //                                               10),
+                              //                                   border: OutlineInputBorder(
+                              //                                       borderRadius:
+                              //                                           BorderRadius.circular(
+                              //                                               10)),
+                              //                                   enabledBorder:
+                              //                                       OutlineInputBorder(
+                              //                                           borderRadius:
+                              //                                               BorderRadius.circular(10))),
+                              //                             ),
+                              //                             const SizedBox(
+                              //                               height: 10,
+                              //                             ),
+                              //                             TextFormField(
+                              //                               controller:
+                              //                                   weightController,
+                              //                               keyboardType:
+                              //                                   TextInputType
+                              //                                       .text,
+                              //                               validator: (value) {
+                              //                                 if (value ==
+                              //                                         null ||
+                              //                                     value
+                              //                                         .isEmpty) {
+                              //                                   return 'enterRecevingBags'
+                              //                                       .tr();
+                              //                                 }
+                              //                                 return null;
+                              //                               },
+                              //                               decoration: InputDecoration(
+                              //                                   label: Text(
+                              //                                       'enterRecevingBags'
+                              //                                           .tr()),
+                              //                                   contentPadding:
+                              //                                       const Pad(
+                              //                                           top: 0,
+                              //                                           bottom:
+                              //                                               0,
+                              //                                           left:
+                              //                                               10),
+                              //                                   border: OutlineInputBorder(
+                              //                                       borderRadius:
+                              //                                           BorderRadius.circular(
+                              //                                               10)),
+                              //                                   enabledBorder: OutlineInputBorder(
+                              //                                       borderRadius:
+                              //                                           BorderRadius.circular(
+                              //                                               10))),
+                              //                             ),
+                              //                             const SizedBox(
+                              //                               height: 10,
+                              //                             ),
+                              //                             TextFormField(
+                              //                               controller:
+                              //                                   paotiController,
+                              //                               keyboardType:
+                              //                                   TextInputType
+                              //                                       .text,
+                              //                               decoration: InputDecoration(
+                              //                                   label: Text(
+                              //                                       'enterPaotiNumber'
+                              //                                           .tr()),
+                              //                                   contentPadding:
+                              //                                       const Pad(
+                              //                                           top: 0,
+                              //                                           bottom:
+                              //                                               0,
+                              //                                           left:
+                              //                                               10),
+                              //                                   border: OutlineInputBorder(
+                              //                                       borderRadius:
+                              //                                           BorderRadius.circular(
+                              //                                               10)),
+                              //                                   enabledBorder: OutlineInputBorder(
+                              //                                       borderRadius:
+                              //                                           BorderRadius.circular(
+                              //                                               10))),
+                              //                             ),
+                              //                             const SizedBox(
+                              //                               height: 10,
+                              //                             ),
+                              //                             DottedBorder(
+                              //                                 borderType:
+                              //                                     BorderType
+                              //                                         .RRect,
+                              //                                 dashPattern: const [
+                              //                                   5,
+                              //                                   5,
+                              //                                   5,
+                              //                                   5
+                              //                                 ],
+                              //                                 color: ColorConstants
+                              //                                     .primaryColorDriver,
+                              //                                 child: Padding(
+                              //                                   padding:
+                              //                                       const Pad(
+                              //                                           all:
+                              //                                               20),
+                              //                                   child: Center(
+                              //                                     child: ref.watch(
+                              //                                                 kantaImage) !=
+                              //                                             null
+                              //                                         ? Stack(
+                              //                                             children: [
+                              //                                               Image.file(ref.watch(kantaImage) ??
+                              //                                                   File('')),
+                              //                                               Container(
+                              //                                                 decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
+                              //                                                 child: IconButton(
+                              //                                                     onPressed: () {
+                              //                                                       ref.invalidate(kantaImage);
+                              //                                                     },
+                              //                                                     icon: const Icon(
+                              //                                                       Icons.close,
+                              //                                                       color: Colors.white,
+                              //                                                     )),
+                              //                                               )
+                              //                                             ],
+                              //                                           )
+                              //                                         : InkWell(
+                              //                                             child:
+                              //                                                 ColumnSuper(children: [
+                              //                                               const Icon(
+                              //                                                 Icons.cloud_upload,
+                              //                                                 color: ColorConstants.primaryColorDriver,
+                              //                                               ),
+                              //                                               const SizedBox(
+                              //                                                 height: 5,
+                              //                                               ),
+                              //                                               Text(
+                              //                                                 "selectKanta".tr(),
+                              //                                                 textAlign: TextAlign.center,
+                              //                                                 style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
+                              //                                               ),
+                              //                                               const SizedBox(
+                              //                                                 height: 5,
+                              //                                               ),
+                              //                                               Text(
+                              //                                                 "uploadDocumentImage".tr(),
+                              //                                                 textAlign: TextAlign.center,
+                              //                                                 style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
+                              //                                               )
+                              //                                             ]),
+                              //                                             onTap:
+                              //                                                 () async {
+                              //                                               imagePicker.pickImage(source: ImageSource.camera).then((file) {
+                              //                                                 if (file != null) {
+                              //                                                   ref.watch(kantaImage.notifier).state = File(file.path);
+                              //                                                 }
+                              //                                               });
+                              //                                             },
+                              //                                           ),
+                              //                                   ),
+                              //                                 )),
+                              //                             const SizedBox(
+                              //                               height: 10,
+                              //                             ),
+                              //                             DottedBorder(
+                              //                                 borderType:
+                              //                                     BorderType
+                              //                                         .RRect,
+                              //                                 dashPattern: const [
+                              //                                   5,
+                              //                                   5,
+                              //                                   5,
+                              //                                   5
+                              //                                 ],
+                              //                                 color: ColorConstants
+                              //                                     .primaryColorDriver,
+                              //                                 child: Padding(
+                              //                                   padding:
+                              //                                       const Pad(
+                              //                                           all:
+                              //                                               20),
+                              //                                   child: Center(
+                              //                                     child: ref.watch(
+                              //                                                 qualityImage) !=
+                              //                                             null
+                              //                                         ? Stack(
+                              //                                             children: [
+                              //                                               Image.file(ref.watch(qualityImage) ??
+                              //                                                   File('')),
+                              //                                               Container(
+                              //                                                 decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
+                              //                                                 child: IconButton(
+                              //                                                     onPressed: () {
+                              //                                                       ref.invalidate(qualityImage);
+                              //                                                     },
+                              //                                                     icon: const Icon(
+                              //                                                       Icons.close,
+                              //                                                       color: Colors.white,
+                              //                                                     )),
+                              //                                               )
+                              //                                             ],
+                              //                                           )
+                              //                                         : InkWell(
+                              //                                             child:
+                              //                                                 ColumnSuper(children: [
+                              //                                               const Icon(
+                              //                                                 Icons.cloud_upload,
+                              //                                                 color: ColorConstants.primaryColorDriver,
+                              //                                               ),
+                              //                                               const SizedBox(
+                              //                                                 height: 5,
+                              //                                               ),
+                              //                                               Text(
+                              //                                                 "selectQualityImage".tr(),
+                              //                                                 textAlign: TextAlign.center,
+                              //                                                 style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
+                              //                                               ),
+                              //                                               const SizedBox(
+                              //                                                 height: 5,
+                              //                                               ),
+                              //                                               Text(
+                              //                                                 "uploadDocumentImage".tr(),
+                              //                                                 textAlign: TextAlign.center,
+                              //                                                 style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
+                              //                                               )
+                              //                                             ]),
+                              //                                             onTap:
+                              //                                                 () async {
+                              //                                               imagePicker.pickImage(source: ImageSource.camera).then((file) {
+                              //                                                 if (file != null) {
+                              //                                                   ref.watch(qualityImage.notifier).state = File(file.path);
+                              //                                                 }
+                              //                                               });
+                              //                                             },
+                              //                                           ),
+                              //                                   ),
+                              //                                 )),
+                              //                             const SizedBox(
+                              //                               height: 10,
+                              //                             ),
+                              //                             DottedBorder(
+                              //                                 borderType:
+                              //                                     BorderType
+                              //                                         .RRect,
+                              //                                 dashPattern: const [
+                              //                                   5,
+                              //                                   5,
+                              //                                   5,
+                              //                                   5
+                              //                                 ],
+                              //                                 color: ColorConstants
+                              //                                     .primaryColorDriver,
+                              //                                 child: Padding(
+                              //                                   padding:
+                              //                                       const Pad(
+                              //                                           all:
+                              //                                               20),
+                              //                                   child: Center(
+                              //                                     child: ref.watch(
+                              //                                                 paotiImage) !=
+                              //                                             null
+                              //                                         ? Stack(
+                              //                                             children: [
+                              //                                               Image.file(ref.watch(paotiImage) ??
+                              //                                                   File('')),
+                              //                                               Container(
+                              //                                                 decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
+                              //                                                 child: IconButton(
+                              //                                                     onPressed: () {
+                              //                                                       ref.invalidate(qualityImage);
+                              //                                                     },
+                              //                                                     icon: const Icon(
+                              //                                                       Icons.close,
+                              //                                                       color: Colors.white,
+                              //                                                     )),
+                              //                                               )
+                              //                                             ],
+                              //                                           )
+                              //                                         : InkWell(
+                              //                                             child:
+                              //                                                 ColumnSuper(children: [
+                              //                                               const Icon(
+                              //                                                 Icons.cloud_upload,
+                              //                                                 color: ColorConstants.primaryColorDriver,
+                              //                                               ),
+                              //                                               const SizedBox(
+                              //                                                 height: 5,
+                              //                                               ),
+                              //                                               Text(
+                              //                                                 "selectPaotiImage".tr(),
+                              //                                                 textAlign: TextAlign.center,
+                              //                                                 style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
+                              //                                               ),
+                              //                                               const SizedBox(
+                              //                                                 height: 5,
+                              //                                               ),
+                              //                                               Text(
+                              //                                                 "uploadDocumentImage".tr(),
+                              //                                                 textAlign: TextAlign.center,
+                              //                                                 style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
+                              //                                               )
+                              //                                             ]),
+                              //                                             onTap:
+                              //                                                 () async {
+                              //                                               imagePicker.pickImage(source: ImageSource.camera).then((file) {
+                              //                                                 if (file != null) {
+                              //                                                   ref.watch(paotiImage.notifier).state = File(file.path);
+                              //                                                 }
+                              //                                               });
+                              //                                             },
+                              //                                           ),
+                              //                                   ),
+                              //                                 )),
+                              //                             const SizedBox(
+                              //                               height: 10,
+                              //                             ),
+                              //                             AnimatedButton(
+                              //                               height: 35,
+                              //                               color: ColorConstants
+                              //                                   .primaryColorDriver,
+                              //                               width: MediaQuery.of(
+                              //                                           context)
+                              //                                       .size
+                              //                                       .width /
+                              //                                   1.2,
+                              //                               isOutline: true,
+                              //                               isMultiColor: true,
+                              //                               colors: [
+                              //                                 ColorConstants
+                              //                                     .primaryColorDriver,
+                              //                                 ColorConstants
+                              //                                     .primaryColorDriver,
+                              //                               ],
+                              //                               borderWidth: 1,
+                              //                               child: Text(
+                              //                                 "submit".tr(),
+                              //                               ),
+                              //                               onTap: () async {
+                              //                                 ref.watch(goRouterProvider).goNamed(
+                              //                                     RoutesStrings
+                              //                                         .paotiEndTrip,
+                              //                                     extra:
+                              //                                         dataList);
+                              //                               },
+                              //                             )
+                              //                           ],
+                              //                         )),
+                              //                   ))));
+                              // } catch (e, s) {
+                              //   print(s);
+                              // }
+                              ref.watch(goRouterProvider).goNamed(
+                                  RoutesStrings.paotiEndTrip,
+                                  extra: dataList);
                             },
                             child: Text(
                               "tripEnd".tr(),
@@ -1894,538 +1925,541 @@ class _DashboardState extends ConsumerState<Dashboard> {
                         ],
                         borderWidth: 1,
                         onTap: () async {
-                          try {
-                            showBarModalBottomSheet(
-                                context: context,
-                                builder: (context) => Consumer(
-                                    builder: (context, ref, child) => SafeArea(
-                                            child: Padding(
-                                          padding: const Pad(all: 10),
-                                          child: Form(
-                                              key: form,
-                                              child: ListView(
-                                                children: [
-                                                  TextFormField(
-                                                    controller: bagsController,
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return 'inputBags'.tr();
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration: InputDecoration(
-                                                        label: Text(
-                                                            'inputBags'.tr()),
-                                                        contentPadding:
-                                                            const Pad(
-                                                                top: 0,
-                                                                bottom: 0,
-                                                                left: 10),
-                                                        border: OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
-                                                        enabledBorder:
-                                                            OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10))),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  TextFormField(
-                                                    controller:
-                                                        weightController,
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return 'enterRecevingBags'
-                                                            .tr();
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration: InputDecoration(
-                                                        label: Text(
-                                                            'enterRecevingBags'
-                                                                .tr()),
-                                                        contentPadding:
-                                                            const Pad(
-                                                                top: 0,
-                                                                bottom: 0,
-                                                                left: 10),
-                                                        border: OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
-                                                        enabledBorder:
-                                                            OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10))),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  TextFormField(
-                                                    controller: paotiController,
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    decoration: InputDecoration(
-                                                        label: Text(
-                                                            'enterPaotiNumber'
-                                                                .tr()),
-                                                        contentPadding:
-                                                            const Pad(
-                                                                top: 0,
-                                                                bottom: 0,
-                                                                left: 10),
-                                                        border: OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
-                                                        enabledBorder:
-                                                            OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10))),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  DottedBorder(
-                                                      borderType:
-                                                          BorderType.RRect,
-                                                      dashPattern: const [
-                                                        5,
-                                                        5,
-                                                        5,
-                                                        5
-                                                      ],
-                                                      color: ColorConstants
-                                                          .primaryColorDriver,
-                                                      child: Padding(
-                                                        padding:
-                                                            const Pad(all: 20),
-                                                        child: Center(
-                                                          child: ref.watch(
-                                                                      kantaImage) !=
-                                                                  null
-                                                              ? Stack(
-                                                                  children: [
-                                                                    Image.file(ref.watch(
-                                                                            kantaImage) ??
-                                                                        File(
-                                                                            '')),
-                                                                    Container(
-                                                                      decoration: BoxDecoration(
-                                                                          color: Colors.black.withOpacity(
-                                                                              0.6),
-                                                                          shape:
-                                                                              BoxShape.circle),
-                                                                      child: IconButton(
-                                                                          onPressed: () {
-                                                                            ref.invalidate(kantaImage);
-                                                                          },
-                                                                          icon: const Icon(
-                                                                            Icons.close,
-                                                                            color:
-                                                                                Colors.white,
-                                                                          )),
-                                                                    )
-                                                                  ],
-                                                                )
-                                                              : InkWell(
-                                                                  child: ColumnSuper(
-                                                                      children: [
-                                                                        const Icon(
-                                                                          Icons
-                                                                              .cloud_upload,
-                                                                          color:
-                                                                              ColorConstants.primaryColorDriver,
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              5,
-                                                                        ),
-                                                                        Text(
-                                                                          "selectKanta"
-                                                                              .tr(),
-                                                                          textAlign:
-                                                                              TextAlign.center,
-                                                                          style: TextStyle(
-                                                                              color: ColorConstants.primaryColorDriver,
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontSize: Adaptive.sp(16)),
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              5,
-                                                                        ),
-                                                                        Text(
-                                                                          "uploadDocumentImage"
-                                                                              .tr(),
-                                                                          textAlign:
-                                                                              TextAlign.center,
-                                                                          style: TextStyle(
-                                                                              color: ColorConstants.primaryColorDriver,
-                                                                              fontWeight: FontWeight.w700,
-                                                                              fontSize: Adaptive.sp(13)),
-                                                                        )
-                                                                      ]),
-                                                                  onTap:
-                                                                      () async {
-                                                                    imagePicker
-                                                                        .pickImage(
-                                                                            source: ImageSource
-                                                                                .camera)
-                                                                        .then(
-                                                                            (file) {
-                                                                      if (file !=
-                                                                          null) {
-                                                                        ref.watch(kantaImage.notifier).state =
-                                                                            File(file.path);
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                ),
-                                                        ),
-                                                      )),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  DottedBorder(
-                                                      borderType:
-                                                          BorderType.RRect,
-                                                      dashPattern: const [
-                                                        5,
-                                                        5,
-                                                        5,
-                                                        5
-                                                      ],
-                                                      color: ColorConstants
-                                                          .primaryColorDriver,
-                                                      child: Padding(
-                                                        padding:
-                                                            const Pad(all: 20),
-                                                        child: Center(
-                                                          child: ref.watch(
-                                                                      qualityImage) !=
-                                                                  null
-                                                              ? Stack(
-                                                                  children: [
-                                                                    Image.file(ref.watch(
-                                                                            qualityImage) ??
-                                                                        File(
-                                                                            '')),
-                                                                    Container(
-                                                                      decoration: BoxDecoration(
-                                                                          color: Colors.black.withOpacity(
-                                                                              0.6),
-                                                                          shape:
-                                                                              BoxShape.circle),
-                                                                      child: IconButton(
-                                                                          onPressed: () {
-                                                                            ref.invalidate(qualityImage);
-                                                                          },
-                                                                          icon: const Icon(
-                                                                            Icons.close,
-                                                                            color:
-                                                                                Colors.white,
-                                                                          )),
-                                                                    )
-                                                                  ],
-                                                                )
-                                                              : InkWell(
-                                                                  child: ColumnSuper(
-                                                                      children: [
-                                                                        const Icon(
-                                                                          Icons
-                                                                              .cloud_upload,
-                                                                          color:
-                                                                              ColorConstants.primaryColorDriver,
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              5,
-                                                                        ),
-                                                                        Text(
-                                                                          "selectQualityImage"
-                                                                              .tr(),
-                                                                          textAlign:
-                                                                              TextAlign.center,
-                                                                          style: TextStyle(
-                                                                              color: ColorConstants.primaryColorDriver,
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontSize: Adaptive.sp(16)),
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              5,
-                                                                        ),
-                                                                        Text(
-                                                                          "uploadDocumentImage"
-                                                                              .tr(),
-                                                                          textAlign:
-                                                                              TextAlign.center,
-                                                                          style: TextStyle(
-                                                                              color: ColorConstants.primaryColorDriver,
-                                                                              fontWeight: FontWeight.w700,
-                                                                              fontSize: Adaptive.sp(13)),
-                                                                        )
-                                                                      ]),
-                                                                  onTap:
-                                                                      () async {
-                                                                    imagePicker
-                                                                        .pickImage(
-                                                                            source: ImageSource
-                                                                                .camera)
-                                                                        .then(
-                                                                            (file) {
-                                                                      if (file !=
-                                                                          null) {
-                                                                        ref.watch(qualityImage.notifier).state =
-                                                                            File(file.path);
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                ),
-                                                        ),
-                                                      )),
-                                                  DottedBorder(
-                                                      borderType:
-                                                          BorderType.RRect,
-                                                      dashPattern: const [
-                                                        5,
-                                                        5,
-                                                        5,
-                                                        5
-                                                      ],
-                                                      color: ColorConstants
-                                                          .primaryColorDriver,
-                                                      child: Padding(
-                                                        padding:
-                                                            const Pad(all: 20),
-                                                        child: Center(
-                                                          child: ref.watch(
-                                                                      paotiImage) !=
-                                                                  null
-                                                              ? Stack(
-                                                                  children: [
-                                                                    Image.file(ref.watch(
-                                                                            paotiImage) ??
-                                                                        File(
-                                                                            '')),
-                                                                    Container(
-                                                                      decoration: BoxDecoration(
-                                                                          color: Colors.black.withOpacity(
-                                                                              0.6),
-                                                                          shape:
-                                                                              BoxShape.circle),
-                                                                      child: IconButton(
-                                                                          onPressed: () {
-                                                                            ref.invalidate(qualityImage);
-                                                                          },
-                                                                          icon: const Icon(
-                                                                            Icons.close,
-                                                                            color:
-                                                                                Colors.white,
-                                                                          )),
-                                                                    )
-                                                                  ],
-                                                                )
-                                                              : InkWell(
-                                                                  child: ColumnSuper(
-                                                                      children: [
-                                                                        const Icon(
-                                                                          Icons
-                                                                              .cloud_upload,
-                                                                          color:
-                                                                              ColorConstants.primaryColorDriver,
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              5,
-                                                                        ),
-                                                                        Text(
-                                                                          "selectPaotiImage"
-                                                                              .tr(),
-                                                                          textAlign:
-                                                                              TextAlign.center,
-                                                                          style: TextStyle(
-                                                                              color: ColorConstants.primaryColorDriver,
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontSize: Adaptive.sp(16)),
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              5,
-                                                                        ),
-                                                                        Text(
-                                                                          "uploadDocumentImage"
-                                                                              .tr(),
-                                                                          textAlign:
-                                                                              TextAlign.center,
-                                                                          style: TextStyle(
-                                                                              color: ColorConstants.primaryColorDriver,
-                                                                              fontWeight: FontWeight.w700,
-                                                                              fontSize: Adaptive.sp(13)),
-                                                                        )
-                                                                      ]),
-                                                                  onTap:
-                                                                      () async {
-                                                                    imagePicker
-                                                                        .pickImage(
-                                                                            source: ImageSource
-                                                                                .camera)
-                                                                        .then(
-                                                                            (file) {
-                                                                      if (file !=
-                                                                          null) {
-                                                                        ref.watch(paotiImage.notifier).state =
-                                                                            File(file.path);
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                ),
-                                                        ),
-                                                      )),
-                                                  AnimatedButton(
-                                                    height: 35,
-                                                    color: ColorConstants
-                                                        .primaryColorDriver,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                    isOutline: true,
-                                                    isMultiColor: true,
-                                                    colors: [
-                                                      ColorConstants
-                                                          .primaryColorDriver,
-                                                      ColorConstants
-                                                          .primaryColorDriver,
-                                                    ],
-                                                    borderWidth: 1,
-                                                    child: Text(
-                                                      "submit".tr(),
-                                                    ),
-                                                    onTap: () async {
-                                                      if (form.currentState!
-                                                          .validate()) {
-                                                        if (ref.watch(
-                                                                kantaImage) ==
-                                                            null) {
-                                                          errorToast(
-                                                              context,
-                                                              "selectKanta"
-                                                                  .tr());
-                                                        }
-                                                        if (ref.watch(
-                                                                qualityImage) ==
-                                                            null) {
-                                                          errorToast(
-                                                              context,
-                                                              'selectQualityImage'
-                                                                  .tr());
-                                                        } else {
-                                                          hideLoader(context);
-
-                                                          final bytes = File(ref
-                                                                      .watch(
-                                                                          kantaImage)
-                                                                      ?.path ??
-                                                                  "")
-                                                              .readAsBytesSync();
-                                                          String img64 =
-                                                              base64Encode(
-                                                                  bytes);
-
-                                                          final bytes2 = File(ref
-                                                                      .watch(
-                                                                          qualityImage)
-                                                                      ?.path ??
-                                                                  "")
-                                                              .readAsBytesSync();
-                                                          String img642 =
-                                                              base64Encode(
-                                                                  bytes2);
-                                                          ref
-                                                              .watch(endTripProvider(
-                                                                      tripRequestId:
-                                                                          '${dataList?.id ?? 0}',
-                                                                      kantaWeight:
-                                                                          '${weightController.text.toString()}',
-                                                                      bags:
-                                                                          "${bagsController.text.toString()}",
-                                                                      kantaImage:
-                                                                          img64,
-                                                                      qualityImage:
-                                                                          img642,
-                                                                      paotiImage:
-                                                                          base64Encode(File(ref.watch(paotiImage)?.path ?? "")
-                                                                              .readAsBytesSync()),
-                                                                      paotiNumber:
-                                                                          paotiController
-                                                                              .text)
-                                                                  .future)
-                                                              .then((value) {
-                                                            hideLoader(context);
-                                                            if (value['status']
-                                                                    .toString() ==
-                                                                "1") {
-                                                              successToast(
-                                                                  context,
-                                                                  value[
-                                                                      'message']);
-                                                              ref.invalidate(
-                                                                  tripsProvider);
-                                                              ref.invalidate(
-                                                                  kantaImage);
-                                                              ref.invalidate(
-                                                                  qualityImage);
-                                                              bagsController
-                                                                  .clear();
-                                                              weightController
-                                                                  .clear();
-                                                              ref
-                                                                  .watch(
-                                                                      goRouterProvider)
-                                                                  .pop(context);
-                                                            } else {
-                                                              errorToast(
-                                                                  context,
-                                                                  value[
-                                                                      'message']);
-                                                            }
-                                                          }).onError((e, s) {
-                                                            hideLoader(context);
-
-                                                            errorToast(context,
-                                                                e.toString());
-                                                          });
-                                                        }
-                                                      }
-                                                    },
-                                                  )
-                                                ],
-                                              )),
-                                        ))));
-                          } catch (e, s) {
-                            print(s);
-                          }
+                          // try {
+                          //   showBarModalBottomSheet(
+                          //       context: context,
+                          //       builder: (context) => Consumer(
+                          //           builder: (context, ref, child) => SafeArea(
+                          //                   child: Padding(
+                          //                 padding: const Pad(all: 10),
+                          //                 child: Form(
+                          //                     key: form,
+                          //                     child: ListView(
+                          //                       children: [
+                          //                         TextFormField(
+                          //                           controller: bagsController,
+                          //                           keyboardType:
+                          //                               TextInputType.text,
+                          //                           validator: (value) {
+                          //                             if (value == null ||
+                          //                                 value.isEmpty) {
+                          //                               return 'inputBags'.tr();
+                          //                             }
+                          //                             return null;
+                          //                           },
+                          //                           decoration: InputDecoration(
+                          //                               label: Text(
+                          //                                   'inputBags'.tr()),
+                          //                               contentPadding:
+                          //                                   const Pad(
+                          //                                       top: 0,
+                          //                                       bottom: 0,
+                          //                                       left: 10),
+                          //                               border: OutlineInputBorder(
+                          //                                   borderRadius:
+                          //                                       BorderRadius
+                          //                                           .circular(
+                          //                                               10)),
+                          //                               enabledBorder:
+                          //                                   OutlineInputBorder(
+                          //                                       borderRadius:
+                          //                                           BorderRadius
+                          //                                               .circular(
+                          //                                                   10))),
+                          //                         ),
+                          //                         const SizedBox(
+                          //                           height: 10,
+                          //                         ),
+                          //                         TextFormField(
+                          //                           controller:
+                          //                               weightController,
+                          //                           keyboardType:
+                          //                               TextInputType.text,
+                          //                           validator: (value) {
+                          //                             if (value == null ||
+                          //                                 value.isEmpty) {
+                          //                               return 'enterRecevingBags'
+                          //                                   .tr();
+                          //                             }
+                          //                             return null;
+                          //                           },
+                          //                           decoration: InputDecoration(
+                          //                               label: Text(
+                          //                                   'enterRecevingBags'
+                          //                                       .tr()),
+                          //                               contentPadding:
+                          //                                   const Pad(
+                          //                                       top: 0,
+                          //                                       bottom: 0,
+                          //                                       left: 10),
+                          //                               border: OutlineInputBorder(
+                          //                                   borderRadius:
+                          //                                       BorderRadius
+                          //                                           .circular(
+                          //                                               10)),
+                          //                               enabledBorder:
+                          //                                   OutlineInputBorder(
+                          //                                       borderRadius:
+                          //                                           BorderRadius
+                          //                                               .circular(
+                          //                                                   10))),
+                          //                         ),
+                          //                         const SizedBox(
+                          //                           height: 10,
+                          //                         ),
+                          //                         TextFormField(
+                          //                           controller: paotiController,
+                          //                           keyboardType:
+                          //                               TextInputType.text,
+                          //                           decoration: InputDecoration(
+                          //                               label: Text(
+                          //                                   'enterPaotiNumber'
+                          //                                       .tr()),
+                          //                               contentPadding:
+                          //                                   const Pad(
+                          //                                       top: 0,
+                          //                                       bottom: 0,
+                          //                                       left: 10),
+                          //                               border: OutlineInputBorder(
+                          //                                   borderRadius:
+                          //                                       BorderRadius
+                          //                                           .circular(
+                          //                                               10)),
+                          //                               enabledBorder:
+                          //                                   OutlineInputBorder(
+                          //                                       borderRadius:
+                          //                                           BorderRadius
+                          //                                               .circular(
+                          //                                                   10))),
+                          //                         ),
+                          //                         const SizedBox(
+                          //                           height: 10,
+                          //                         ),
+                          //                         DottedBorder(
+                          //                             borderType:
+                          //                                 BorderType.RRect,
+                          //                             dashPattern: const [
+                          //                               5,
+                          //                               5,
+                          //                               5,
+                          //                               5
+                          //                             ],
+                          //                             color: ColorConstants
+                          //                                 .primaryColorDriver,
+                          //                             child: Padding(
+                          //                               padding:
+                          //                                   const Pad(all: 20),
+                          //                               child: Center(
+                          //                                 child: ref.watch(
+                          //                                             kantaImage) !=
+                          //                                         null
+                          //                                     ? Stack(
+                          //                                         children: [
+                          //                                           Image.file(ref.watch(
+                          //                                                   kantaImage) ??
+                          //                                               File(
+                          //                                                   '')),
+                          //                                           Container(
+                          //                                             decoration: BoxDecoration(
+                          //                                                 color: Colors.black.withOpacity(
+                          //                                                     0.6),
+                          //                                                 shape:
+                          //                                                     BoxShape.circle),
+                          //                                             child: IconButton(
+                          //                                                 onPressed: () {
+                          //                                                   ref.invalidate(kantaImage);
+                          //                                                 },
+                          //                                                 icon: const Icon(
+                          //                                                   Icons.close,
+                          //                                                   color:
+                          //                                                       Colors.white,
+                          //                                                 )),
+                          //                                           )
+                          //                                         ],
+                          //                                       )
+                          //                                     : InkWell(
+                          //                                         child: ColumnSuper(
+                          //                                             children: [
+                          //                                               const Icon(
+                          //                                                 Icons
+                          //                                                     .cloud_upload,
+                          //                                                 color:
+                          //                                                     ColorConstants.primaryColorDriver,
+                          //                                               ),
+                          //                                               const SizedBox(
+                          //                                                 height:
+                          //                                                     5,
+                          //                                               ),
+                          //                                               Text(
+                          //                                                 "selectKanta"
+                          //                                                     .tr(),
+                          //                                                 textAlign:
+                          //                                                     TextAlign.center,
+                          //                                                 style: TextStyle(
+                          //                                                     color: ColorConstants.primaryColorDriver,
+                          //                                                     fontWeight: FontWeight.bold,
+                          //                                                     fontSize: Adaptive.sp(16)),
+                          //                                               ),
+                          //                                               const SizedBox(
+                          //                                                 height:
+                          //                                                     5,
+                          //                                               ),
+                          //                                               Text(
+                          //                                                 "uploadDocumentImage"
+                          //                                                     .tr(),
+                          //                                                 textAlign:
+                          //                                                     TextAlign.center,
+                          //                                                 style: TextStyle(
+                          //                                                     color: ColorConstants.primaryColorDriver,
+                          //                                                     fontWeight: FontWeight.w700,
+                          //                                                     fontSize: Adaptive.sp(13)),
+                          //                                               )
+                          //                                             ]),
+                          //                                         onTap:
+                          //                                             () async {
+                          //                                           imagePicker
+                          //                                               .pickImage(
+                          //                                                   source: ImageSource
+                          //                                                       .camera)
+                          //                                               .then(
+                          //                                                   (file) {
+                          //                                             if (file !=
+                          //                                                 null) {
+                          //                                               ref.watch(kantaImage.notifier).state =
+                          //                                                   File(file.path);
+                          //                                             }
+                          //                                           });
+                          //                                         },
+                          //                                       ),
+                          //                               ),
+                          //                             )),
+                          //                         const SizedBox(
+                          //                           height: 10,
+                          //                         ),
+                          //                         DottedBorder(
+                          //                             borderType:
+                          //                                 BorderType.RRect,
+                          //                             dashPattern: const [
+                          //                               5,
+                          //                               5,
+                          //                               5,
+                          //                               5
+                          //                             ],
+                          //                             color: ColorConstants
+                          //                                 .primaryColorDriver,
+                          //                             child: Padding(
+                          //                               padding:
+                          //                                   const Pad(all: 20),
+                          //                               child: Center(
+                          //                                 child: ref.watch(
+                          //                                             qualityImage) !=
+                          //                                         null
+                          //                                     ? Stack(
+                          //                                         children: [
+                          //                                           Image.file(ref.watch(
+                          //                                                   qualityImage) ??
+                          //                                               File(
+                          //                                                   '')),
+                          //                                           Container(
+                          //                                             decoration: BoxDecoration(
+                          //                                                 color: Colors.black.withOpacity(
+                          //                                                     0.6),
+                          //                                                 shape:
+                          //                                                     BoxShape.circle),
+                          //                                             child: IconButton(
+                          //                                                 onPressed: () {
+                          //                                                   ref.invalidate(qualityImage);
+                          //                                                 },
+                          //                                                 icon: const Icon(
+                          //                                                   Icons.close,
+                          //                                                   color:
+                          //                                                       Colors.white,
+                          //                                                 )),
+                          //                                           )
+                          //                                         ],
+                          //                                       )
+                          //                                     : InkWell(
+                          //                                         child: ColumnSuper(
+                          //                                             children: [
+                          //                                               const Icon(
+                          //                                                 Icons
+                          //                                                     .cloud_upload,
+                          //                                                 color:
+                          //                                                     ColorConstants.primaryColorDriver,
+                          //                                               ),
+                          //                                               const SizedBox(
+                          //                                                 height:
+                          //                                                     5,
+                          //                                               ),
+                          //                                               Text(
+                          //                                                 "selectQualityImage"
+                          //                                                     .tr(),
+                          //                                                 textAlign:
+                          //                                                     TextAlign.center,
+                          //                                                 style: TextStyle(
+                          //                                                     color: ColorConstants.primaryColorDriver,
+                          //                                                     fontWeight: FontWeight.bold,
+                          //                                                     fontSize: Adaptive.sp(16)),
+                          //                                               ),
+                          //                                               const SizedBox(
+                          //                                                 height:
+                          //                                                     5,
+                          //                                               ),
+                          //                                               Text(
+                          //                                                 "uploadDocumentImage"
+                          //                                                     .tr(),
+                          //                                                 textAlign:
+                          //                                                     TextAlign.center,
+                          //                                                 style: TextStyle(
+                          //                                                     color: ColorConstants.primaryColorDriver,
+                          //                                                     fontWeight: FontWeight.w700,
+                          //                                                     fontSize: Adaptive.sp(13)),
+                          //                                               )
+                          //                                             ]),
+                          //                                         onTap:
+                          //                                             () async {
+                          //                                           imagePicker
+                          //                                               .pickImage(
+                          //                                                   source: ImageSource
+                          //                                                       .camera)
+                          //                                               .then(
+                          //                                                   (file) {
+                          //                                             if (file !=
+                          //                                                 null) {
+                          //                                               ref.watch(qualityImage.notifier).state =
+                          //                                                   File(file.path);
+                          //                                             }
+                          //                                           });
+                          //                                         },
+                          //                                       ),
+                          //                               ),
+                          //                             )),
+                          //                         DottedBorder(
+                          //                             borderType:
+                          //                                 BorderType.RRect,
+                          //                             dashPattern: const [
+                          //                               5,
+                          //                               5,
+                          //                               5,
+                          //                               5
+                          //                             ],
+                          //                             color: ColorConstants
+                          //                                 .primaryColorDriver,
+                          //                             child: Padding(
+                          //                               padding:
+                          //                                   const Pad(all: 20),
+                          //                               child: Center(
+                          //                                 child: ref.watch(
+                          //                                             paotiImage) !=
+                          //                                         null
+                          //                                     ? Stack(
+                          //                                         children: [
+                          //                                           Image.file(ref.watch(
+                          //                                                   paotiImage) ??
+                          //                                               File(
+                          //                                                   '')),
+                          //                                           Container(
+                          //                                             decoration: BoxDecoration(
+                          //                                                 color: Colors.black.withOpacity(
+                          //                                                     0.6),
+                          //                                                 shape:
+                          //                                                     BoxShape.circle),
+                          //                                             child: IconButton(
+                          //                                                 onPressed: () {
+                          //                                                   ref.invalidate(qualityImage);
+                          //                                                 },
+                          //                                                 icon: const Icon(
+                          //                                                   Icons.close,
+                          //                                                   color:
+                          //                                                       Colors.white,
+                          //                                                 )),
+                          //                                           )
+                          //                                         ],
+                          //                                       )
+                          //                                     : InkWell(
+                          //                                         child: ColumnSuper(
+                          //                                             children: [
+                          //                                               const Icon(
+                          //                                                 Icons
+                          //                                                     .cloud_upload,
+                          //                                                 color:
+                          //                                                     ColorConstants.primaryColorDriver,
+                          //                                               ),
+                          //                                               const SizedBox(
+                          //                                                 height:
+                          //                                                     5,
+                          //                                               ),
+                          //                                               Text(
+                          //                                                 "selectPaotiImage"
+                          //                                                     .tr(),
+                          //                                                 textAlign:
+                          //                                                     TextAlign.center,
+                          //                                                 style: TextStyle(
+                          //                                                     color: ColorConstants.primaryColorDriver,
+                          //                                                     fontWeight: FontWeight.bold,
+                          //                                                     fontSize: Adaptive.sp(16)),
+                          //                                               ),
+                          //                                               const SizedBox(
+                          //                                                 height:
+                          //                                                     5,
+                          //                                               ),
+                          //                                               Text(
+                          //                                                 "uploadDocumentImage"
+                          //                                                     .tr(),
+                          //                                                 textAlign:
+                          //                                                     TextAlign.center,
+                          //                                                 style: TextStyle(
+                          //                                                     color: ColorConstants.primaryColorDriver,
+                          //                                                     fontWeight: FontWeight.w700,
+                          //                                                     fontSize: Adaptive.sp(13)),
+                          //                                               )
+                          //                                             ]),
+                          //                                         onTap:
+                          //                                             () async {
+                          //                                           imagePicker
+                          //                                               .pickImage(
+                          //                                                   source: ImageSource
+                          //                                                       .camera)
+                          //                                               .then(
+                          //                                                   (file) {
+                          //                                             if (file !=
+                          //                                                 null) {
+                          //                                               ref.watch(paotiImage.notifier).state =
+                          //                                                   File(file.path);
+                          //                                             }
+                          //                                           });
+                          //                                         },
+                          //                                       ),
+                          //                               ),
+                          //                             )),
+                          //                         AnimatedButton(
+                          //                           height: 35,
+                          //                           color: ColorConstants
+                          //                               .primaryColorDriver,
+                          //                           width:
+                          //                               MediaQuery.of(context)
+                          //                                       .size
+                          //                                       .width /
+                          //                                   1.2,
+                          //                           isOutline: true,
+                          //                           isMultiColor: true,
+                          //                           colors: [
+                          //                             ColorConstants
+                          //                                 .primaryColorDriver,
+                          //                             ColorConstants
+                          //                                 .primaryColorDriver,
+                          //                           ],
+                          //                           borderWidth: 1,
+                          //                           child: Text(
+                          //                             "submit".tr(),
+                          //                           ),
+                          //                           onTap: () async {
+                          //                             if (form.currentState!
+                          //                                 .validate()) {
+                          //                               if (ref.watch(
+                          //                                       kantaImage) ==
+                          //                                   null) {
+                          //                                 errorToast(
+                          //                                     context,
+                          //                                     "selectKanta"
+                          //                                         .tr());
+                          //                               }
+                          //                               if (ref.watch(
+                          //                                       qualityImage) ==
+                          //                                   null) {
+                          //                                 errorToast(
+                          //                                     context,
+                          //                                     'selectQualityImage'
+                          //                                         .tr());
+                          //                               } else {
+                          //                                 hideLoader(context);
+                          //
+                          //                                 final bytes = File(ref
+                          //                                             .watch(
+                          //                                                 kantaImage)
+                          //                                             ?.path ??
+                          //                                         "")
+                          //                                     .readAsBytesSync();
+                          //                                 String img64 =
+                          //                                     base64Encode(
+                          //                                         bytes);
+                          //
+                          //                                 final bytes2 = File(ref
+                          //                                             .watch(
+                          //                                                 qualityImage)
+                          //                                             ?.path ??
+                          //                                         "")
+                          //                                     .readAsBytesSync();
+                          //                                 String img642 =
+                          //                                     base64Encode(
+                          //                                         bytes2);
+                          //                                 ref
+                          //                                     .watch(endTripProvider(
+                          //                                             tripRequestId:
+                          //                                                 '${dataList?.id ?? 0}',
+                          //                                             kantaWeight:
+                          //                                                 '${weightController.text.toString()}',
+                          //                                             bags:
+                          //                                                 "${bagsController.text.toString()}",
+                          //                                             kantaImage:
+                          //                                                 img64,
+                          //                                             qualityImage:
+                          //                                                 img642,
+                          //                                             paotiImage:
+                          //                                                 base64Encode(File(ref.watch(paotiImage)?.path ?? "")
+                          //                                                     .readAsBytesSync()),
+                          //                                             paotiNumber:
+                          //                                                 paotiController
+                          //                                                     .text)
+                          //                                         .future)
+                          //                                     .then((value) {
+                          //                                   hideLoader(context);
+                          //                                   if (value['status']
+                          //                                           .toString() ==
+                          //                                       "1") {
+                          //                                     successToast(
+                          //                                         context,
+                          //                                         value[
+                          //                                             'message']);
+                          //                                     ref.invalidate(
+                          //                                         tripsProvider);
+                          //                                     ref.invalidate(
+                          //                                         kantaImage);
+                          //                                     ref.invalidate(
+                          //                                         qualityImage);
+                          //                                     bagsController
+                          //                                         .clear();
+                          //                                     weightController
+                          //                                         .clear();
+                          //                                     ref
+                          //                                         .watch(
+                          //                                             goRouterProvider)
+                          //                                         .pop(context);
+                          //                                   } else {
+                          //                                     errorToast(
+                          //                                         context,
+                          //                                         value[
+                          //                                             'message']);
+                          //                                   }
+                          //                                 }).onError((e, s) {
+                          //                                   hideLoader(context);
+                          //
+                          //                                   errorToast(context,
+                          //                                       e.toString());
+                          //                                 });
+                          //                               }
+                          //                             }
+                          //                           },
+                          //                         )
+                          //                       ],
+                          //                     )),
+                          //               ))));
+                          // } catch (e, s) {
+                          //   print(s);
+                          // }
+                          ref.watch(goRouterProvider).goNamed(
+                              RoutesStrings.paotiEndTrip,
+                              extra: dataList);
                         },
                         child: Text(
                           "tripEnd".tr(),
@@ -2438,7 +2472,8 @@ class _DashboardState extends ConsumerState<Dashboard> {
                       )
                 : dataList?.weight != null && dataList?.tripStart == null
                     ? (dataList?.paymentTo.toString() == "1" &&
-                            dataList?.tripStart != null)
+                            dataList?.tripStart != null &&
+                            dataList?.tripEnd == null)
                         ? AnimatedButton(
                             height: 35,
                             color: ColorConstants.primaryColorDriver,
@@ -2451,369 +2486,372 @@ class _DashboardState extends ConsumerState<Dashboard> {
                             ],
                             borderWidth: 1,
                             onTap: () async {
-                              try {
-                                showBarModalBottomSheet(
-                                    context: context,
-                                    builder: (context) => Consumer(
-                                        builder:
-                                            (context, ref, child) => SafeArea(
-                                                    child: Padding(
-                                                  padding: const Pad(all: 10),
-                                                  child: Form(
-                                                      key: form,
-                                                      child: ListView(
-                                                        children: [
-                                                          TextFormField(
-                                                            controller:
-                                                                bagsController,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                            validator: (value) {
-                                                              if (value ==
-                                                                      null ||
-                                                                  value
-                                                                      .isEmpty) {
-                                                                return 'inputBags'
-                                                                    .tr();
-                                                              }
-                                                              return null;
-                                                            },
-                                                            decoration: InputDecoration(
-                                                                label: Text(
-                                                                    'inputBags'
-                                                                        .tr()),
-                                                                contentPadding:
-                                                                    const Pad(
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0,
-                                                                        left:
-                                                                            10),
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10)),
-                                                                enabledBorder:
-                                                                    OutlineInputBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10))),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          TextFormField(
-                                                            controller:
-                                                                weightController,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                            validator: (value) {
-                                                              if (value ==
-                                                                      null ||
-                                                                  value
-                                                                      .isEmpty) {
-                                                                return 'enterRecevingBags'
-                                                                    .tr();
-                                                              }
-                                                              return null;
-                                                            },
-                                                            decoration: InputDecoration(
-                                                                label: Text(
-                                                                    'enterRecevingBags'
-                                                                        .tr()),
-                                                                contentPadding:
-                                                                    const Pad(
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0,
-                                                                        left:
-                                                                            10),
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10)),
-                                                                enabledBorder: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10))),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          DottedBorder(
-                                                              borderType:
-                                                                  BorderType
-                                                                      .RRect,
-                                                              dashPattern: const [
-                                                                5,
-                                                                5,
-                                                                5,
-                                                                5
-                                                              ],
-                                                              color: ColorConstants
-                                                                  .primaryColorDriver,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const Pad(
-                                                                        all:
-                                                                            20),
-                                                                child: Center(
-                                                                  child: ref.watch(
-                                                                              kantaImage) !=
-                                                                          null
-                                                                      ? Stack(
-                                                                          children: [
-                                                                            Image.file(ref.watch(kantaImage) ??
-                                                                                File('')),
-                                                                            Container(
-                                                                              decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
-                                                                              child: IconButton(
-                                                                                  onPressed: () {
-                                                                                    ref.invalidate(kantaImage);
-                                                                                  },
-                                                                                  icon: const Icon(
-                                                                                    Icons.close,
-                                                                                    color: Colors.white,
-                                                                                  )),
-                                                                            )
-                                                                          ],
-                                                                        )
-                                                                      : InkWell(
-                                                                          child:
-                                                                              ColumnSuper(children: [
-                                                                            const Icon(
-                                                                              Icons.cloud_upload,
-                                                                              color: ColorConstants.primaryColorDriver,
-                                                                            ),
-                                                                            const SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                            Text(
-                                                                              "selectKanta".tr(),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
-                                                                            ),
-                                                                            const SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                            Text(
-                                                                              "uploadDocumentImage".tr(),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
-                                                                            )
-                                                                          ]),
-                                                                          onTap:
-                                                                              () async {
-                                                                            imagePicker.pickImage(source: ImageSource.camera).then((file) {
-                                                                              if (file != null) {
-                                                                                ref.watch(kantaImage.notifier).state = File(file.path);
-                                                                              }
-                                                                            });
-                                                                          },
-                                                                        ),
-                                                                ),
-                                                              )),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          DottedBorder(
-                                                              borderType:
-                                                                  BorderType
-                                                                      .RRect,
-                                                              dashPattern: const [
-                                                                5,
-                                                                5,
-                                                                5,
-                                                                5
-                                                              ],
-                                                              color: ColorConstants
-                                                                  .primaryColorDriver,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const Pad(
-                                                                        all:
-                                                                            20),
-                                                                child: Center(
-                                                                  child: ref.watch(
-                                                                              qualityImage) !=
-                                                                          null
-                                                                      ? Stack(
-                                                                          children: [
-                                                                            Image.file(ref.watch(qualityImage) ??
-                                                                                File('')),
-                                                                            Container(
-                                                                              decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
-                                                                              child: IconButton(
-                                                                                  onPressed: () {
-                                                                                    ref.invalidate(qualityImage);
-                                                                                  },
-                                                                                  icon: const Icon(
-                                                                                    Icons.close,
-                                                                                    color: Colors.white,
-                                                                                  )),
-                                                                            )
-                                                                          ],
-                                                                        )
-                                                                      : InkWell(
-                                                                          child:
-                                                                              ColumnSuper(children: [
-                                                                            const Icon(
-                                                                              Icons.cloud_upload,
-                                                                              color: ColorConstants.primaryColorDriver,
-                                                                            ),
-                                                                            const SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                            Text(
-                                                                              "selectQualityImage".tr(),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
-                                                                            ),
-                                                                            const SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                            Text(
-                                                                              "uploadDocumentImage".tr(),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
-                                                                            )
-                                                                          ]),
-                                                                          onTap:
-                                                                              () async {
-                                                                            imagePicker.pickImage(source: ImageSource.camera).then((file) {
-                                                                              if (file != null) {
-                                                                                ref.watch(qualityImage.notifier).state = File(file.path);
-                                                                              }
-                                                                            });
-                                                                          },
-                                                                        ),
-                                                                ),
-                                                              )),
-                                                          AnimatedButton(
-                                                            height: 35,
-                                                            color: ColorConstants
-                                                                .primaryColorDriver,
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                1.2,
-                                                            isOutline: true,
-                                                            isMultiColor: true,
-                                                            colors: [
-                                                              ColorConstants
-                                                                  .primaryColorDriver,
-                                                              ColorConstants
-                                                                  .primaryColorDriver,
-                                                            ],
-                                                            borderWidth: 1,
-                                                            child: Text(
-                                                              "submit".tr(),
-                                                            ),
-                                                            onTap: () async {
-                                                              if (form
-                                                                  .currentState!
-                                                                  .validate()) {
-                                                                if (ref.watch(
-                                                                        kantaImage) ==
-                                                                    null) {
-                                                                  errorToast(
-                                                                      context,
-                                                                      "selectKanta"
-                                                                          .tr());
-                                                                }
-                                                                if (ref.watch(
-                                                                        qualityImage) ==
-                                                                    null) {
-                                                                  errorToast(
-                                                                      context,
-                                                                      'selectQualityImage'
-                                                                          .tr());
-                                                                } else {
-                                                                  hideLoader(
-                                                                      context);
-
-                                                                  final bytes = File(
-                                                                          ref.watch(kantaImage)?.path ??
-                                                                              "")
-                                                                      .readAsBytesSync();
-                                                                  String img64 =
-                                                                      base64Encode(
-                                                                          bytes);
-
-                                                                  final bytes2 =
-                                                                      File(ref.watch(qualityImage)?.path ??
-                                                                              "")
-                                                                          .readAsBytesSync();
-                                                                  String
-                                                                      img642 =
-                                                                      base64Encode(
-                                                                          bytes2);
-                                                                  ref
-                                                                      .watch(endTripProvider(
-                                                                              tripRequestId:
-                                                                                  '${dataList?.id ?? 0}',
-                                                                              kantaWeight:
-                                                                                  '${weightController.text.toString()}',
-                                                                              bags:
-                                                                                  "${bagsController.text.toString()}",
-                                                                              kantaImage:
-                                                                                  img64,
-                                                                              qualityImage:
-                                                                                  img642)
-                                                                          .future)
-                                                                      .then(
-                                                                          (value) {
-                                                                    hideLoader(
-                                                                        context);
-                                                                    if (value['status']
-                                                                            .toString() ==
-                                                                        "1") {
-                                                                      successToast(
-                                                                          context,
-                                                                          value[
-                                                                              'message']);
-                                                                      ref.invalidate(
-                                                                          tripsProvider);
-                                                                      ref.invalidate(
-                                                                          kantaImage);
-                                                                      ref.invalidate(
-                                                                          qualityImage);
-                                                                      bagsController
-                                                                          .clear();
-                                                                      weightController
-                                                                          .clear();
-                                                                      ref
-                                                                          .watch(
-                                                                              goRouterProvider)
-                                                                          .pop(
-                                                                              context);
-                                                                    } else {
-                                                                      errorToast(
-                                                                          context,
-                                                                          value[
-                                                                              'message']);
-                                                                    }
-                                                                  }).onError((e,
-                                                                          s) {
-                                                                    hideLoader(
-                                                                        context);
-
-                                                                    errorToast(
-                                                                        context,
-                                                                        e.toString());
-                                                                  });
-                                                                }
-                                                              }
-                                                            },
-                                                          )
-                                                        ],
-                                                      )),
-                                                ))));
-                              } catch (e, s) {
-                                print(s);
-                              }
+                              ref.watch(goRouterProvider).goNamed(
+                                  RoutesStrings.paotiEndTrip,
+                                  extra: dataList);
+                              // try {
+                              //   showBarModalBottomSheet(
+                              //       context: context,
+                              //       builder: (context) => Consumer(
+                              //           builder:
+                              //               (context, ref, child) => SafeArea(
+                              //                       child: Padding(
+                              //                     padding: const Pad(all: 10),
+                              //                     child: Form(
+                              //                         key: form,
+                              //                         child: ListView(
+                              //                           children: [
+                              //                             TextFormField(
+                              //                               controller:
+                              //                                   bagsController,
+                              //                               keyboardType:
+                              //                                   TextInputType
+                              //                                       .text,
+                              //                               validator: (value) {
+                              //                                 if (value ==
+                              //                                         null ||
+                              //                                     value
+                              //                                         .isEmpty) {
+                              //                                   return 'inputBags'
+                              //                                       .tr();
+                              //                                 }
+                              //                                 return null;
+                              //                               },
+                              //                               decoration: InputDecoration(
+                              //                                   label: Text(
+                              //                                       'inputBags'
+                              //                                           .tr()),
+                              //                                   contentPadding:
+                              //                                       const Pad(
+                              //                                           top: 0,
+                              //                                           bottom:
+                              //                                               0,
+                              //                                           left:
+                              //                                               10),
+                              //                                   border: OutlineInputBorder(
+                              //                                       borderRadius:
+                              //                                           BorderRadius.circular(
+                              //                                               10)),
+                              //                                   enabledBorder:
+                              //                                       OutlineInputBorder(
+                              //                                           borderRadius:
+                              //                                               BorderRadius.circular(10))),
+                              //                             ),
+                              //                             const SizedBox(
+                              //                               height: 10,
+                              //                             ),
+                              //                             TextFormField(
+                              //                               controller:
+                              //                                   weightController,
+                              //                               keyboardType:
+                              //                                   TextInputType
+                              //                                       .text,
+                              //                               validator: (value) {
+                              //                                 if (value ==
+                              //                                         null ||
+                              //                                     value
+                              //                                         .isEmpty) {
+                              //                                   return 'enterRecevingBags'
+                              //                                       .tr();
+                              //                                 }
+                              //                                 return null;
+                              //                               },
+                              //                               decoration: InputDecoration(
+                              //                                   label: Text(
+                              //                                       'enterRecevingBags'
+                              //                                           .tr()),
+                              //                                   contentPadding:
+                              //                                       const Pad(
+                              //                                           top: 0,
+                              //                                           bottom:
+                              //                                               0,
+                              //                                           left:
+                              //                                               10),
+                              //                                   border: OutlineInputBorder(
+                              //                                       borderRadius:
+                              //                                           BorderRadius.circular(
+                              //                                               10)),
+                              //                                   enabledBorder: OutlineInputBorder(
+                              //                                       borderRadius:
+                              //                                           BorderRadius.circular(
+                              //                                               10))),
+                              //                             ),
+                              //                             const SizedBox(
+                              //                               height: 10,
+                              //                             ),
+                              //                             DottedBorder(
+                              //                                 borderType:
+                              //                                     BorderType
+                              //                                         .RRect,
+                              //                                 dashPattern: const [
+                              //                                   5,
+                              //                                   5,
+                              //                                   5,
+                              //                                   5
+                              //                                 ],
+                              //                                 color: ColorConstants
+                              //                                     .primaryColorDriver,
+                              //                                 child: Padding(
+                              //                                   padding:
+                              //                                       const Pad(
+                              //                                           all:
+                              //                                               20),
+                              //                                   child: Center(
+                              //                                     child: ref.watch(
+                              //                                                 kantaImage) !=
+                              //                                             null
+                              //                                         ? Stack(
+                              //                                             children: [
+                              //                                               Image.file(ref.watch(kantaImage) ??
+                              //                                                   File('')),
+                              //                                               Container(
+                              //                                                 decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
+                              //                                                 child: IconButton(
+                              //                                                     onPressed: () {
+                              //                                                       ref.invalidate(kantaImage);
+                              //                                                     },
+                              //                                                     icon: const Icon(
+                              //                                                       Icons.close,
+                              //                                                       color: Colors.white,
+                              //                                                     )),
+                              //                                               )
+                              //                                             ],
+                              //                                           )
+                              //                                         : InkWell(
+                              //                                             child:
+                              //                                                 ColumnSuper(children: [
+                              //                                               const Icon(
+                              //                                                 Icons.cloud_upload,
+                              //                                                 color: ColorConstants.primaryColorDriver,
+                              //                                               ),
+                              //                                               const SizedBox(
+                              //                                                 height: 5,
+                              //                                               ),
+                              //                                               Text(
+                              //                                                 "selectKanta".tr(),
+                              //                                                 textAlign: TextAlign.center,
+                              //                                                 style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
+                              //                                               ),
+                              //                                               const SizedBox(
+                              //                                                 height: 5,
+                              //                                               ),
+                              //                                               Text(
+                              //                                                 "uploadDocumentImage".tr(),
+                              //                                                 textAlign: TextAlign.center,
+                              //                                                 style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
+                              //                                               )
+                              //                                             ]),
+                              //                                             onTap:
+                              //                                                 () async {
+                              //                                               imagePicker.pickImage(source: ImageSource.camera).then((file) {
+                              //                                                 if (file != null) {
+                              //                                                   ref.watch(kantaImage.notifier).state = File(file.path);
+                              //                                                 }
+                              //                                               });
+                              //                                             },
+                              //                                           ),
+                              //                                   ),
+                              //                                 )),
+                              //                             const SizedBox(
+                              //                               height: 10,
+                              //                             ),
+                              //                             DottedBorder(
+                              //                                 borderType:
+                              //                                     BorderType
+                              //                                         .RRect,
+                              //                                 dashPattern: const [
+                              //                                   5,
+                              //                                   5,
+                              //                                   5,
+                              //                                   5
+                              //                                 ],
+                              //                                 color: ColorConstants
+                              //                                     .primaryColorDriver,
+                              //                                 child: Padding(
+                              //                                   padding:
+                              //                                       const Pad(
+                              //                                           all:
+                              //                                               20),
+                              //                                   child: Center(
+                              //                                     child: ref.watch(
+                              //                                                 qualityImage) !=
+                              //                                             null
+                              //                                         ? Stack(
+                              //                                             children: [
+                              //                                               Image.file(ref.watch(qualityImage) ??
+                              //                                                   File('')),
+                              //                                               Container(
+                              //                                                 decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), shape: BoxShape.circle),
+                              //                                                 child: IconButton(
+                              //                                                     onPressed: () {
+                              //                                                       ref.invalidate(qualityImage);
+                              //                                                     },
+                              //                                                     icon: const Icon(
+                              //                                                       Icons.close,
+                              //                                                       color: Colors.white,
+                              //                                                     )),
+                              //                                               )
+                              //                                             ],
+                              //                                           )
+                              //                                         : InkWell(
+                              //                                             child:
+                              //                                                 ColumnSuper(children: [
+                              //                                               const Icon(
+                              //                                                 Icons.cloud_upload,
+                              //                                                 color: ColorConstants.primaryColorDriver,
+                              //                                               ),
+                              //                                               const SizedBox(
+                              //                                                 height: 5,
+                              //                                               ),
+                              //                                               Text(
+                              //                                                 "selectQualityImage".tr(),
+                              //                                                 textAlign: TextAlign.center,
+                              //                                                 style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.bold, fontSize: Adaptive.sp(16)),
+                              //                                               ),
+                              //                                               const SizedBox(
+                              //                                                 height: 5,
+                              //                                               ),
+                              //                                               Text(
+                              //                                                 "uploadDocumentImage".tr(),
+                              //                                                 textAlign: TextAlign.center,
+                              //                                                 style: TextStyle(color: ColorConstants.primaryColorDriver, fontWeight: FontWeight.w700, fontSize: Adaptive.sp(13)),
+                              //                                               )
+                              //                                             ]),
+                              //                                             onTap:
+                              //                                                 () async {
+                              //                                               imagePicker.pickImage(source: ImageSource.camera).then((file) {
+                              //                                                 if (file != null) {
+                              //                                                   ref.watch(qualityImage.notifier).state = File(file.path);
+                              //                                                 }
+                              //                                               });
+                              //                                             },
+                              //                                           ),
+                              //                                   ),
+                              //                                 )),
+                              //                             AnimatedButton(
+                              //                               height: 35,
+                              //                               color: ColorConstants
+                              //                                   .primaryColorDriver,
+                              //                               width: MediaQuery.of(
+                              //                                           context)
+                              //                                       .size
+                              //                                       .width /
+                              //                                   1.2,
+                              //                               isOutline: true,
+                              //                               isMultiColor: true,
+                              //                               colors: [
+                              //                                 ColorConstants
+                              //                                     .primaryColorDriver,
+                              //                                 ColorConstants
+                              //                                     .primaryColorDriver,
+                              //                               ],
+                              //                               borderWidth: 1,
+                              //                               child: Text(
+                              //                                 "submit".tr(),
+                              //                               ),
+                              //                               onTap: () async {
+                              //                                 if (form
+                              //                                     .currentState!
+                              //                                     .validate()) {
+                              //                                   if (ref.watch(
+                              //                                           kantaImage) ==
+                              //                                       null) {
+                              //                                     errorToast(
+                              //                                         context,
+                              //                                         "selectKanta"
+                              //                                             .tr());
+                              //                                   }
+                              //                                   if (ref.watch(
+                              //                                           qualityImage) ==
+                              //                                       null) {
+                              //                                     errorToast(
+                              //                                         context,
+                              //                                         'selectQualityImage'
+                              //                                             .tr());
+                              //                                   } else {
+                              //                                     hideLoader(
+                              //                                         context);
+                              //
+                              //                                     final bytes = File(
+                              //                                             ref.watch(kantaImage)?.path ??
+                              //                                                 "")
+                              //                                         .readAsBytesSync();
+                              //                                     String img64 =
+                              //                                         base64Encode(
+                              //                                             bytes);
+                              //
+                              //                                     final bytes2 =
+                              //                                         File(ref.watch(qualityImage)?.path ??
+                              //                                                 "")
+                              //                                             .readAsBytesSync();
+                              //                                     String
+                              //                                         img642 =
+                              //                                         base64Encode(
+                              //                                             bytes2);
+                              //                                     ref
+                              //                                         .watch(endTripProvider(
+                              //                                                 tripRequestId:
+                              //                                                     '${dataList?.id ?? 0}',
+                              //                                                 kantaWeight:
+                              //                                                     '${weightController.text.toString()}',
+                              //                                                 bags:
+                              //                                                     "${bagsController.text.toString()}",
+                              //                                                 kantaImage:
+                              //                                                     img64,
+                              //                                                 qualityImage:
+                              //                                                     img642)
+                              //                                             .future)
+                              //                                         .then(
+                              //                                             (value) {
+                              //                                       hideLoader(
+                              //                                           context);
+                              //                                       if (value['status']
+                              //                                               .toString() ==
+                              //                                           "1") {
+                              //                                         successToast(
+                              //                                             context,
+                              //                                             value[
+                              //                                                 'message']);
+                              //                                         ref.invalidate(
+                              //                                             tripsProvider);
+                              //                                         ref.invalidate(
+                              //                                             kantaImage);
+                              //                                         ref.invalidate(
+                              //                                             qualityImage);
+                              //                                         bagsController
+                              //                                             .clear();
+                              //                                         weightController
+                              //                                             .clear();
+                              //                                         ref
+                              //                                             .watch(
+                              //                                                 goRouterProvider)
+                              //                                             .pop(
+                              //                                                 context);
+                              //                                       } else {
+                              //                                         errorToast(
+                              //                                             context,
+                              //                                             value[
+                              //                                                 'message']);
+                              //                                       }
+                              //                                     }).onError((e,
+                              //                                             s) {
+                              //                                       hideLoader(
+                              //                                           context);
+                              //
+                              //                                       errorToast(
+                              //                                           context,
+                              //                                           e.toString());
+                              //                                     });
+                              //                                   }
+                              //                                 }
+                              //                               },
+                              //                             )
+                              //                           ],
+                              //                         )),
+                              //                   ))));
+                              // } catch (e, s) {
+                              //   print(s);
+                              // }
                             },
                             child: Text(
                               "tripEnd".tr(),

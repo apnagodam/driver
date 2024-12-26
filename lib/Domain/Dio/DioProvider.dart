@@ -9,15 +9,15 @@ part 'DioProvider.g.dart';
 @riverpod
 Dio dio(DioRef ref) {
   return Dio(BaseOptions(
-      baseUrl: ApiClient.testBaseUrl,
+      baseUrl: ApiClient.baseUrl,
       headers: {
         "Authorization": "${ref.watch(sharedUtilityProvider).getToken()}",
       },
       connectTimeout: const Duration(minutes: 45),
       receiveTimeout: const Duration(minutes: 45),
       sendTimeout: const Duration(minutes: 45)))
-      ..interceptors.add(DioInterceptor(ref))
-      ..interceptors.add(LogInterceptor(
+    ..interceptors.add(DioInterceptor(ref))
+    ..interceptors.add(LogInterceptor(
       requestBody: true,
       requestHeader: true,
       responseHeader: true,
@@ -91,5 +91,5 @@ trip api
   static const getTrips = 'driver_trip_request';
   static const getTripsHistory = 'trip_history';
   static const biltyPdfData = 'bilty_data';
-  static const tripEnd = 'driver_trip_request_update';
+  static const tripEnd = 'v1_driver_trip_request_update';
 }

@@ -72,6 +72,8 @@ dependencies:
   one_context: ^4.0.0
   easy_localization: ^3.0.7
   data_table_2: 2.5.15
+  searchable_listview: ^2.16.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

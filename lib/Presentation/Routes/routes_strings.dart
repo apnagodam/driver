@@ -7,8 +7,9 @@ class RoutesStrings {
   static const tripsHistory = 'tripsHistory';
   static const tripsInProcess = 'tripsInProcess';
   static const applyForLoan = 'applyForLoan';
-  static  const paotiEndTrip  = 'paotiEndTrip';
-
+  static const paotiEndTrip = 'paotiEndTrip';
+  static const startTrips = 'startTrips';
+  static const endTrips ='endTrips';
   static const profile = 'profile';
   static const sanctionedAmount = 'sanctionedAmount';
   static const addMoney = 'addMoney';

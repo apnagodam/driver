@@ -38,7 +38,8 @@ Future<Map<String, dynamic>> endTrip(EndTripRef ref,
     String? kantaImage,
     String? qualityImage,
     String? paotiImage,
-    String? paotiNumber}) async {
+    String? paotiNumber,
+    int? tripStatus}) async {
   var response = await ref.watch(dioProvider).post(ApiClient.tripEnd, data: {
     'trip_request_id': tripRequestId,
     'kanta_weight': kantaWeight,
@@ -46,7 +47,8 @@ Future<Map<String, dynamic>> endTrip(EndTripRef ref,
     'kanta_img': kantaImage,
     'quality_img': qualityImage,
     'paoti_image': paotiImage,
-    'paoti_number': paotiNumber
+    'paoti_number': paotiNumber,
+    "trip_status": tripStatus
   });
   return response.data;
 }
