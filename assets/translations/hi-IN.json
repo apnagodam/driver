@@ -39,7 +39,7 @@
   "commodity": "माल",
   "finalWeight": "अंतिम वजन (क्विंटल)",
   "finalNoOfBags": "बैगों की अंतिम संख्या",
-  "receivingWeight": "प्राप्त वजन (क्यूटीएल)",
+  "receivingWeight": "प्राप्त वजन (KG)",
   "receivingBags": "रिसीविंग बैग",
   "biltyImage": "बिल्टी छवि",
   "tripComplete": "यात्रा पूर्ण",
@@ -69,9 +69,7 @@
   "tripStatus": "यात्रा स्थिति",
   "selectTripStatus": "यात्रा स्थिति चुनें",
   "totalBags": "कुल बैग",
-  "receivingWeight": "प्राप्त वजन"
-
-
-
+  "profile": "प्रोफ़ाइल",
+  "otherDetails": "अन्य विवरण"
 
 }

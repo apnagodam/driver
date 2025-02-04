@@ -512,7 +512,7 @@ class _PaotiendtripState extends ConsumerState<Paotiendtrip> {
                             tripRequestId:
                             '${widget.dataList?.id ?? 0}',
                             kantaWeight:
-                            '${num.parse(weightController.text.toString())*100}',
+                            '${num.parse(weightController.text.toString())}',
                             bags: "${bagsController.text.toString()}",
                             kantaImage: img64,
                             qualityImage: img642,

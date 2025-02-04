@@ -9,7 +9,7 @@ part 'DioProvider.g.dart';
 @riverpod
 Dio dio(DioRef ref) {
   return Dio(BaseOptions(
-      baseUrl: ApiClient.baseUrl,
+      baseUrl: ApiClient.testBaseUrl,
       headers: {
         "Authorization": "${ref.watch(sharedUtilityProvider).getToken()}",
       },

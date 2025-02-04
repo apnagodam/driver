@@ -73,6 +73,8 @@ dependencies:
   easy_localization: ^3.0.7
   data_table_2: 2.5.15
   searchable_listview: ^2.16.0
+  flutter_svg: ^2.0.16
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:

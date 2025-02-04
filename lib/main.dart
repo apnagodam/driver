@@ -52,7 +52,6 @@ class MyApp extends ConsumerWidget {
       locale: context.locale,
       debugShowCheckedModeBanner: false,
       routerConfig: ref.watch(goRouterProvider),
-      title: 'driver'.tr(),
       theme:ThemeData(
         fontFamily: GoogleFonts.roboto().fontFamily,
         colorScheme: ColorScheme.fromSeed(

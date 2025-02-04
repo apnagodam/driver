@@ -9,10 +9,10 @@ LoginResponseModel loginResponseModelFromMap(String str) => LoginResponseModel.f
 String loginResponseModelToMap(LoginResponseModel data) => json.encode(data.toMap());
 
 class LoginResponseModel {
-  String? authorization;
+  dynamic authorization;
   UserDetails? userDetails;
-  int? status;
-  String? message;
+  dynamic status;
+  dynamic message;
 
   LoginResponseModel({
     this.authorization,
@@ -37,37 +37,37 @@ class LoginResponseModel {
 }
 
 class UserDetails {
-  int? id;
-  int? userId;
-  String? name;
+  dynamic id;
+  dynamic userId;
+  dynamic name;
   dynamic email;
-  String? phone;
-  int? wallet;
-  String? address;
-  String? city;
-  String? state;
-  int? pincode;
-  String? bankName;
-  String? bankBranch;
-  String? accountNo;
-  String? ifscCode;
-  String? license;
-  String? licenseImage;
-  String? chequePassbook;
-  String? pancardImage;
-  String? aadharImage;
-  String? aadharBackImage;
-  String? pancardNo;
-  String? aadharNo;
-  int? approve;
-  int? approveBy;
-  String? image;
-  int? verify;
-  int? verifyBy;
-  int? empId;
-  int? status;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  dynamic phone;
+  dynamic wallet;
+  dynamic address;
+  dynamic city;
+  dynamic state;
+  dynamic pincode;
+  dynamic bankName;
+  dynamic bankBranch;
+  dynamic accountNo;
+  dynamic ifscCode;
+  dynamic license;
+  dynamic licenseImage;
+  dynamic chequePassbook;
+  dynamic pancardImage;
+  dynamic aadharImage;
+  dynamic aadharBackImage;
+  dynamic pancardNo;
+  dynamic aadharNo;
+  dynamic approve;
+  dynamic approveBy;
+  dynamic image;
+  dynamic verify;
+  dynamic verifyBy;
+  dynamic empId;
+  dynamic status;
+  dynamic createdAt;
+  dynamic updatedAt;
 
   UserDetails({
     this.id,

@@ -4,6 +4,7 @@ import 'package:apnagodam_driver/Data/Model/DriverResponseModel.dart';
 import 'package:apnagodam_driver/Domain/Trip/TripService.dart';
 import 'package:apnagodam_driver/Presentation/Routes/routes.dart';
 import 'package:apnagodam_driver/Presentation/Utils/Preferences/SharedPrefs/SharedUtility.dart';
+import 'package:apnagodam_driver/Presentation/Utils/Widgets/Widgets.dart';
 import 'package:apnagodam_driver/Presentation/Utils/color_constants.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:button_animations/button_animations.dart';
@@ -53,27 +54,29 @@ class _DashboardState extends ConsumerState<Dashboard> {
                     SizedBox(
                       height: 10,
                     ),
-                    CircleAvatar(
-                      foregroundImage: NetworkImage(
-                          ref.watch(sharedUtilityProvider).getUser()?.image ??
-                              ""),
-                      radius: 50,
-                    ),
+                    roundedProfileImage(imageUrl:  ref.watch(sharedUtilityProvider).getUser()?.image ??
+                        ""),
+
                     CupertinoActionSheetAction(
                         onPressed: () {
                           context.goNamed(RoutesStrings.profile);
                         },
-                        child: RowSuper(
-                          alignment: Alignment.centerLeft,
+                        child: ColumnSuper(
+                          alignment: Alignment.center,
                           children: [
-                            SizedBox(
-                              width: 10,
-                            ),
+
                             Text(
                               '${ref.watch(sharedUtilityProvider).getUser()?.name ?? ""}',
                               style: TextStyle(
                                   fontSize: Adaptive.sp(16),
                                   color: Colors.black,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            Text(
+                              '+91-${ref.watch(sharedUtilityProvider).getUser()?.phone ?? ""}',
+                              style: TextStyle(
+                                  fontSize: Adaptive.sp(15),
+                                  color: Colors.grey,
                                   fontWeight: FontWeight.w700),
                             )
                           ],
@@ -286,22 +289,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
             //   ],
             // ),
 
-            CupertinoActionSheet(
-              actions: [
-                CupertinoActionSheetAction(
-                    onPressed: () async {
-                      ref.watch(sharedPreferencesProvider).clear();
-                      context.go(RoutesStrings.login);
-                    },
-                    child: Text(
-                      'logout'.tr(),
-                      style: TextStyle(
-                          fontSize: Adaptive.sp(16),
-                          color: Colors.red,
-                          fontWeight: FontWeight.w700),
-                    )),
-              ],
-            )
+
           ],
         ),
       ),

@@ -39,7 +39,7 @@
   "commodity": "Commodity",
   "finalWeight": "Final Weight(Qtl.)",
   "finalNoOfBags": "Final No of Bags",
-  "receivingWeight": "Receiving Weight(Qtl.)",
+  "receivingWeight": "Receiving Weight(KG.)",
   "receivingBags": "Receiving Bags",
   "biltyImage": "Bilty Image",
   "tripComplete": "Trip Complete",
@@ -68,5 +68,7 @@
   "tripStatus": "Trip Status",
   "selectTripStatus": "Select Trip Status",
   "totalBags": "Total Bags",
+  "profile": "Profile",
+  "otherDetails": "Other Details"
 
 }

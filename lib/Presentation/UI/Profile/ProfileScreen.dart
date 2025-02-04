@@ -2,12 +2,15 @@ import 'package:apnagodam_driver/Domain/Dio/DioProvider.dart';
 import 'package:apnagodam_driver/Presentation/Utils/Preferences/SharedPrefs/SharedUtility.dart';
 import 'package:apnagodam_driver/Presentation/Utils/color_constants.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:insta_image_viewer/insta_image_viewer.dart';
+import 'package:go_router/go_router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../Routes/routes_strings.dart';
+import '../../Utils/Widgets/Widgets.dart';
 
 class Profilescreen extends ConsumerStatefulWidget {
   const Profilescreen({super.key});
@@ -20,363 +23,115 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
-        title: const Text("Profile"),
+        title:  Text(
+          "profile".tr(),
+          style: const TextStyle(color: Colors.black),
+        ),
+        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: const Color(0xffF9F9F9),
       ),
       body: Padding(
         padding: const Pad(all: 10),
         child: ListView(
           children: [
-            CircleAvatar(
-              foregroundImage: NetworkImage(
-                   "${ImageClient.assetsImageUrl}/${ref.watch(sharedUtilityProvider).getUser()?.aadharImage}",
-                  scale: 0.5),
-              radius: Adaptive.sh(10),
+            const SizedBox(
+              height: 10,
+            ),
+            roundedProfileImage(
+                imageUrl:
+                    "${ImageClient.assetsImageUrl}${ref.watch(sharedUtilityProvider).getUser()?.aadharImage}"),
+            const SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Text(
+                ref.watch(sharedUtilityProvider).getUser()?.name ?? "",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Center(
+              child: Text(
+                "+91-${ref.watch(sharedUtilityProvider).getUser()?.phone ?? ""}",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(
               height: 10,
             ),
-            
-            
-            CupertinoButton(
-                onPressed: null,
-                child: Text('Personal Details',
-                    style: TextStyle(
-                        color: ColorConstants.primaryColorDriver,
-                        fontWeight: FontWeight.bold,
-                        fontSize: Adaptive.sp(17)))),
-            CupertinoActionSheet(
-              actions: [
-                CupertinoActionSheetAction(
-                    onPressed: () {},
-                    child: RowSuper(
-                      mainAxisSize: MainAxisSize.max,
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        const Text('Name:'),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(ref.watch(sharedUtilityProvider).getUser()?.name ??
-                            "")
-                      ],
-                    )),
-             
-                      CupertinoActionSheetAction(
-                    onPressed: () {},
-                    child: RowSuper(
-                      mainAxisSize: MainAxisSize.max,
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        const Text('Mobile Number:'),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(ref
-                            .watch(sharedUtilityProvider)
-                            .getUser()
-                            ?.phone ?? "")
-                      ],
-                    )),
-                CupertinoActionSheetAction(
-                    onPressed: () {},
-                    child: RowSuper(
-                      mainAxisSize: MainAxisSize.max,
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        const Text('Pan Card Number:'),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(ref
-                                .watch(sharedUtilityProvider)
-                                .getUser()
-                                ?.pancardNo ??
-                            "")
-                      ],
-                    )),
-                CupertinoActionSheetAction(
-                    onPressed: () {},
-                    child: RowSuper(
-                      mainAxisSize: MainAxisSize.max,
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        const Text('Aadhar Card No:'),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(ref
-                                .watch(sharedUtilityProvider)
-                                .getUser()
-                                ?.aadharNo ??
-                            "")
-                      ],
-                    )),
-                CupertinoActionSheetAction(
-                    onPressed: () {},
-                    child: RowSuper(
-                      mainAxisSize: MainAxisSize.max,
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        const Text('Address:'),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(ref
-                                .watch(sharedUtilityProvider)
-                                .getUser()
-                                ?.address ??
-                            "")
-                      ],
-                    )),
-                // CupertinoActionSheetAction(
-                //     onPressed: () {},
-                //     child: RowSuper(
-                //       mainAxisSize: MainAxisSize.max,
-                //       alignment: Alignment.centerLeft,
-                //       children: [
-                //         const Text('Pan Card Image:'),
-                //         const SizedBox(
-                //           width: 10,
-                //         ),
-                //         InstaImageViewer(
-                //             child: Image.network(
-                //           height: Adaptive.sh(5),
-                //           width: Adaptive.sw(5),
-                //           '${ref.watch(sharedUtilityProvider).getUser()?.pancardImage}',
-                //           errorBuilder: (context, ob, s) =>
-                //               Icon(LucideIcons.circle_stop),
-                //           fit: BoxFit.cover,
-                //         )),
-                //       ],
-                //     )),
-                // CupertinoActionSheetAction(
-                //     onPressed: () {},
-                //     child: RowSuper(
-                //       mainAxisSize: MainAxisSize.max,
-                //       alignment: Alignment.centerLeft,
-                //       children: [
-                //         const Text('Aadhar Card Image:'),
-                //         const SizedBox(
-                //           width: 10,
-                //         ),
-                //         InstaImageViewer(
-                //             child: Image.network(
-                //           height: Adaptive.sh(5),
-                //           width: Adaptive.sw(5),
-                //           '${ref.watch(sharedUtilityProvider).getUser()?.pancardImage}',
-                //           errorBuilder: (context, ob, s) =>
-                //               Icon(LucideIcons.circle_stop),
-                //           fit: BoxFit.cover,
-                //         )),
-                //       ],
-                //     )),
-                // CupertinoActionSheetAction(
-                //     onPressed: () {},
-                //     child: RowSuper(
-                //       mainAxisSize: MainAxisSize.max,
-                //       alignment: Alignment.centerLeft,
-                //       children: [
-                //         const Text('Aadhar Card Image(Back):'),
-                //         const SizedBox(
-                //           width: 10,
-                //         ),
-                //         InstaImageViewer(
-                //             child: Image.network(
-                //           height: Adaptive.sh(5),
-                //           width: Adaptive.sw(5),
-                //           '${ref.watch(sharedUtilityProvider).getUser()?.pancardImage}',
-                //           errorBuilder: (context, ob, s) =>
-                //               Icon(LucideIcons.circle_stop),
-                //           fit: BoxFit.cover,
-                //         )),
-                //       ],
-                //     )),
-              
-              
-              
-              ],
+            const Divider(),
+            const SizedBox(
+              height: 10,
             ),
-            // CupertinoButton(
-            //     onPressed: null,
-            //     child: Text('Bank Details',
-            //         style: TextStyle(
-            //             color: ColorConstants.primaryColorDriver,
-            //             fontWeight: FontWeight.bold,
-            //             fontSize: Adaptive.sp(17)))),
-            // const SizedBox(
-            //   height: 10,
-            // ),
-            // CupertinoActionSheet(
-            //   actions: [
-            //     CupertinoActionSheetAction(
-            //         onPressed: () {},
-            //         child: RowSuper(
-            //           mainAxisSize: MainAxisSize.max,
-            //           alignment: Alignment.centerLeft,
-            //           children: [
-            //             const Text('Bank Name:'),
-            //             const SizedBox(
-            //               width: 10,
-            //             ),
-            //             Text(ref
-            //                     .watch(sharedUtilityProvider)
-            //                     .getUser()
-            //                     ?.bankName ??
-            //                 "")
-            //           ],
-            //         )),
-            //     CupertinoActionSheetAction(
-            //         onPressed: () {},
-            //         child: RowSuper(
-            //           mainAxisSize: MainAxisSize.max,
-            //           alignment: Alignment.centerLeft,
-            //           children: [
-            //             const Text('Bank Account Number:'),
-            //             const SizedBox(
-            //               width: 10,
-            //             ),
-            //             Text(ref
-            //                     .watch(sharedUtilityProvider)
-            //                     .getUser()
-            //                     ?.bankAccNo ??
-            //                 "")
-            //           ],
-            //         )),
-            //     CupertinoActionSheetAction(
-            //         onPressed: () {},
-            //         child: RowSuper(
-            //           mainAxisSize: MainAxisSize.max,
-            //           alignment: Alignment.centerLeft,
-            //           children: [
-            //             const Text('Bank Branch:'),
-            //             const SizedBox(
-            //               width: 10,
-            //             ),
-            //             Text(ref
-            //                     .watch(sharedUtilityProvider)
-            //                     .getUser()
-            //                     ?.bankBranch ??
-            //                 "")
-            //           ],
-            //         )),
-            //     CupertinoActionSheetAction(
-            //         onPressed: () {},
-            //         child: RowSuper(
-            //           mainAxisSize: MainAxisSize.max,
-            //           alignment: Alignment.centerLeft,
-            //           children: [
-            //             const Text('Bank IFSC Code:'),
-            //             const SizedBox(
-            //               width: 10,
-            //             ),
-            //             Text(ref
-            //                     .watch(sharedUtilityProvider)
-            //                     .getUser()
-            //                     ?.bankIfscCode ??
-            //                 "")
-            //           ],
-            //         )),
-            //     // CupertinoActionSheetAction(
-            //     //     onPressed: () {},
-            //     //     child: RowSuper(
-            //     //       mainAxisSize: MainAxisSize.max,
-            //     //       alignment: Alignment.centerLeft,
-            //     //       children: [
-            //     //         const Text('Cheque Image:'),
-            //     //         const SizedBox(
-            //     //           width: 10,
-            //     //         ),
-            //     //         InstaImageViewer(
-            //     //             child: Image.network(
-            //     //           height: Adaptive.sh(5),
-            //     //           width: Adaptive.sw(5),
-            //     //           '${ref.watch(sharedUtilityProvider).getUser()?.chequeImage}',
-            //     //           errorBuilder: (context, ob, s) =>
-            //     //               Icon(LucideIcons.circle_stop),
-            //     //           fit: BoxFit.cover,
-            //     //         )),
-            //     //       ],
-            //     //     )),
-            //   ],
-            // ),
-            // const SizedBox(
-            //   height: 10,
-            // ),
-            // CupertinoButton(
-            //     onPressed: null,
-            //     child: Text('Document Details',
-            //         style: TextStyle(
-            //             color: ColorsConstant.primaryColor,
-            //             fontWeight: FontWeight.bold,
-            //             fontSize: Adaptive.sp(17)))),
-            // const SizedBox(
-            //   height: 10,
-            // ),
-            // CupertinoActionSheet(
-            //   actions: [
-            //     CupertinoActionSheetAction(
-            //         onPressed: () {},
-            //         child: RowSuper(
-            //           mainAxisSize: MainAxisSize.max,
-            //           alignment: Alignment.centerLeft,
-            //           children: [
-            //             const Text('Proprietorship Doc Type:'),
-            //             const SizedBox(
-            //               width: 10,
-            //             ),
-            //             Text(ref
-            //                     .watch(sharedUtilityProvider)
-            //                     .getUser()
-            //                     ?.proprietorshipProofDoc ??
-            //                 "")
-            //           ],
-            //         )),
-            //     CupertinoActionSheetAction(
-            //         onPressed: () {},
-            //         child: RowSuper(
-            //           fitHorizontally: true,
-            //           mainAxisSize: MainAxisSize.max,
-            //           alignment: Alignment.centerLeft,
-            //           children: [
-            //             const Text('Proprietorship Doc No: '),
-            //             const SizedBox(
-            //               width: 10,
-            //             ),
-            //             Text(ref
-            //                     .watch(sharedUtilityProvider)
-            //                     .getUser()
-            //                     ?.proprietorshipProofNo ??
-            //                 "")
-            //           ],
-            //         )),
-            //     CupertinoActionSheetAction(
-            //         onPressed: () {},
-            //         child: RowSuper(
-            //           mainAxisSize: MainAxisSize.max,
-            //           alignment: Alignment.centerLeft,
-            //           children: [
-            //             const Text('Proprietorship Image:'),
-            //             const SizedBox(
-            //               width: 10,
-            //             ),
-            //             InstaImageViewer(
-            //                 child: Image.network(
-            //               height: Adaptive.sh(5),
-            //               width: Adaptive.sw(5),
-            //               '${ref.watch(sharedUtilityProvider).getUser()?.proprietorshipProofDoc}',
-            //               errorBuilder: (context, ob, s) =>
-            //                   Icon(LucideIcons.circle_stop),
-            //               fit: BoxFit.cover,
-            //             )),
-            //           ],
-            //         )),
-            //   ],
-            // ),
-          
+            Center(
+              child: Text(
+                "otherDetails".tr(),
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: Adaptive.sp(18)),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            profileItem(
+                ref.watch(sharedUtilityProvider).getUser()?.license ?? "","License"),
+            const SizedBox(
+              height: 10,
+            ),
+            profileItem(
+                ref.watch(sharedUtilityProvider).getUser()?.address ?? "","Adress"),
+            const SizedBox(
+              height: 10,
+            ),
+            profileItem(ref.watch(sharedUtilityProvider).getUser()?.state ?? "","State"),
+            const SizedBox(height: 10,),
+            InkWell(
+                onTap: () async {
+                  ref.watch(sharedPreferencesProvider).clear();
+                  context.go(RoutesStrings.login);
+                },
+                child: Center(child: Text(
+                  'logout'.tr(),
+                  style: TextStyle(
+                      fontSize: Adaptive.sp(16),
+                      color: Colors.red,
+                      fontWeight: FontWeight.w700),
+                ),))
           ],
         ),
       ),
     );
   }
+
+  Widget profileItem(String value,String subValue) => Card(
+        elevation: 3,
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+            side: const BorderSide(
+              color: ColorConstants.secondaryColorWSP,
+            ),
+            borderRadius: BorderRadius.circular(8)),
+        child: Padding(
+          padding: const Pad(all: 19),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                subValue,
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500, fontSize: Adaptive.sp(16)),
+              ),
+            Text(
+              value,
+              style: TextStyle(
+                  fontWeight: FontWeight.w700, fontSize: Adaptive.sp(16)),
+            ),
+
+          ],),
+        ),
+      );
 }
