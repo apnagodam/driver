@@ -1,7 +1,8 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:apnagodam_driver/Presentation/Routes/routes_strings.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:button_animations/button_animations.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -14,7 +15,7 @@ import 'package:one_context/one_context.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../Data/Model/DriverResponseModel.dart';
-import '../../../Presentation/Routes/routes.dart';
+
 import '../../../Presentation/Utils/Enums.dart';
 import '../../../Presentation/Utils/Widgets/Widgets.dart';
 import '../../../Presentation/Utils/color_constants.dart';
@@ -512,7 +513,7 @@ class _PaotiendtripState extends ConsumerState<Paotiendtrip> {
                             tripRequestId:
                             '${widget.dataList?.id ?? 0}',
                             kantaWeight:
-                            '${num.parse(weightController.text.toString())}',
+                            '${num.parse(weightController.text.toString())*100}',
                             bags: "${bagsController.text.toString()}",
                             kantaImage: img64,
                             qualityImage: img642,

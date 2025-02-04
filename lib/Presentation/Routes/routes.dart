@@ -1,5 +1,8 @@
+// ignore_for_file: body_might_complete_normally_nullable
+
 import 'package:apnagodam_driver/Presentation/Routes/routes_strings.dart';
 import 'package:apnagodam_driver/Presentation/UI/Authentication/LoginScreen.dart';
+import 'package:apnagodam_driver/Presentation/UI/Authentication/OnbordScreen.dart';
 import 'package:apnagodam_driver/Presentation/UI/Authentication/RegistrationScreen.dart';
 import 'package:apnagodam_driver/Presentation/UI/Authentication/VerifyOtp.dart';
 import 'package:apnagodam_driver/Presentation/UI/Home/Dashboard.dart';
@@ -25,7 +28,7 @@ GoRouter goRouter(GoRouterRef ref) {
       redirect: (context, state) {
         if (ref.watch(sharedUtilityProvider).getToken().isEmpty) {
           if (state.fullPath == RoutesStrings.dashboard)
-            return RoutesStrings.login;
+            return RoutesStrings.onbord;
           return null;
         }
       },
@@ -33,7 +36,7 @@ GoRouter goRouter(GoRouterRef ref) {
         GoRoute(
             path: RoutesStrings.dashboard,
             name: RoutesStrings.dashboard,
-            builder: (context, state) => const Dashboard(),
+            builder: (context, state) =>  Dashboard(),
             routes: [
               GoRoute(
                   path: RoutesStrings.profile,
@@ -51,8 +54,7 @@ GoRouter goRouter(GoRouterRef ref) {
                 path: RoutesStrings.paotiEndTrip,
                 name: RoutesStrings.paotiEndTrip,
                 builder: (context, state) {
-                  Datum? dataList =
-                      state.extra as Datum?; // 👈 casting is important
+                  Datum? dataList = state.extra as Datum?;
                   return Paotiendtrip(dataList: dataList);
                 },
               ),
@@ -84,5 +86,10 @@ GoRouter goRouter(GoRouterRef ref) {
                   name: RoutesStrings.register,
                   builder: (context, state) => const Registrationscreen()),
             ]),
+        GoRoute(
+            path: RoutesStrings.onbord,
+            name: RoutesStrings.onbord,
+            builder: (context, state) => OnBordingScreen(),
+            routes: [])
       ]);
 }

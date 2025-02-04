@@ -1,10 +1,12 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:apnagodam_driver/Domain/Authentication/AuthenticationService.dart';
 import 'package:apnagodam_driver/Domain/Dio/DioProvider.dart';
 import 'package:apnagodam_driver/Presentation/Routes/routes_strings.dart';
 import 'package:apnagodam_driver/Presentation/Utils/Preferences/SharedPrefs/SharedUtility.dart';
 import 'package:apnagodam_driver/Presentation/Utils/Widgets/Widgets.dart';
 import 'package:apnagodam_driver/Presentation/Utils/color_constants.dart';
-import 'package:apnagodam_driver/main.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

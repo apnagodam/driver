@@ -1,3 +1,5 @@
+// ignore_for_file: unreachable_switch_default
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:one_context/one_context.dart';

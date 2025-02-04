@@ -1,5 +1,6 @@
 class RoutesStrings {
   static const dashboard = '/';
+  static const onbord = '/onbord';
   static const login = '/login';
   static const verifyOtp = 'verifyOtp';
   static const onBoarding = '/onBoarding';
@@ -9,7 +10,7 @@ class RoutesStrings {
   static const applyForLoan = 'applyForLoan';
   static const paotiEndTrip = 'paotiEndTrip';
   static const startTrips = 'startTrips';
-  static const endTrips ='endTrips';
+  static const endTrips = 'endTrips';
   static const profile = 'profile';
   static const sanctionedAmount = 'sanctionedAmount';
   static const addMoney = 'addMoney';
