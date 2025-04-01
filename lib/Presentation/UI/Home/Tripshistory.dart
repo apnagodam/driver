@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:apnagodam_driver/Presentation/Routes/routes_strings.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
@@ -62,6 +61,16 @@ class _TripshistoryState extends ConsumerState<Tripshistory> {
                                 Expanded(
                                     child: Text(
                                   'Date'.tr(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: Adaptive.sp(14)),
+                                )),
+                                const VerticalDivider(),
+                                Expanded(
+                                    child: Text(
+                                  'tripid'.tr(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -153,6 +162,40 @@ class _TripshistoryState extends ConsumerState<Tripshistory> {
                                                           const SizedBox(
                                                             height: 10,
                                                           ),
+                                                          RowSuper(
+                                                              fill: true,
+                                                              children: [
+                                                                Text(
+                                                                  'tripid'.tr(),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .start,
+                                                                  style: TextStyle(
+                                                                      color: ColorConstants
+                                                                          .primaryColorDriver,
+                                                                      fontSize:
+                                                                          Adaptive.sp(
+                                                                              14),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800),
+                                                                ),
+                                                                Text(
+                                                                  '${dataList?[index].tripId ?? "--"}',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .end,
+                                                                  style: TextStyle(
+                                                                      color: ColorConstants
+                                                                          .primaryColorDriver,
+                                                                      fontSize:
+                                                                          Adaptive.sp(
+                                                                              14),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800),
+                                                                ),
+                                                              ]),
                                                           RowSuper(
                                                               fill: true,
                                                               children: [
@@ -589,6 +632,16 @@ class _TripshistoryState extends ConsumerState<Tripshistory> {
                                         decoration: TextDecoration.underline,
                                         color: ColorConstants.secondaryColorWSP,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: Adaptive.sp(14)),
+                                  )),
+                                  const VerticalDivider(),
+                                  Expanded(
+                                      child: Text(
+                                    "${dataList?[index].tripId}",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
                                         fontSize: Adaptive.sp(14)),
                                   )),
                                   const VerticalDivider(),

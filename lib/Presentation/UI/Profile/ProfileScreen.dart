@@ -5,6 +5,7 @@ import 'package:apnagodam_driver/Presentation/Utils/height_w.dart';
 import 'package:apnagodam_driver/Presentation/Utils/style_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 
 class Profilescreen extends ConsumerStatefulWidget {
   const Profilescreen({super.key});
@@ -19,7 +20,7 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'ड्राइवर प्रोफ़ाइल',
+            'driver profile'.tr,
             style: TextStyle(
                 color: ColorConstants.primaryColor,
                 fontWeight: FontWeight.w600),
@@ -27,9 +28,7 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
           foregroundColor: ColorConstants.primaryColor,
           backgroundColor: ColorConstants.secondaryColorWSP,
         ),
-        // appBar: AppBar(
-        //   title: const Text("Profile"),
-        // ),
+       
         body: SingleChildScrollView(
             child: Column(children: [
           Stack(children: [
@@ -54,7 +53,7 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
                         children: [
                           Height60,
                           Text(
-                            'प्रथम नाम और अंतिम नाम*',
+                            'First name and last name*'.tr,
                             style: StyleConstants.googlestyle(),
                           ),
                           Height10,
@@ -73,7 +72,7 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
                                     borderRadius: BorderRadius.circular(10))),
                           ),
                           Height10,
-                          Text('मोबाइल नंबर*',
+                          Text('mobile number*'.tr,
                               style: StyleConstants.googlestyle()),
                           Height10,
                           TextFormField(
@@ -92,7 +91,7 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
                           ),
                           Height10,
                           Text(
-                            'पैन कार्ड नंबर*',
+                            'PAN card number'.tr,
                             style: StyleConstants.googlestyle(),
                           ),
                           Height10,
@@ -110,7 +109,7 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
                           ),
                           Height10,
                           Text(
-                            'आधार कार्ड नंबर.*',
+                            'aadharnumber'.tr,
                             style: StyleConstants.googlestyle(),
                           ),
                           Height10,
@@ -128,7 +127,7 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
                           ),
                           Height10,
                           Text(
-                            'पता*',
+                            'address'.tr,
                             style: StyleConstants.googlestyle(),
                           ),
                           Height10,
@@ -150,12 +149,12 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
                             children: [
                               Expanded(
                                   child: Text(
-                                'राज्य का नाम*',
+                                'statename'.tr,
                                 style: StyleConstants.googlestyle(),
                               )),
                               Expanded(
                                   child: Text(
-                                '   शहर का नाम*',
+                                'cityname'.tr,
                                 style: StyleConstants.googlestyle(),
                               )),
                             ],
@@ -202,7 +201,7 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
                           ),
                           Height10,
                           Text(
-                            'बैंक का नाम*',
+                            'bankname'.tr,
                             style: StyleConstants.googlestyle(),
                           ),
                           Height10,
@@ -220,7 +219,7 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
                           ),
                           Height10,
                           Text(
-                            'बैंक शाखा का पता*',
+                            'banbbkbranch'.tr,
                             style: StyleConstants.googlestyle(),
                           ),
                           Height10,
@@ -238,7 +237,7 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
                           ),
                           Height10,
                           Text(
-                            'बैंक खाता संख्या*',
+                            'bankaccount'.tr,
                             style: StyleConstants.googlestyle(),
                           ),
                           Height10,
@@ -256,7 +255,7 @@ class _ProfilescreenState extends ConsumerState<Profilescreen> {
                           ),
                           Height10,
                           Text(
-                            'बैंक IFSC कोड*',
+                            'ifsccode'.tr,
                             style: StyleConstants.googlestyle(),
                           ),
                           Height10,

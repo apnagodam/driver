@@ -102,7 +102,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                       Height10,
                       RichText(
                           text: TextSpan(
-                              text: 'नाम:- ',
+                              // text: 'नाम:- ',
                               style: GoogleFonts.aBeeZee(
                                   fontSize: 14, fontWeight: FontWeight.w500),
                               children: [
@@ -114,7 +114,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                           ])),
                       RichText(
                           text: TextSpan(
-                              text: 'नंबर :- ',
+                              // text: 'नंबर :- ',
                               style: GoogleFonts.aBeeZee(
                                   fontSize: 13, fontWeight: FontWeight.w500),
                               children: [
@@ -143,7 +143,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                   children: [
                     ListTile(
                       title: Text(
-                        'प्रोफ़ाइल'.tr(),
+                        'Profiile'.tr(),
                         style: GoogleFonts.aBeeZee(
                             color: ColorConstants.primaryColorDriver,
                             fontWeight: FontWeight.w600,
@@ -298,7 +298,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                   const VerticalDivider(),
                                   Expanded(
                                       child: Text(
-                                    'ट्रिप  आईडी'.tr(),
+                                    'tripid'.tr(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -395,7 +395,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                                                 fill: true,
                                                                 children: [
                                                                   Text(
-                                                                    'ट्रिप आईडी'
+                                                                    'tripid'
                                                                         .tr(),
                                                                     textAlign:
                                                                         TextAlign
@@ -824,7 +824,8 @@ class _DashboardState extends ConsumerState<Dashboard> {
                                                                         .spaceBetween,
                                                                 children: [
                                                                   Text(
-                                                                    'कंटा इमेज',
+                                                                    'KantaImage'
+                                                                        .tr(),
                                                                     textAlign:
                                                                         TextAlign
                                                                             .start,

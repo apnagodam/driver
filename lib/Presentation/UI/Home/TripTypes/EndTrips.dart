@@ -65,6 +65,17 @@ class _EndtripsState extends ConsumerState<Endtrips> {
                               )),
                               const VerticalDivider(),
                               Expanded(
+                                child: Text(
+                                  'tripid'.tr(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: ColorConstants.primaryColor,
+                                      fontSize: Adaptive.sp(14),
+                                      fontWeight: FontWeight.w800),
+                                ),
+                              ),
+                              const VerticalDivider(),
+                              Expanded(
                                   child: Text(
                                 'from'.tr(),
                                 textAlign: TextAlign.center,
@@ -148,6 +159,41 @@ class _EndtripsState extends ConsumerState<Endtrips> {
                                                         const SizedBox(
                                                           height: 10,
                                                         ),
+                                                        RowSuper(
+                                                            fill: true,
+                                                            children: [
+                                                              Text(
+                                                                'tripid'.tr(),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .start,
+                                                                style: TextStyle(
+                                                                    color: ColorConstants
+                                                                        .primaryColorDriver,
+                                                                    fontSize:
+                                                                        Adaptive.sp(
+                                                                            14),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w800),
+                                                              ),
+                                                              Text(
+                                                                '${dataList?[index].tripId ?? "--"}',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .end,
+                                                                style: TextStyle(
+                                                                    color: ColorConstants
+                                                                        .primaryColorDriver,
+                                                                    fontSize:
+                                                                        Adaptive.sp(
+                                                                            14),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w800),
+                                                              ),
+                                                            ]),
+
                                                         RowSuper(
                                                             fill: true,
                                                             children: [
@@ -578,6 +624,16 @@ class _EndtripsState extends ConsumerState<Endtrips> {
                                       decoration: TextDecoration.underline,
                                       color: ColorConstants.secondaryColorWSP,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: Adaptive.sp(14)),
+                                )),
+                                const VerticalDivider(),
+                                Expanded(
+                                    child: Text(
+                                  "${dataList?[index].tripId}",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
                                       fontSize: Adaptive.sp(14)),
                                 )),
                                 const VerticalDivider(),

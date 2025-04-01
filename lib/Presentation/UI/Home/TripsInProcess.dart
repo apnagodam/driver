@@ -1,15 +1,13 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:apnagodam_driver/Data/Model/DriverResponseModel.dart';
 import 'package:apnagodam_driver/Domain/Trip/TripService.dart';
 import 'package:apnagodam_driver/Presentation/Routes/routes_strings.dart';
+import 'package:apnagodam_driver/Presentation/Utils/height_w.dart';
 import 'package:apnagodam_driver/Presentation/Utils/style_constants.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:button_animations/button_animations.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,12 +17,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../Routes/routes.dart';
-import '../../Utils/Widgets/Widgets.dart';
 import '../../Utils/color_constants.dart';
 import '../../Utils/pdf/BiltyPdf.dart';
-import '../Authentication/LoginScreen.dart';
 import 'Dashboard.dart';
 
 class Tripsinprocess extends ConsumerStatefulWidget {
@@ -70,6 +65,16 @@ class _TripsinprocessState extends ConsumerState<Tripsinprocess> {
                                     Expanded(
                                         child: Text(
                                       'Date'.tr(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: Adaptive.sp(14)),
+                                    )),
+                                    const VerticalDivider(),
+                                    Expanded(
+                                        child: Text(
+                                      'tripid'.tr(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -165,6 +170,31 @@ class _TripsinprocessState extends ConsumerState<Tripsinprocess> {
                                                                   const SizedBox(
                                                                     height: 10,
                                                                   ),
+                                                                  RowSuper(
+                                                                      fill:
+                                                                          true,
+                                                                      children: [
+                                                                        Text(
+                                                                          'tripid'
+                                                                              .tr(),
+                                                                          textAlign:
+                                                                              TextAlign.start,
+                                                                          style: TextStyle(
+                                                                              color: ColorConstants.primaryColorDriver,
+                                                                              fontSize: Adaptive.sp(14),
+                                                                              fontWeight: FontWeight.w800),
+                                                                        ),
+                                                                        Text(
+                                                                          '${dataList?[index].tripId ?? "--"}',
+                                                                          textAlign:
+                                                                              TextAlign.end,
+                                                                          style: TextStyle(
+                                                                              color: ColorConstants.primaryColorDriver,
+                                                                              fontSize: Adaptive.sp(14),
+                                                                              fontWeight: FontWeight.w800),
+                                                                        ),
+                                                                      ]),
+                                                                  Height10,
                                                                   RowSuper(
                                                                       fill:
                                                                           true,
@@ -484,6 +514,16 @@ class _TripsinprocessState extends ConsumerState<Tripsinprocess> {
                                             color: ColorConstants
                                                 .secondaryColorWSP,
                                             fontWeight: FontWeight.bold,
+                                            fontSize: Adaptive.sp(14)),
+                                      )),
+                                      const VerticalDivider(),
+                                      Expanded(
+                                          child: Text(
+                                        "${dataList?[index].tripId}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
                                             fontSize: Adaptive.sp(14)),
                                       )),
                                       const VerticalDivider(),
